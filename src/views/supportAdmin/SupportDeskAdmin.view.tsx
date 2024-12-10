@@ -18,11 +18,11 @@ const SupportDeskAdmin = () => {
       title: "Support Groups",
       content: <SupportGroups />,
     },
-    // {
-    //   key: "1",
-    //   title: "Agents",
-    //   content: <></>,
-    // },
+    {
+      key: "1",
+      title: "Agents",
+      content: <></>,
+    },
   ] as Tab[];
 
   return (
