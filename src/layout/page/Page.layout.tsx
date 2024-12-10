@@ -12,8 +12,7 @@ import { AiFillControl } from "react-icons/ai";
 import Control from "../control/Control.layout";
 import Header from "../header/Header.layout";
 import SideBar from "../sideBar/SideBar.layout";
-import styles from "./Page.module.scss";
-import Meta from "@/components/meta/Meta.component";
+import styles from "./Page.module.scss"; 
 
 //make a type with children as a prop
 type Props = {
@@ -44,11 +43,7 @@ const PageLayout = (props: Props) => {
     if (loggedInData.user.isBlacklisted) {
       return "blacklist";
     }
-
-    if (!loggedInData.user.isTruthcastingVerified) {
-      return "verification";
-    }
-
+ 
     if (props.neededFeature) {
       if (!hasFeature(loggedInData.user, props.neededFeature)) {
         return "feature";
