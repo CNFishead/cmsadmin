@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "@/styles/Form.module.scss";
-import { Button, Form, Input, Modal, Select } from "antd";
+import { Button, Form, Input, Modal, Select, Switch } from "antd";
 import useApiHook from "@/state/useApi";
 
 interface SupportGroupProps {
@@ -8,10 +8,11 @@ interface SupportGroupProps {
   isOpen: boolean;
   setIsOpen?: any;
   isUpdate?: boolean;
+  onFinish?: (values: any) => void;
 }
 
-const SupportGroup = ({ form, isOpen, isUpdate, setIsOpen }: SupportGroupProps) => {
-  const { data, isError, error, isLoading } = useApiHook({
+const SupportGroup = ({ form, isOpen, isUpdate, setIsOpen, onFinish }: SupportGroupProps) => {
+  const { data } = useApiHook({
     url: "/admin/user",
     method: "GET",
     key: "agents",
@@ -23,39 +24,29 @@ const SupportGroup = ({ form, isOpen, isUpdate, setIsOpen }: SupportGroupProps) 
       open={isOpen}
       title={isUpdate ? `Update group` : `Create new Group`}
       footer={null}
-      onCancel={() => setIsOpen(false)}
+      onCancel={() => {
+        setIsOpen(false);
+        form.resetFields();
+      }}
     >
-      <Form
-        form={form}
-        onFinish={(values) => {
-          console.log(values);
-        }}
-        className={styles.form}
-        layout="vertical"
-      >
-        <Form.Item
-          label="Name"
-          name="name"
-          rules={[
-            {
-              required: true,
-              message: "Please enter a name",
-            },
-          ]}
-        >
-          <Input type="text" />
-        </Form.Item>
+      <Form form={form} onFinish={onFinish} className={styles.form} layout="vertical">
+        <div className={styles.group}>
+          <Form.Item
+            label="Name"
+            name="name"
+            rules={[
+              {
+                required: true,
+                message: "Please enter a name",
+              },
+            ]}
+          >
+            <Input type="text" className={styles.input} />
+          </Form.Item>
+        </div>
+
         {/* multi-select container holding all users who have "agent" as a role */}
-        <Form.Item
-          label="Agents"
-          name="agents"
-          rules={[
-            {
-              required: true,
-              message: "Please select agents",
-            },
-          ]}
-        >
+        <Form.Item label="Agents" name="agents" rules={[]}>
           <Select
             mode="multiple"
             placeholder="Select Agents"
@@ -63,8 +54,14 @@ const SupportGroup = ({ form, isOpen, isUpdate, setIsOpen }: SupportGroupProps) 
               label: `${agent.fullName}`,
               value: agent._id,
             }))}
+            className={styles.select}
           />
         </Form.Item>
+        <div className={styles.buttonContainer}>
+          <Form.Item label="Active" name="isActive" valuePropName="checked" initialValue={true}>
+            <Switch />
+          </Form.Item>
+        </div>
         <Button htmlType="submit" type="primary">
           Submit
         </Button>

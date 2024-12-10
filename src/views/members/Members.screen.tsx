@@ -66,13 +66,13 @@ const Members = () => {
         ]}
         placeholder="Search Members"
         queryKey="members"
-        total={membersListData?.totalCount}
+        total={membersListData?.metadata?.totalCount}
         isFetching={loading}
       >
         <div className={styles.contentContainer}>
           <Table
             className={styles.table}
-            dataSource={membersListData?.users}
+            dataSource={membersListData?.payload}
             loading={loading}
             size="small"
             rowKey={(record: UserType) => record._id}
@@ -88,7 +88,7 @@ const Members = () => {
                     </div>
                   );
                 },
-              }, 
+              },
               {
                 title: "Email",
                 dataIndex: "email",
@@ -108,14 +108,14 @@ const Members = () => {
                   // otherwise, it is a US number
                   return text.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
                 },
-              }, 
+              },
               {
                 title: "Role",
                 dataIndex: "role",
                 key: "role",
                 // role is an array of roles, so we need to join them
                 render: (text: string[]) => text.join(", "),
-              },  
+              },
               {
                 title: "Actions",
                 dataIndex: "actions",

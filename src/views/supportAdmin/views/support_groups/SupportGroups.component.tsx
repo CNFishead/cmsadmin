@@ -16,7 +16,7 @@ import SupportGroup from "./SupportGroup.modal";
 
 const SupportGroups = () => {
   const router = useRouter();
-  const [visible, setVisible] = React.useState(true);
+  const [visible, setVisible] = React.useState(false);
   const [form] = Form.useForm();
   const { data, isError, error, isLoading } = useApiHook({
     url: "/admin/support/support_group",
@@ -27,17 +27,56 @@ const SupportGroups = () => {
   const { mutate: deleteGroup } = useApiHook({
     method: "DELETE",
     key: "delete_group",
+    queriesToInvalidate: ["support_groups"],
   }) as any;
   const { mutate: addGroup } = useApiHook({
     method: "POST",
     key: "add_group",
+    queriesToInvalidate: ["support_groups"],
+  }) as any;
+  const { mutate: updateGroup } = useApiHook({
+    method: "PUT",
+    key: "update_group",
+    queriesToInvalidate: ["support_groups"],
   }) as any;
   if (isLoading) return <Loader />;
   if (isError) return <Error error={error.message} />;
 
   return (
     <div className={styles.container}>
-      <SupportGroup form={form} isOpen={visible} setIsOpen={setVisible} />
+      <SupportGroup
+        form={form}
+        isOpen={visible}
+        setIsOpen={setVisible}
+        onFinish={(values: any) => {
+          // if the form has a value for _id, update the group, else add the group
+          if (form.getFieldValue("_id")) {
+            updateGroup(
+              { url: `/admin/support/support_group/${form.getFieldValue("_id")}`, formData: values },
+              {
+                onSuccess: () => {
+                  form.resetFields();
+                  setVisible(false);
+                },
+              }
+            );
+          } else {
+            addGroup(
+              { url: "/admin/support/support_group", formData: values },
+              {
+                onSuccess: () => {
+                  form.resetFields();
+                  setVisible(false);
+                },
+              }
+            );
+          }
+        }}
+        isUpdate={
+          // if the form has a value for _id, return true, else return false
+          form.getFieldValue("_id") ? true : false
+        }
+      />
       <SearchWrapper
         buttons={[
           {
@@ -60,18 +99,18 @@ const SupportGroups = () => {
             key: "",
           },
           {
-            label: "Staff Only",
-            key: `role;{"$eq":"staff"}`,
+            label: "Active",
+            key: "isActive;true",
+          },
+          {
+            label: "Inactive",
+            key: "isActive;false",
           },
         ]}
         sort={[
           {
             label: "None",
             key: "",
-          },
-          {
-            label: "Name (A-Z)",
-            key: "firstName;1",
           },
         ]}
         placeholder="Search Groups"
@@ -86,13 +125,30 @@ const SupportGroups = () => {
             loading={isLoading}
             size="small"
             rowKey={(record: SupportGroupType) => record._id}
+            // if the record has a isActive false, add a strikethrough to the row
+            rowClassName={(record: SupportGroupType) => (record.isActive ? "" : styles.inactive)}
             columns={[
               {
                 title: "Name",
                 dataIndex: "name",
                 key: "name",
               },
-
+              {
+                title: "Agents",
+                dataIndex: "agents",
+                key: "agents",
+                render: (text: string, record: SupportGroupType) => {
+                  return record.agents.length;
+                },
+              },
+              {
+                title: "Active support group",
+                dataIndex: "isActive",
+                key: "isActive",
+                render: (text: string, record: SupportGroupType) => {
+                  return record.isActive ? "Yes" : "No";
+                },
+              },
               {
                 title: "Actions",
                 dataIndex: "actions",
@@ -100,11 +156,15 @@ const SupportGroups = () => {
                 render: (text: string, record: SupportGroupType) => {
                   return (
                     <div className={styles.actions}>
-                      <Link href={`/members/${record._id}`}>
-                        <Button>
-                          <FaEdit />
-                        </Button>
-                      </Link>
+                      <Button
+                        onClick={() => {
+                          // set the form values to the record, open the modal
+                          form.setFieldsValue(record);
+                          setVisible(true);
+                        }}
+                      >
+                        <FaEdit />
+                      </Button>
                       <Button
                         onClick={() => {
                           deleteGroup({ url: `/admin/support/support_group/${record._id}` });

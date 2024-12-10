@@ -22,6 +22,7 @@ export type SupportGroupType = {
   name: string;
   agents: UserType[];
   tickets: SupportType[];
+  isActive: boolean;
 };
 
 export type SupportMessageType = {
