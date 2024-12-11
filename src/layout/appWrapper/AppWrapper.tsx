@@ -1,7 +1,7 @@
 "use client";
 import { useUser } from "@/state/auth";
 import { useSocketStore } from "@/state/socket";
-import useFetchData from "@/state/useFetchData";
+import useApiHook from "@/state/useApi"; 
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
 import Script from "next/script";
@@ -21,11 +21,12 @@ const AppWrapper = (props: Props) => {
   const searchParams = useSearchParams();
   const token = searchParams.get("token") as string;
   const { data: loggedInData, isLoading: userIsLoading } = useUser(token);
-  const { data: selectedProfile, isLoading: profileIsLoading } = useFetchData({
+  const { data: selectedProfile, isLoading: profileIsLoading } = useApiHook({
     url: `/ministry/${loggedInData?.user?.ministry?._id}`,
     key: "selectedProfile",
     enabled: !!loggedInData?.user?.ministry?._id,
-  });
+    method: "GET",
+  }) as any;
   //Set up socket connection
   const { socket, isConnecting, setSocket, setIsConnecting } = useSocketStore((state) => state);
 

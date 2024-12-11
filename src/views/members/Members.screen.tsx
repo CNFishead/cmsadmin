@@ -7,9 +7,7 @@ import UserType from "@/types/UserType";
 import { Avatar, Button, Skeleton, Table } from "antd";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import useFetchData from "@/state/useFetchData";
-import useRemoveData from "@/state/useRemoveData";
+import { useRouter } from "next/navigation"; 
 import { useUser } from "@/state/auth";
 import useApiHook from "@/state/useApi";
 
@@ -23,9 +21,11 @@ const Members = () => {
     method: "GET",
   }) as any;
 
-  const { mutate: deleteMember } = useRemoveData({
+  const { mutate: deleteMember } = useApiHook({
     queriesToInvalidate: ["members"],
-  });
+    method: "DELETE",
+    key: "delete-member",
+  }) as any;
   return (
     <div className={styles.container}>
       <SearchWrapper

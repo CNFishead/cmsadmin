@@ -4,16 +4,17 @@ import Link from "next/link";
 import { IoIosNotifications } from "react-icons/io";
 import { Avatar, Badge, Button, Empty, Tooltip } from "antd";
 import getNotificationLink from "@/utils/getNotificationLink";
-import NotificationItem from "@/components/notificationItem/NotificationItem.component";
+import NotificationItem from "@/components/notificationItem/NotificationItem.component"; 
+import useApiHook from "@/state/useApi";
 import NotificationType from "@/types/NotificationType";
-import useFetchData from "@/state/useFetchData";
 
 const Notifications = () => {
   const [isOpen, setIsOpen] = useState<any>();
-  const { data } = useFetchData({
+  const { data } = useApiHook({
     url: `/notification`,
     key: "notifications",
-  });
+    method: "GET",
+  }) as any;
 
   return (
     <div className={styles.container}>
