@@ -6,7 +6,7 @@ import useApiHook from '@/state/useApi';
 import { useParams } from 'next/navigation';
 import Loader from '@/components/loader/Loader.component';
 import Error from '@/components/error/Error.component';
-import { Button, Form, Input, Select } from 'antd';
+import { Button, Form, Input, message, Select } from 'antd';
 import UserItem from '@/components/userItem/UserItem.component';
 import Link from 'next/link';
 
@@ -24,7 +24,6 @@ const SupportTicketOptions = () => {
 
   // finds all agents who can be assigned to the ticket, by looking at the support groups agent
   const { mutate: updateTicket } = useApiHook({
-    url: `/support/ticket/${id}`,
     key: 'ticket',
     method: 'PUT',
     queriesToInvalidate: ['ticket'],
@@ -42,15 +41,12 @@ const SupportTicketOptions = () => {
       form={form}
       initialValues={{
         ...data?.payload?.data,
-        groups: data?.payload?.data?.groups?.map((group: any) => {
-          return { label: group.name, value: group.name };
-        }),
       }}
     >
       {/* user details box, simple card that links to the user page */}
       <div className={styles.userContainer}>
         <Link href={`/admin/users/${data?.payload?.data?.requester?._id}`} passHref>
-          <UserItem user={data?.payload?.data?.requester} sm />
+          <UserItem user={data?.payload?.data?.requester} />
         </Link>
       </div>
       <Form.Item label="Ticket ID" name="_id">
@@ -114,25 +110,23 @@ const SupportTicketOptions = () => {
           ]}
         />
       </Form.Item>
-      <Form.Item label="Support Groups" name="groups">
-        <Select
-          className={formStyles.select}
-          mode="multiple"
-          options={[
-            { label: 'General', value: 'General' },
-            { label: 'Technical', value: 'Technical' },
-            { label: 'Billing', value: 'Billing' },
-            { label: 'Other', value: 'Other' },
-          ]}
-        />
-      </Form.Item>
 
       {/* action button */}
       <Form.Item>
         <Button
           className={formStyles.button}
           onClick={() => {
-            updateTicket(form.getFieldsValue());
+            updateTicket(
+              {
+                url: `/support/ticket/${id}`,
+                formData: form.getFieldsValue(),
+              },
+              {
+                onSuccess: () => {
+                  message.success('Ticket updated successfully');
+                },
+              }
+            );
           }}
         >
           Update Ticket
