@@ -1,49 +1,32 @@
-import User from "@/types/User";
-import React from "react";
-import styles from "./UserItem.module.scss";
-import { Avatar, Card, Divider } from "antd";
-import formatPhoneNumber from "@/utils/formatPhoneNumber";
-import MemberType from "@/types/MemberType";
+import User from '@/types/UserType';
+import React from 'react';
+import styles from './UserItem.module.scss';
+import { Avatar } from 'antd';
+import formatPhoneNumber from '@/utils/formatPhoneNumber';
+import MemberType from '@/types/MemberType';
+
 interface Props {
-  user: MemberType;
+  user: User | MemberType;
   sm?: boolean;
 }
 
-const UserItem = (props: Props) => {
+const UserItem = ({ user, sm }: Props) => {
   return (
     <div className={styles.container}>
       <div className={styles.userInfo}>
-        <div className={styles.userImageContainer}>
-          <Avatar src={props.user?.profileImageUrl} alt="user-profile-image" size={props.sm ? 48 : 64} />
+        <Avatar
+          src={user?.profileImageUrl ?? '/images/no-photo.png'}
+          alt="user-profile-image"
+          size={sm ? 48 : 64}
+          className={styles.avatar}
+        />
+        <div className={styles.details}>
+          <p className={styles.name}>{user?.fullName}</p>
+          {!sm && <p className={styles.email}>{user?.email}</p>}
+          {!sm && user?.phoneNumber && (
+            <p className={styles.phone}>{formatPhoneNumber(user.phoneNumber)}</p>
+          )}
         </div>
-        <div className={styles.userDetailsContainer}>
-          <div className={styles.header}>
-            <div className={styles.channelDetails}>
-              <p className={`ellipsis ${styles.name}`}>{props.user?.fullName}</p>
-            </div>
-          </div>
-        </div>
-        {!props.sm && (
-          <div className={styles.miscInfoContainer}>
-            <div className={styles.miscInfo}>
-              <p>
-                <strong>Email Address:</strong> {props.user?.email}
-              </p>
-              {props.user?.phoneNumber && (
-                <p>
-                  <strong>Phone: </strong>
-                  {formatPhoneNumber(props.user?.phoneNumber)}
-                </p>
-              )}
-              {props.user?.dateLastVisited && (
-                <p>
-                  <strong>Last Visited: </strong>
-                  {new Date(props.user?.dateLastVisited).toLocaleDateString()}
-                </p>
-              )}
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );

@@ -42,6 +42,8 @@
       flex: 1;
       padding: 20px 40px 40px 40px;
       width: 360px;
+      height: 100%;
+      overflow-y: auto;
       @include mobile {
         width: 300px;
       }

@@ -1,11 +1,17 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
-import axios from "@/utils/axios";
+import { useInfiniteQuery } from '@tanstack/react-query';
+import axios from '@/utils/axios';
 
-const fetchMessages = async ({ pageParam = 1, queryKey }) => {
+const fetchMessages = async ({
+  pageParam = 1,
+  queryKey,
+}: {
+  pageParam: number;
+  queryKey: [string, string];
+}) => {
   const ticketId = queryKey[1]; // Pass ticket ID dynamically
   const { data } = await axios.get(`/support/ticket/${ticketId}/message`, {
-    params: { pageNumber: pageParam, limit: 10 },
-  }); 
+    params: { pageNumber: pageParam, limit: 10, filterOptions: `ticket;${ticketId}` },
+  });
   /**
    *  Api has a structured respoonse like this:
    *  {
@@ -29,8 +35,8 @@ const fetchMessages = async ({ pageParam = 1, queryKey }) => {
 
 export const useMessages = (ticketId: string) =>
   useInfiniteQuery({
-    queryKey: ["messages", ticketId],
-    queryFn: fetchMessages,
+    queryKey: ['messages', ticketId],
+    queryFn: ({ pageParam = 1, queryKey }) => fetchMessages({ pageParam, queryKey: queryKey as [string, string] }),
     getNextPageParam: (lastPage, allPages) => {
       return lastPage.nextPage;
     },
