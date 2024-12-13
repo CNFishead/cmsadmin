@@ -89,7 +89,13 @@ const TicketTableComponent = ({ group }: { group: any }) => {
     return <div>Error loading tickets for {group.name}</div>;
   }
 
-  return <TicketTable isLoading={isLoading} tickets={ticketData?.payload} groupID={group._id} />;
+  return (
+    <TicketTable
+      isLoading={isLoading}
+      tickets={ticketData?.payload}
+      queriesToInvalidate={[`group-ticekts-${group._id}`]}
+    />
+  );
 };
 
 export default Groups;

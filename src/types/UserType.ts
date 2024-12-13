@@ -1,3 +1,5 @@
+import FeatureType from './FeatureType';
+
 /**
  * @description Interface for the User model
  *
@@ -8,6 +10,7 @@
  */
 export default interface UserType {
   _id: string;
+  features: FeatureType[];
   firstName: string;
   lastName: string;
   customerId: string;

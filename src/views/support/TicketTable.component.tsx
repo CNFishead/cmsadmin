@@ -10,16 +10,16 @@ import useApiHook from '@/state/useApi';
 interface TicketTableProps {
   tickets: SupportType[];
   isLoading: boolean;
-  groupID: string;
+  queriesToInvalidate: string[];
 }
 
-const TicketTable = ({ tickets, isLoading, groupID }: TicketTableProps) => {
+const TicketTable = ({ tickets, isLoading, queriesToInvalidate }: TicketTableProps) => {
   const router = useRouter();
 
   const { mutate: deleteTicket } = useApiHook({
     method: 'DELETE',
     key: 'delete-ticket',
-    queriesToInvalidate: [`group-tickets-${groupID}`],
+    queriesToInvalidate: queriesToInvalidate,
   }) as any;
   return (
     <Table

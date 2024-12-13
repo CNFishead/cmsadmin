@@ -4,8 +4,7 @@ import moment from "moment";
 import Link from "next/link";
 import React from "react";
 import getNotificationLink from "@/utils/getNotificationLink";
-import { Avatar } from "antd";
-import useUpdateData from "@/state/useUpdateData";
+import { Avatar } from "antd"; 
 import useApiHook from "@/state/useApi";
 
 interface Props {

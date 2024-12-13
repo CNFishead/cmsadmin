@@ -1,4 +1,4 @@
-export const timeDifference = (current, previous) => {
+export const timeDifference = (current: any, previous: any) => {
   const msPerMinute = 60 * 1000;
   const msPerHour = msPerMinute * 60;
   const msPerDay = msPerHour * 24;

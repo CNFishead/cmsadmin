@@ -4,8 +4,8 @@ export type SupportType = {
   _id: string;
   requester: UserType;
   requesterDetails: {
-    email: String;
-    fullName: String;
+    email: string;
+    fullName: string;
   };
   assignee: UserType;
   groups: SupportGroupType[];

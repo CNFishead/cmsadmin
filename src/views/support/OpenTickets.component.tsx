@@ -25,7 +25,11 @@ const OpenTickets = () => {
 
   return (
     <div className={styles.container}>
-      <TicketTable tickets={data?.payload} isLoading={isLoading} />
+      <TicketTable
+        tickets={data?.payload}
+        isLoading={isLoading}
+        queriesToInvalidate={['open-tickets']}
+      />
     </div>
   );
 };

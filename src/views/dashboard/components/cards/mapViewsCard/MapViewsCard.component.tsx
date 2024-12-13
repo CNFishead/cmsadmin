@@ -1,7 +1,7 @@
-import MapAnalytics from "@/components/mapAnalytics/MapAnalytics.component";
+// import MapAnalytics from "@/components/mapAnalytics/MapAnalytics.component";
 
 const MapViewsCard = () => {
-  return <MapAnalytics />;
+  return <></>; //<MapAnalytics />;
 };
 
 export default MapViewsCard;
