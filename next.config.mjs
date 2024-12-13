@@ -2,8 +2,9 @@
 const nextConfig = {
   /* config options here */
   env: {
-    API_URL: process.env.API_URL,
-    ENCRYPTION_KEY: process.env.ENCRYPTION_KEY,
+    API_URL: process.env.NEXT_PUBLIC_API_URL,
+    ENCRYPTION_KEY: process.env.NEXT_PUBLIC_ENCRYPTION_KEY,
+    TINYMCE_API_KEY: process.env.NEXT_PUBLIC_TINYMCE_API_KEY,
     ENV: process.env.NODE_ENV,
     // ENV: "development",
   },
@@ -11,21 +12,21 @@ const nextConfig = {
   redirects: async () => {
     return [
       {
-        source: "/",
-        destination: "/home",
+        source: '/',
+        destination: '/home',
         permanent: true,
       },
       {
-        source: "/login",
-        destination: "/home",
+        source: '/login',
+        destination: '/home',
         permanent: true,
       },
     ];
   },
   sassOptions: {
-    silenceDeprecations: ["legacy-js-api"],
+    silenceDeprecations: ['legacy-js-api'],
   },
-  assetPrefix: process.env.ENV === "production" ? "https://api.shepherdcms.org" : "",
+  assetPrefix: process.env.ENV === 'production' ? 'https://api.shepherdcms.org' : '',
 };
 
 export default nextConfig;
