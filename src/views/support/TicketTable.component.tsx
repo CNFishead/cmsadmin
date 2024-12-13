@@ -4,14 +4,23 @@ import { Button, Table, Tag, Tooltip } from 'antd';
 import { MdOpenInNew } from 'react-icons/md';
 import { SupportType } from '@/types/Support';
 import { useRouter } from 'next/navigation';
+import { FaTrash } from 'react-icons/fa';
+import useApiHook from '@/state/useApi';
 
 interface TicketTableProps {
   tickets: SupportType[];
   isLoading: boolean;
+  groupID: string;
 }
 
-const TicketTable = ({ tickets, isLoading }: TicketTableProps) => {
+const TicketTable = ({ tickets, isLoading, groupID }: TicketTableProps) => {
   const router = useRouter();
+
+  const { mutate: deleteTicket } = useApiHook({
+    method: 'DELETE',
+    key: 'delete-ticket',
+    queriesToInvalidate: [`group-tickets-${groupID}`],
+  }) as any;
   return (
     <Table
       className={styles.ticketTable}
@@ -94,6 +103,16 @@ const TicketTable = ({ tickets, isLoading }: TicketTableProps) => {
                   className={styles.actionButton}
                 >
                   <MdOpenInNew />
+                </Button>
+                <Button
+                  onClick={() => {
+                    deleteTicket({
+                      url: `/support/ticket/${record._id}`,
+                    });
+                  }}
+                  className={styles.actionButton}
+                >
+                  <FaTrash className={styles.danger} />
                 </Button>
               </div>
             );

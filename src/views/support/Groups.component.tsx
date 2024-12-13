@@ -4,9 +4,8 @@ import styles from './SupportDesk.module.scss';
 import { useUser } from '@/state/auth';
 import useApiHook from '@/state/useApi';
 import GroupCard from './GroupCard.component';
-import { Button, Table, Tag, Tooltip } from 'antd';
-import { MdOpenInNew } from 'react-icons/md';
 import TicketTable from './TicketTable.component';
+import { useParams } from 'next/navigation';
 
 const Groups = () => {
   const { data: loggedInData } = useUser();
@@ -90,7 +89,7 @@ const TicketTableComponent = ({ group }: { group: any }) => {
     return <div>Error loading tickets for {group.name}</div>;
   }
 
-  return <TicketTable isLoading={isLoading} tickets={ticketData?.payload} />;
+  return <TicketTable isLoading={isLoading} tickets={ticketData?.payload} groupID={group._id} />;
 };
 
 export default Groups;

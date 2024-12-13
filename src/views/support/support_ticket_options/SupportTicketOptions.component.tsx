@@ -22,11 +22,20 @@ const SupportTicketOptions = () => {
     method: 'GET',
   }) as any;
 
+  const { data: agentData } = useApiHook({
+    url: `/support/agents/${id}`,
+    key: 'agents',
+    enabled: !!id,
+    method: 'GET',
+  }) as any;
+
   // finds all agents who can be assigned to the ticket, by looking at the support groups agent
   const { mutate: updateTicket } = useApiHook({
+    url: `/support/ticket/${id}`,
     key: 'ticket',
     method: 'PUT',
     queriesToInvalidate: ['ticket'],
+    successMessage: 'Ticket updated successfully',
   }) as any;
 
   if (isLoading) {
@@ -45,12 +54,24 @@ const SupportTicketOptions = () => {
     >
       {/* user details box, simple card that links to the user page */}
       <div className={styles.userContainer}>
-        <Link href={`/admin/users/${data?.payload?.data?.requester?._id}`} passHref>
+        <Link href={`/members/${data?.payload?.data?.requester?._id}`} passHref>
           <UserItem user={data?.payload?.data?.requester} />
         </Link>
       </div>
       <Form.Item label="Ticket ID" name="_id">
         <Input className={styles.ticketId} readOnly disabled />
+      </Form.Item>
+      {/* assigned agent */}
+      <Form.Item label="Assigned Agent" name="assignee">
+        <Select
+          className={formStyles.select}
+          options={
+            agentData?.agents?.map((agent: any) => ({
+              label: agent.fullName,
+              value: agent._id,
+            })) || []
+          }
+        />
       </Form.Item>
       <Form.Item label="Ticket Title" name="subject">
         <Input className={formStyles.input} />
@@ -118,7 +139,6 @@ const SupportTicketOptions = () => {
           onClick={() => {
             updateTicket(
               {
-                url: `/support/ticket/${id}`,
                 formData: form.getFieldsValue(),
               },
               {

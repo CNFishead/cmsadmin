@@ -9,8 +9,8 @@ export default (value: string): string => {
     return `${phoneNumber.slice(0, 3)}-${phoneNumber.slice(3)}`;
   }
 
-  return `${phoneNumber.slice(0, 3)}-${phoneNumber.slice(
-    3,
-    6
-  )}-${phoneNumber.slice(6, 10)}`.toString();
+  return `${phoneNumber.slice(0, 3)}-${phoneNumber.slice(3, 6)}-${phoneNumber.slice(
+    6,
+    10
+  )}`.toString();
 };

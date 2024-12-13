@@ -1,11 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from '@/utils/axios';
-import { message } from 'antd';
 import { useRouter } from 'next/navigation';
-import errorHandler from '@/utils/errorHandler';
 import decryptData from '@/utils/decryptData';
 import { useSearchStore as store } from '@/state/search/search';
-import { use } from 'react';
 import { useInterfaceStore } from './interface';
 // uuid for generating unique ids
 import { v4 as uuidv4 } from 'uuid';
@@ -21,10 +18,8 @@ const fetchData = async (
     case 'GET':
       const {
         defaultKeyword = options?.defaultKeyword || store.getState().search,
-        defaultPageNumber = options?.defaultPageNumber ||
-          store.getState().pageNumber,
-        defaultPageLimit = options?.defaultPageLimit ||
-          store.getState().pageLimit,
+        defaultPageNumber = options?.defaultPageNumber || store.getState().pageNumber,
+        defaultPageLimit = options?.defaultPageLimit || store.getState().pageLimit,
         defaultFilter = `${options?.defaultFilter ?? ''}${
           store.getState().filter ? `|${store.getState().filter}` : ''
         }`,
@@ -123,7 +118,7 @@ const useApiHook = (options: {
       fetchData(url ? url : (data.url as any), method, data.formData),
     onSuccess: (data: any) => {
       if (successMessage) {
-        addError({ id: uuidv4(), message: successMessage, type: 'success' });
+        addError({ message: successMessage, type: 'success' });
       }
 
       queriesToInvalidate?.forEach((query: string) => {
@@ -139,7 +134,7 @@ const useApiHook = (options: {
       }
     },
     onError: (error: any) => {
-      addError({ id: uuidv4(), message: error.message, type: 'error' });
+      addError({ message: error.message, type: 'error' });
       if (onErrorCallback) {
         onErrorCallback(error);
       }
