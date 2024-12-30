@@ -134,7 +134,10 @@ const useApiHook = (options: {
       }
     },
     onError: (error: any) => {
-      addError({ message: error.message, type: 'error' });
+      const messageTxt =
+        error.response && error.response.data.message ? error.response.data.message : error.message;
+ 
+      addError({ message: messageTxt, type: 'error' });
       if (onErrorCallback) {
         onErrorCallback(error);
       }
