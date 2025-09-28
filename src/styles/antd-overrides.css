@@ -279,6 +279,11 @@
 
 /* Tab Items */
 .ant-tabs-tab {
+  background-color: var(--tertiary-color) !important;
+  color: var(--text-muted) !important;
+}
+
+.ant-tabs-tab-btn{
   color: var(--text-muted) !important;
 }
 
@@ -287,7 +292,8 @@
 }
 
 .ant-tabs-tab-active {
-  color: var(--primary-color) !important;
+  background-color: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
 }
 
 /* Tab Ink Bar */
