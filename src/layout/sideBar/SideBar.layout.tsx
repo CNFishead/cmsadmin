@@ -1,12 +1,11 @@
 import React from "react";
 import styles from "./SideBar.module.scss";
 import { navigation } from "@/data/navigation";
-import { Button } from "antd";
 import Link from "next/link";
 import Image from "next/image";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { useLayoutStore } from "@/state/layout";
-import { useUser } from "@/state/auth";
+import useApiHook from "@/hooks/useApi";
 
 //make a type with children as a prop
 type Props = {
@@ -14,9 +13,33 @@ type Props = {
   large?: boolean;
 };
 const SideBar = (props: Props) => {
+  // Use reactive query instead of static queryClient.getQueryData
+  const { data: profileData } = useApiHook({
+    method: "GET",
+    key: ["profile", "admin"],
+    enabled: false, // Don't auto-fetch, assume it's being fetched elsewhere
+    staleTime: Infinity, // Use cached data if available
+  }) as any;
+
+  const { data: claimsData } = useApiHook({
+    url: "/auth/claim",
+    key: ["claims", "pending"],
+    method: "GET",
+    filter: `status;pending`,
+  }) as { data: { payload: any[]; metadata: any } };
+
+  const { data: scoutReportData } = useApiHook({
+    url: "/scout",
+    key: ["scout_reports", "pending"],
+    method: "GET",
+    filter: `isDraft;false|isFinalized;false`, // only fetch reports that are ready for review
+  }) as { data: { payload: any[]; metadata: any } };
+
   const sideBarOpen = useLayoutStore((state) => state.sideBarOpen);
   const toggleSideBar = useLayoutStore((state) => state.toggleSideBar);
-  const { data: loggedInData } = useUser();
+
+  // Extract profile from the query data
+  const profile = profileData as { payload: any } | undefined;
 
   return (
     <div className={`${styles.container} ${props.large ? "" : styles.small}`}>
@@ -32,7 +55,7 @@ const SideBar = (props: Props) => {
           </div>
         )}
         <Image
-          src="/images/ShepherdsCMSLogo.png"
+          src={"/images/logo.png"}
           width={30}
           height={50}
           className={styles.logo + " " + styles.saltLogo}
@@ -43,21 +66,24 @@ const SideBar = (props: Props) => {
         />
 
         <Image
-          src={"/images/ShepherdsCMSLogo.png"}
+          src={"/images/logo.png"}
           width={75}
           height={50}
-          className={styles.logo + " " + styles.truthcastingLogo}
+          className={styles.logo + " " + styles.largeLogo}
           style={{
             objectFit: "contain",
           }}
           alt="logo"
         />
-        {props.large && <p>Shepherds CMS</p>}
+
+        <p className={`${styles.productName}`}>{process.env.SERVICE_NAME || "Shepherds - Admin"}</p>
       </div>
 
       {Object.values(
         navigation({
-          user: loggedInData?.user,
+          user: profile?.payload,
+          claimsCount: claimsData?.metadata?.totalCount || 0,
+          scoutReportsCount: scoutReportData?.metadata?.totalCount || 0,
         })
       )
         .filter((i: any) => !i.hidden)

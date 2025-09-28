@@ -2,8 +2,8 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from '@/utils/axios';
 import { useRouter } from 'next/navigation';
 import decryptData from '@/utils/decryptData';
-import { useSearchStore as store } from '@/state/search/search';
-import { useInterfaceStore } from './interface'; 
+import { useSearchStore as store } from '@/state/search';
+import { useInterfaceStore } from './interface';
 
 const fetchData = async (
   url: string,
@@ -134,7 +134,7 @@ const useApiHook = (options: {
     onError: (error: any) => {
       const messageTxt =
         error.response && error.response.data.message ? error.response.data.message : error.message;
- 
+
       addError({ message: messageTxt, type: 'error' });
       if (onErrorCallback) {
         onErrorCallback(error);

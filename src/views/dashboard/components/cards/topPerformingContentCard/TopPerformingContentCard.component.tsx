@@ -5,7 +5,7 @@ import type { ColumnsType } from 'antd/es/table';
 // import VideoStat from '@/components/videoStat/VideoStat.component';
 import Image from 'next/image';
 import Error from '@/components/error/Error.component';
-import { useSearchStore } from '@/state/search/search';
+import { useSearchStore } from '@/state/search';
 import { useRouter } from 'next/navigation';
 
 type Props = {
@@ -14,9 +14,7 @@ type Props = {
 
 const TopPerformingContentCard = (props: Props) => {
   const [chosenStat, setChosenStat] = useState('Views');
-  const { data, error, isLoading, isError } = props.hook(
-    chosenStat.toLowerCase()
-  );
+  const { data, error, isLoading, isError } = props.hook(chosenStat.toLowerCase());
   const router = useRouter();
   const { modifySort } = useSearchStore();
 
@@ -70,20 +68,20 @@ const TopPerformingContentCard = (props: Props) => {
       key: 'views',
       render: (amount) => {
         console.log(amount);
-        return  <></> // <VideoStat type="Views" amount={amount} />;
+        return <></>; // <VideoStat type="Views" amount={amount} />;
       },
     },
     {
       title: 'Likes',
       dataIndex: 'likes',
       key: 'likes',
-      render: (amount) =>  <></> // <VideoStat type="Likes" amount={amount} />,
+      render: (amount) => <></>, // <VideoStat type="Likes" amount={amount} />,
     },
     {
       title: 'Comments',
       dataIndex: 'comments',
       key: 'comments',
-      render: (amount) =>  <></> // <VideoStat type="Comments" amount={amount} />,
+      render: (amount) => <></>, // <VideoStat type="Comments" amount={amount} />,
     },
   ];
 
