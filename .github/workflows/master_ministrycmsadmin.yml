@@ -23,22 +23,32 @@ jobs:
 
       - name: Install dependencies
         run: npm install --legacy-peer-deps
-  
+
       - name: Build Next.js App
         run: npm run build
         env:
+          API_URL: 'https://api.shepherdcms.org/api/v1'
+          AUTH_URL: 'https://api.shepherdcms.org'
+          SERVICE_NAME: 'ShepherdCMS Admin'
+          ENV: production
           NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
           NEXT_PUBLIC_ENCRYPTION_KEY: ${{ secrets.NEXT_PUBLIC_ENCRYPTION_KEY }}
           NEXT_PUBLIC_TINYMCE_API_KEY: ${{ secrets.NEXT_PUBLIC_TINYMCE_API_KEY }}
 
+      - name: List build output
+        run: ls -l .next
+      - name: Run tests
+        run: |
+          npm run test --if-present
+
       - name: Zip artifact for deployment
-        run: zip next.zip ./* .next -qr
+        run: zip -r release.zip .next public package.json package-lock.json
 
       - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: node-app
-          path: next.zip
+          path: release.zip
 
   deploy:
     runs-on: ubuntu-latest
@@ -54,7 +64,7 @@ jobs:
           name: node-app
 
       - name: Unzip artifact for deployment
-        run: unzip next.zip
+        run: unzip release.zip
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
