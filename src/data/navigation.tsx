@@ -4,11 +4,12 @@ import { FaClock, FaRegBell, FaStickyNote } from 'react-icons/fa';
 import { CgProfile } from 'react-icons/cg';
 import { BsBox, BsBroadcastPin } from 'react-icons/bs';
 import { BsFillPeopleFill } from 'react-icons/bs';
-import { shouldHideForRoles, ROLE_GROUPS } from "@/utils/roleUtils";
+import { shouldHideForRoles, ROLE_GROUPS } from '@/utils/roleUtils';
 import { IoCodeSlashOutline } from 'react-icons/io5';
 import { Badge } from 'antd';
 
 export const navigation = (options?: any) => {
+  console.log(options);
   return {
     home: {
       title: 'Home',

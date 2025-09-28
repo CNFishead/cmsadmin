@@ -1,11 +1,11 @@
-import React from "react";
-import styles from "./SideBar.module.scss";
-import { navigation } from "@/data/navigation";
-import Link from "next/link";
-import Image from "next/image";
-import { RxHamburgerMenu } from "react-icons/rx";
-import { useLayoutStore } from "@/state/layout";
-import useApiHook from "@/hooks/useApi";
+import React from 'react';
+import styles from './SideBar.module.scss';
+import { navigation } from '@/data/navigation';
+import Link from 'next/link';
+import Image from 'next/image';
+import { RxHamburgerMenu } from 'react-icons/rx';
+import { useLayoutStore } from '@/state/layout';
+import useApiHook from '@/hooks/useApi';
 
 //make a type with children as a prop
 type Props = {
@@ -15,25 +15,11 @@ type Props = {
 const SideBar = (props: Props) => {
   // Use reactive query instead of static queryClient.getQueryData
   const { data: profileData } = useApiHook({
-    method: "GET",
-    key: ["profile", "admin"],
+    method: 'GET',
+    key: ['profile', 'admin'],
     enabled: false, // Don't auto-fetch, assume it's being fetched elsewhere
     staleTime: Infinity, // Use cached data if available
   }) as any;
-
-  const { data: claimsData } = useApiHook({
-    url: "/auth/claim",
-    key: ["claims", "pending"],
-    method: "GET",
-    filter: `status;pending`,
-  }) as { data: { payload: any[]; metadata: any } };
-
-  const { data: scoutReportData } = useApiHook({
-    url: "/scout",
-    key: ["scout_reports", "pending"],
-    method: "GET",
-    filter: `isDraft;false|isFinalized;false`, // only fetch reports that are ready for review
-  }) as { data: { payload: any[]; metadata: any } };
 
   const sideBarOpen = useLayoutStore((state) => state.sideBarOpen);
   const toggleSideBar = useLayoutStore((state) => state.toggleSideBar);
@@ -42,7 +28,7 @@ const SideBar = (props: Props) => {
   const profile = profileData as { payload: any } | undefined;
 
   return (
-    <div className={`${styles.container} ${props.large ? "" : styles.small}`}>
+    <div className={`${styles.container} ${props.large ? '' : styles.small}`}>
       <div className={styles.logoContainer}>
         {sideBarOpen && (
           <div
@@ -55,35 +41,33 @@ const SideBar = (props: Props) => {
           </div>
         )}
         <Image
-          src={"/images/logo.png"}
+          src={'/images/logo.png'}
           width={30}
           height={50}
-          className={styles.logo + " " + styles.saltLogo}
+          className={styles.logo + ' ' + styles.saltLogo}
           style={{
-            objectFit: "contain",
+            objectFit: 'contain',
           }}
           alt="logo"
         />
 
         <Image
-          src={"/images/logo.png"}
+          src={'/images/logo.png'}
           width={75}
           height={50}
-          className={styles.logo + " " + styles.largeLogo}
+          className={styles.logo + ' ' + styles.largeLogo}
           style={{
-            objectFit: "contain",
+            objectFit: 'contain',
           }}
           alt="logo"
         />
 
-        <p className={`${styles.productName}`}>{process.env.SERVICE_NAME || "Shepherds - Admin"}</p>
+        <p className={`${styles.productName}`}>{process.env.SERVICE_NAME || 'Shepherds - Admin'}</p>
       </div>
 
       {Object.values(
         navigation({
-          user: profile?.payload,
-          claimsCount: claimsData?.metadata?.totalCount || 0,
-          scoutReportsCount: scoutReportData?.metadata?.totalCount || 0,
+          user: profile?.payload[0],
         })
       )
         .filter((i: any) => !i.hidden)
@@ -100,9 +84,9 @@ const SideBar = (props: Props) => {
                         <Link
                           key={indx + subItem.title}
                           href={subItem.link}
-                          className={`${styles.link} ${props.page.title === subItem.title && styles.active} ${
-                            subItem.pulse && styles.pulse
-                          }`}
+                          className={`${styles.link} ${
+                            props.page.title === subItem.title && styles.active
+                          } ${subItem.pulse && styles.pulse}`}
                           onClick={() => toggleSideBar()}
                         >
                           <span className={styles.icon}>{subItem.icon}</span>

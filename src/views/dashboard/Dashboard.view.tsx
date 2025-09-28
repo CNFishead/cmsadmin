@@ -3,45 +3,53 @@ import { useState } from "react";
 import styles from "./Dashboard.module.scss";
 import Card from "./layout/card/Card.component";
 import DashboardHeader from "./layout/header/Header.layout";
-import { useUser } from "@/state/auth";
-
-type Card = {
-  title: string;
-  component: React.ReactNode;
-  gridKey: string;
-  hideIf?: boolean;
-};
+import dashboardCards, { Card as CardType } from "./Cards.data";
+import { QueryClient, useQueryClient } from "@tanstack/react-query";
 
 const Dashboard = () => {
-  const { data: loggedInData } = useUser();
-  const dashboardCards = [] as Card[];
+  const queryClient = useQueryClient();
+  const selectedProfile = queryClient.getQueryData(["profile", "athlete"]) as any;
+  const [cards] = useState(dashboardCards);
 
-  const [cards, setCards] = useState(dashboardCards);
+  const getCardSizeClass = (size: number) => {
+    switch (size) {
+      case 1:
+        return styles.small;
+      case 2:
+        return styles.medium;
+      case 3:
+        return styles.large;
+      default:
+        return styles.small;
+    }
+  };
 
   return (
     <div className={styles.wrapper}>
       <DashboardHeader />
-      {/* {!hasFeature(loggedInData?.user, FEATURES.VOD, FEATURES.LIVESTREAMING) && (
-        <div className={styles.noFeaturesContainer}>
-          <h1>Welcome to your dashboard. You currently do not have any features enabled.</h1>
-          <p>
-            To enhance your Truthcasting experience, you can add features such as Video On Demand and Livestreaming.
-            Please navigate to the Features page to find the option to add these features and unlock their
-            functionalities.
-          </p>
-          <Link href="/features">
-            <Button type="primary">Go to Features</Button>
-          </Link>
-        </div>
-      )} */}
       <div className={styles.container}>
         {cards
-          .filter((c) => !c.hideIf)
-          .map((card: Card, index: number) => {
-            return (
-              <Card key={index} title={card.title} gridKey={card.gridKey}>
-                {card.component}
-              </Card>
+          .filter((c) => {
+            if (typeof c.hideIf === "function") {
+              return !c.hideIf({ profile: selectedProfile, queryClient } as { profile: any; queryClient: QueryClient });
+            }
+            return !c.hideIf;
+          })
+          .sort((a, b) => (a.order ?? 999) - (b.order ?? 999))
+          .map((card: CardType, index: number) => {
+            const cardSize = card.size ?? 1;
+            const sizeClass = getCardSizeClass(cardSize);
+
+            return card.isCard ? (
+              <div key={index} className={`${styles.cardWrapper} ${sizeClass}`}>
+                <Card title={card.title} gridKey={card.gridKey}>
+                  {card.component({ data: selectedProfile?.payload })}
+                </Card>
+              </div>
+            ) : (
+              <div key={index} className={`${styles.cardWrapper} ${sizeClass}`}>
+                {card.component({ data: selectedProfile?.payload })}
+              </div>
             );
           })}
       </div>

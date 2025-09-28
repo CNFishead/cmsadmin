@@ -1,16 +1,23 @@
-import { getAbsoluteUrl } from "@/utils/getAbsoluteUrl";
+"use client";
 import { Button } from "antd";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 import styles from "./Auth.module.scss";
+import { useEffect, useState } from "react";
 
-type Props = {
-  fullUrl?: string;
-};
-
-const Auth = (props: Props) => {
+const Auth = () => {
   const pathname = usePathname();
+  const [redirectUrl, setRedirectUrl] = useState<string | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const origin = window.location.origin;
+    const token = window.localStorage.getItem("token");
+
+    setRedirectUrl(`${process.env.AUTH_URL}?redirect=${origin + pathname}`);
+    setIsAuthenticated(!!token);
+  }, [pathname]);
 
   return (
     <div className={styles.wrapper}>
@@ -18,8 +25,7 @@ const Auth = (props: Props) => {
         <div className={styles.header}>
           <div className={styles.logoContainer}>
             <Image
-              // src="https://api.shepherdcms.org/images/ShepherdsCMSLogo.png"
-              src="/images/ShepherdsCMSLogo.png"
+              src="/images/logo.png"
               width={160}
               height={100}
               style={{
@@ -27,6 +33,7 @@ const Auth = (props: Props) => {
               }}
               alt="logo"
             />
+            {process.env.SERVICE_NAME}
           </div>
         </div>
         <p className={styles.text}>
@@ -36,24 +43,13 @@ const Auth = (props: Props) => {
             Please click the button below to authenticate and access the dashboard
           </span>
         </p>
-        <a
-          href={
-            process.env.ENV !== "development"
-              ? `https://auth.shepherdcms.org/?redirect=${getAbsoluteUrl() + pathname}`
-              : `http://localhost:3003?redirect=${getAbsoluteUrl() + pathname}`
-          }
-          className={styles.buttonLink}
-        >
-          <Button
-            className={styles.button}
-            type="primary"
-            size="large"
-            loading={typeof window === "undefined" || !!window.localStorage.getItem("token")}
-            disabled={typeof window === "undefined" || !!window.localStorage.getItem("token")}
-          >
-            Login
-          </Button>
-        </a>
+        {redirectUrl && (
+          <a href={redirectUrl} className={styles.buttonLink}>
+            <Button className={styles.button} type="primary" size="large">
+              Login
+            </Button>
+          </a>
+        )}
       </div>
       <div className={styles.waveContainer}>
         <svg id="wave" viewBox="0 0 1440 490" version="1.1" xmlns="http://www.w3.org/2000/svg">
