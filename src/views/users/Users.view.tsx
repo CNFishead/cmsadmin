@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import styles from "./Users.module.scss";
-import User from "@/types/User";
+import User from "@/types/UserType";
 import Link from "next/link";
 import { Avatar, Button, Table } from "antd";
 import { FaEdit } from "react-icons/fa";

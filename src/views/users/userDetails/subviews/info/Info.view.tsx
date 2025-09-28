@@ -13,7 +13,7 @@ import {
   LockOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
-import User from "@/types/User";
+import User from "@/types/UserType";
 import useApiHook from "@/hooks/useApi";
 import { useInterfaceStore } from "@/state/interface";
 import { useParams } from "next/navigation";
