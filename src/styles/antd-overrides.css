@@ -1,35 +1,48 @@
-/* Global Ant Design Overrides for Dark Theme */
+/* Global Ant Design Overrides for Christian Ministry CMS Theme */
 /* 
- * This file consolidates all Ant Design style customizations to prevent style bleeding.
- * 
- * Previously, these overrides were scattered across multiple SCSS files:
- * - UserDetails.module.scss (forms, modals, cards, switches)
- * - AthleteDetails.module.scss (tabs)
- * - Metrics.module.scss (forms, selects, dividers)
- * - Measurements.module.scss (forms, selects, dividers)
- * - UserAssociation.module.scss (forms, selects, modals)
- * - BasicInfo/Editing.module.scss (forms, pickers, rates, uploads)
- * - PlanModal.css (transfer components, forms)
- * 
- * All these scattered :global() overrides have been consolidated here to:
- * 1. Prevent style bleeding between components
- * 2. Maintain consistency across the application
- * 3. Make Ant Design customizations easier to maintain
- * 4. Reduce code duplication
+ * This file consolidates all Ant Design style customizations using the app's color palette.
+ * Color scheme based on earthy, natural tones appropriate for Christian ministry:
+ * - Primary: #3c6255 (Deep Forest Green)
+ * - Secondary: #61876e (Sage Green) 
+ * - Tertiary: #a6bb8d (Light Sage)
+ * - Quaternary: #eae7b1 (Cream)
+ * - Accent: #c42727 (Deep Red)
  */
 
+:root {
+  --primary-color: #3c6255;
+  --primary-light: #5c806f;
+  --primary-dark: #35574b;
+  --secondary-color: #61876e;
+  --secondary-light: #79a889;
+  --secondary-dark: #5c7a66;
+  --tertiary-color: #a6bb8d;
+  --tertiary-light: #bdd4a1;
+  --quaternary-color: #eae7b1;
+  --accent-color: #c42727;
+  --accent-light: #c44f4f;
+  --accent-dark: #921e1e;
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.85);
+  --text-muted: rgba(255, 255, 255, 0.65);
+  --border-color: rgba(97, 135, 110, 0.3);
+  --bg-primary: rgba(60, 98, 85, 0.95);
+  --bg-secondary: rgba(43, 59, 49, 0.836);
+  --bg-hover: rgba(166, 187, 141, 0.2);
+}
+
 /* ===========================================
-   Random Styles
+   Statistics and Descriptions
 =========================================== */
 .ant-statistic-title {
-  color: var(--primary) !important;
+  color: var(--primary-color) !important;
 }
 .ant-descriptions-item-label{
-  color: var(--primary) !important;
+  color: var(--primary-color) !important;
   font-weight: 500;
 }
 .ant-descriptions-item-content{
-  color: #d6d6d6 !important;
+  color: var(--text-secondary) !important;
 }
 
 /* ===========================================
@@ -38,7 +51,7 @@
 
 /* Form Labels */
 .ant-form-item-label > label {
-  color: var(--primary) !important;
+  color: var(--text-muted) !important;
   font-weight: 500;
 }
 
@@ -47,16 +60,16 @@
 .ant-input-number,
 .ant-picker,
 .ant-select-selector {
-  background: rgba(255, 255, 255, 0.1) !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
-  color: #ffffff !important;
+  background: var(--bg-secondary) !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--text-primary) !important;
 }
 
 .ant-input:hover,
 .ant-input-number:hover,
 .ant-picker:hover,
 .ant-select-selector:hover {
-  border-color: #1890ff !important;
+  border-color: var(--secondary-color) !important;
 }
 
 .ant-input:focus, 
@@ -66,24 +79,24 @@
 .ant-input-number-focused,
 .ant-picker-focused,
 .ant-select-focused .ant-select-selector {
-  border-color: #1890ff !important;
-  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2) !important;
+  border-color: var(--tertiary-color) !important;
+  box-shadow: 0 0 0 2px rgba(166, 187, 141, 0.3) !important;
 }
 
 /* Search Input Specific Styling */
 .ant-input-search {
-  background: rgba(3, 3, 3, 0.5) !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  background: var(--bg-primary) !important;
+  border: 1px solid var(--border-color) !important;
 }
 
 .ant-input-search:hover {
-  border-color: #1890ff !important;
+  border-color: var(--secondary-color) !important;
 }
 
 .ant-input-search .ant-input {
   background: transparent !important;
   border: none !important;
-  color: #ffffff !important;
+  color: var(--text-primary) !important;
 }
 
 .ant-input-search .ant-input:focus {
@@ -92,14 +105,14 @@
 }
 
 .ant-input-search-button {
-  background: rgba(24, 144, 255, 0.8) !important;
-  border-color: #1890ff !important;
-  color: #ffffff !important;
+  background: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+  color: var(--text-primary) !important;
 }
 
 .ant-input-search-button:hover {
-  background: rgba(24, 144, 255, 1) !important;
-  border-color: #40a9ff !important;
+  background: var(--primary-light) !important;
+  border-color: var(--primary-light) !important;
 }
 
 /* Input Placeholders */
@@ -108,7 +121,7 @@
 .ant-picker-input input::placeholder,
 .ant-select-selection-placeholder,
 .ant-input-search .ant-input::placeholder {
-  color: rgba(255, 255, 255, 0.5) !important;
+  color: var(--text-muted) !important;
 }
 
 /* Input Number Specific */
@@ -119,29 +132,29 @@
 
 /* Input Affix Wrapper */
 .ant-input-affix-wrapper {
-  background: rgba(255, 255, 255, 0.1) !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  background: var(--bg-secondary) !important;
+  border: 1px solid var(--border-color) !important;
 }
 
 .ant-input-affix-wrapper:hover {
-  border-color: #1890ff !important;
+  border-color: var(--secondary-color) !important;
 }
 
 .ant-input-affix-wrapper:focus,
 .ant-input-affix-wrapper-focused {
-  border-color: #1890ff !important;
-  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2) !important;
+  border-color: var(--tertiary-color) !important;
+  box-shadow: 0 0 0 2px rgba(166, 187, 141, 0.3) !important;
 }
 
 .ant-input-affix-wrapper .ant-input {
   background: transparent !important;
   border: none !important;
-  /* color: #ffffff !important; */
+  color: var(--text-primary) !important;
 }
 
 /* override the input extras styling */
 .ant-form-item-extra {  
-  color: #9c9c9c !important;
+  color: var(--text-muted) !important;
 }
 
 
@@ -151,31 +164,31 @@
 
 /* Select Dropdown */
 .ant-select-dropdown {
-  background: rgba(0, 0, 0, 0.9) !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  background: var(--bg-primary) !important;
+  border: 1px solid var(--border-color) !important;
 }
 
 /* Select Items */
 .ant-select-item {
-  color: rgba(255, 255, 255, 0.9) !important;
+  color: var(--text-secondary) !important;
 }
 
 .ant-select-item:hover {
-  background: rgba(24, 144, 255, 0.2) !important;
+  background: var(--bg-hover) !important;
 }
 
 .ant-select-item-option-selected {
-  background: rgba(24, 144, 255, 0.3) !important;
-  color: #ffffff !important;
+  background: rgba(60, 98, 85, 0.5) !important;
+  color: var(--text-primary) !important;
 }
 
 /* Select Text and Arrow */
 .ant-select-selection-item {
-  color: #ffffff !important;
+  color: var(--text-primary) !important;
 }
 
 .ant-select-arrow {
-  color: rgba(255, 255, 255, 0.7) !important;
+  color: var(--text-muted) !important;
 }
 
 /* ===========================================
@@ -184,8 +197,8 @@
 
 /* Modal Container */
 .ant-modal-content {
-  background: rgba(24, 24, 24, 0.95) !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  background: var(--bg-primary) !important;
+  border: 1px solid var(--border-color) !important;
   border-radius: 12px;
   max-height: 90vh;
   overflow: hidden;
@@ -193,14 +206,14 @@
 
 /* Modal Header */
 .ant-modal-header {
-  background: rgba(20, 20, 20, 0.05) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+  background: rgba(60, 98, 85, 0.3) !important;
+  border-bottom: 1px solid var(--border-color) !important;
   border-radius: 12px 12px 0 0;
 }
 
 /* Modal Title */
 .ant-modal-title {
-  color: #ffffff !important;
+  color: var(--text-primary) !important;
   font-weight: 600;
 }
 
@@ -214,23 +227,23 @@
 
 /* Modal Close Button */
 .ant-modal-close {
-  color: rgba(255, 255, 255, 0.7) !important;
+  color: var(--text-muted) !important;
 }
 
 .ant-modal-close:hover {
-  color: #ffffff !important;
+  color: var(--text-primary) !important;
 }
 
 /* Modal Footer */
 .ant-modal-footer {
-  background: rgba(255, 255, 255, 0.05) !important;
-  border-top: 1px solid rgba(255, 255, 255, 0.2) !important;
+  background: var(--bg-secondary) !important;
+  border-top: 1px solid var(--border-color) !important;
 }
 
 .ant-input-number-group-addon{
-  background: rgba(255, 255, 255, 0.1) !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
-  color: #ffffff !important;
+  background: var(--bg-secondary) !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--text-primary) !important;
 }
 
 /* ===========================================
@@ -239,13 +252,13 @@
 
 /* Card Header */
 .ant-card-head {
-  background: rgba(31, 31, 31, 0.05) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+  background: rgba(60, 98, 85, 0.2) !important;
+  border-bottom: 1px solid var(--border-color) !important;
 }
 
 /* Card Title */
 .ant-card-head-title {
-  color: #ffffff !important;
+  color: var(--text-primary) !important;
 }
 
 /* Card Body */
@@ -255,8 +268,8 @@
 }
 
 .ant-card {
-  background: rgba(31, 31, 31, 0.8) !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  background: rgba(60, 98, 85, 0.8) !important;
+  border: 1px solid var(--border-color) !important;
   border-radius: 12px !important;
 }
 
@@ -266,20 +279,20 @@
 
 /* Tab Items */
 .ant-tabs-tab {
-  color: rgba(92, 92, 92, 0.7) !important;
+  color: var(--text-muted) !important;
 }
 
 .ant-tabs-tab:hover {
-  color: rgba(255, 255, 255, 0.9) !important;
+  color: var(--text-secondary) !important;
 }
 
 .ant-tabs-tab-active {
-  color: #1890ff !important;
+  color: var(--primary-color) !important;
 }
 
 /* Tab Ink Bar */
 .ant-tabs-ink-bar {
-  background: #1890ff !important;
+  background: var(--primary-color) !important;
 }
 
 /* Tab Content */
@@ -293,11 +306,11 @@
 
 /* Switch */
 .ant-switch {
-  background: rgba(255, 255, 255, 0.2) !important;
+  /* background: var(--border-color) !important; */
 }
 
 .ant-switch-checked {
-  background: #1890ff !important;
+  background: var(--tertiary-color) !important;
 }
 
 /* ===========================================
@@ -306,14 +319,14 @@
 
 /* Upload Button */
 .ant-upload .ant-btn {
-  background: rgba(255, 255, 255, 0.1) !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
-  color: #ffffff !important;
+  background: var(--bg-secondary) !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--text-primary) !important;
 }
 
 .ant-upload .ant-btn:hover {
-  background: rgba(24, 144, 255, 0.2) !important;
-  border-color: #1890ff !important;
+  background: var(--bg-hover) !important;
+  border-color: var(--secondary-color) !important;
 }
 
 /* ===========================================
@@ -326,21 +339,21 @@
 }
 
 .ant-table-thead > tr > th {
-  background: rgba(24, 24, 24, 0.719) !important;
-  color: #ffffff !important;
+  background: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
   font-weight: 600;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-bottom: 1px solid var(--border-color) !important;
 }
 
 .ant-table-tbody > tr > td {
-  background: rgba(24, 24, 24, 0.719) !important;
-  color: #ffffff !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background: rgba(60, 98, 85, 0.3) !important;
+  color: var(--text-primary) !important;
+  border-bottom: 1px solid rgba(97, 135, 110, 0.2) !important;
 }
 
 .ant-table-tbody > tr:hover > td {
-  background: rgba(0, 0, 0, 0.24) !important;
-  color:rgba(0, 0, 0, 0.9) !important;
+  background: var(--bg-hover) !important;
+  color: var(--primary-dark) !important;
 }
 
 /* ===========================================
@@ -360,12 +373,12 @@
 
 /* Avatars */
 .ant-avatar {
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  border: 2px solid var(--border-color);
   transition: all 0.3s ease;
 }
 
 .ant-avatar:hover {
-  border-color: #1890ff;
+  border-color: var(--secondary-color);
   transform: scale(1.05);
 }
 
@@ -374,9 +387,9 @@
 =========================================== */
 
 /* Checkboxes */
-.ant-checkbox-wrapper {
+/* .ant-checkbox-wrapper {
   width: 100%;
-}
+} */
 
 .ant-checkbox {
   margin-right: 8px;
@@ -397,11 +410,11 @@
 
 /* Rate Stars */
 .ant-rate {
-  color: #1890ff !important;
+  color: var(--tertiary-color) !important;
 }
 
 .ant-rate-star-zero {
-  color: rgba(255, 255, 255, 0.3) !important;
+  color: var(--text-muted) !important;
 }
 
 /* ===========================================
@@ -410,17 +423,17 @@
 
 /* Dividers */
 .ant-divider {
-  border-color: rgba(255, 255, 255, 0.2) !important;
+  border-color: var(--border-color) !important;
 }
 
 .ant-divider-horizontal.ant-divider-with-text {
-  color: rgba(255, 255, 255, 0.9) !important;
-  border-color: rgba(255, 255, 255, 0.2) !important;
+  color: var(--text-secondary) !important;
+  border-color: var(--border-color) !important;
 }
 
 .ant-divider-horizontal.ant-divider-with-text::before,
 .ant-divider-horizontal.ant-divider-with-text::after {
-  border-top-color: rgba(255, 255, 255, 0.2) !important;
+  border-top-color: var(--border-color) !important;
 }
 
 /* ===========================================
@@ -430,19 +443,19 @@
 /* Transfer Lists */
 .ant-transfer-list {
   width: 100% !important;
-  background-color: rgba(255, 255, 255, 0.1) !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  background-color: var(--bg-secondary) !important;
+  border: 1px solid var(--border-color) !important;
 }
 
 /* Transfer List Header */
 .ant-transfer-list-header {
-  background-color: rgba(255, 255, 255, 0.05) !important;
-  color: #ffffff !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+  background-color: rgba(60, 98, 85, 0.2) !important;
+  color: var(--text-primary) !important;
+  border-bottom: 1px solid var(--border-color) !important;
 }
 
 .ant-transfer-list-header-title {
-  color: #ffffff !important;
+  color: var(--text-primary) !important;
 }
 
 /* Transfer List Body */
@@ -453,16 +466,16 @@
 /* Transfer List Items */
 .ant-transfer-list-content-item {
   background-color: transparent !important;
-  color: #ffffff !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: var(--text-primary) !important;
+  border-bottom: 1px solid rgba(97, 135, 110, 0.2) !important;
 }
 
 .ant-transfer-list-content-item:hover {
-  background-color: rgba(255, 255, 255, 0.05) !important;
+  background-color: var(--bg-hover) !important;
 }
 
 .ant-transfer-list-content-item-checked {
-  background-color: rgba(24, 144, 255, 0.2) !important;
+  background-color: rgba(60, 98, 85, 0.4) !important;
 }
 
 /* Transfer Operation Buttons */
@@ -471,21 +484,21 @@
 }
 
 .ant-transfer-operation .ant-btn {
-  background-color: rgba(255, 255, 255, 0.1) !important;
-  border-color: rgba(255, 255, 255, 0.2) !important;
-  color: #ffffff !important;
+  background-color: var(--bg-secondary) !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-primary) !important;
 }
 
 .ant-transfer-operation .ant-btn:hover {
-  background-color: rgba(24, 144, 255, 0.3) !important;
-  border-color: #1890ff !important;
-  color: #ffffff !important;
+  background-color: var(--bg-hover) !important;
+  border-color: var(--secondary-color) !important;
+  color: var(--text-primary) !important;
 }
 
 .ant-transfer-operation .ant-btn:disabled {
-  background-color: rgba(255, 255, 255, 0.05) !important;
-  border-color: rgba(255, 255, 255, 0.1) !important;
-  color: rgba(255, 255, 255, 0.3) !important;
+  background-color: rgba(60, 98, 85, 0.1) !important;
+  border-color: rgba(97, 135, 110, 0.1) !important;
+  color: var(--text-muted) !important;
 }
 
 /* ===========================================
@@ -507,18 +520,18 @@
 /* Plan Transfer Component Specific */
 .plan-transfer .ant-transfer-list {
   width: 100% !important;
-  background-color: rgba(255, 255, 255, 0.1) !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  background-color: var(--bg-secondary) !important;
+  border: 1px solid var(--border-color) !important;
 }
 
 .plan-transfer .ant-transfer-list-header {
-  background-color: rgba(255, 255, 255, 0.05) !important;
-  color: #ffffff !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+  background-color: rgba(60, 98, 85, 0.2) !important;
+  color: var(--text-primary) !important;
+  border-bottom: 1px solid var(--border-color) !important;
 }
 
 .plan-transfer .ant-transfer-list-header-title {
-  color: #ffffff !important;
+  color: var(--text-primary) !important;
 }
 
 .plan-transfer .ant-transfer-list-body {
@@ -527,16 +540,16 @@
 
 .plan-transfer .ant-transfer-list-content-item {
   background-color: transparent !important;
-  color: #ffffff !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: var(--text-primary) !important;
+  border-bottom: 1px solid rgba(97, 135, 110, 0.2) !important;
 }
 
 .plan-transfer .ant-transfer-list-content-item:hover {
-  background-color: rgba(255, 255, 255, 0.05) !important;
+  background-color: var(--bg-hover) !important;
 }
 
 .plan-transfer .ant-transfer-list-content-item-checked {
-  background-color: rgba(24, 144, 255, 0.2) !important;
+  background-color: rgba(60, 98, 85, 0.4) !important;
 }
 
 .plan-transfer .ant-transfer-operation {
@@ -544,21 +557,21 @@
 }
 
 .plan-transfer .ant-transfer-operation .ant-btn {
-  background-color: rgba(255, 255, 255, 0.1) !important;
-  border-color: rgba(255, 255, 255, 0.2) !important;
-  color: #ffffff !important;
+  background-color: var(--bg-secondary) !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-primary) !important;
 }
 
 .plan-transfer .ant-transfer-operation .ant-btn:hover {
-  background-color: rgba(24, 144, 255, 0.3) !important;
-  border-color: #1890ff !important;
-  color: #ffffff !important;
+  background-color: var(--bg-hover) !important;
+  border-color: var(--secondary-color) !important;
+  color: var(--text-primary) !important;
 }
 
 .plan-transfer .ant-transfer-operation .ant-btn:disabled {
-  background-color: rgba(255, 255, 255, 0.05) !important;
-  border-color: rgba(255, 255, 255, 0.1) !important;
-  color: rgba(255, 255, 255, 0.3) !important;
+  background-color: rgba(60, 98, 85, 0.1) !important;
+  border-color: rgba(97, 135, 110, 0.1) !important;
+  color: var(--text-muted) !important;
 }
 
 /* ===========================================

@@ -1,39 +1,59 @@
-import React, { useRef } from 'react';
-import { Editor } from '@tinymce/tinymce-react';
-import parse from 'html-react-parser';
+import React, { useRef, useEffect } from "react";
+import { Editor } from "@tinymce/tinymce-react";
+import parse from "html-react-parser";
 
-interface TinyEditorProps {
+const TinyEditor = ({
+  handleChange,
+  initialContent,
+  height = 600,
+}: {
   handleChange: (content: string) => void;
   initialContent?: string;
-}
-const TinyEditor = ({ handleChange, initialContent }: TinyEditorProps) => {
-  const editorRef = useRef('editor');
+  height?: number;
+}) => {
+  const editorRef = useRef<any>(null);
+
+  // Update editor content when initialContent changes
+  useEffect(() => {
+    if (editorRef.current && initialContent !== undefined) {
+      const currentContent = editorRef.current.getContent();
+      if (currentContent !== initialContent) {
+        editorRef.current.setContent(initialContent || "");
+      }
+    }
+  }, [initialContent]);
 
   return (
     <Editor
-      onInit={(evt, editor: any) => {
+      onInit={(evt, editor) => {
         editorRef.current = editor;
+        // Set initial content if available
+        if (initialContent) {
+          editor.setContent(parse(initialContent as string) as string);
+        }
       }}
-      initialValue={parse(initialContent ?? '') as string}
-      onChange={(e) => handleChange(e.target.getContent())}
-      apiKey={process.env.TINYMCE_API_KEY}
+      initialValue={(parse(initialContent as string) as string) || ""}
+      onChange={(e) => {
+        if (editorRef.current) {
+          handleChange(editorRef.current.getContent());
+        }
+      }}
+      apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY}
       init={{
-        placeholder: 'Type your message here...',
-        height: 200,
-        menubar: 'insert view',
-        // plugins: [
-        //   "insert advlist autolink lists link image charmap print preview anchor codesample",
-        //   "searchreplace visualblocks code fullscreen",
-        //   "insertdatetime media table paste code help wordcount autolink",
-        // ],
+        placeholder: "Type your message here...",
+        height,
+        menubar: "insert view",
         toolbar:
-          'undo redo | formatselect | bold italic underline strikethrough | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | link unlink image media | codesample | searchreplace visualblocks code fullscreen | insertdatetime table | help wordcount',
-        content_style: 'body { font-family: Helvetica, Arial, sans-serif; font-size: 14px }',
+          "undo redo | formatselect | bold italic underline strikethrough | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | link unlink image media | codesample | searchreplace visualblocks code fullscreen | insertdatetime table | help wordcount",
+        content_style:
+          "body { font-family: Helvetica, Arial, sans-serif; font-size: 14px; background: transparent; color: #fff; }",
         codesample_languages: [
-          { text: 'HTML/XML', value: 'markup' },
-          { text: 'JavaScript', value: 'javascript' },
-          { text: 'CSS', value: 'css' },
+          { text: "HTML/XML", value: "markup" },
+          { text: "JavaScript", value: "javascript" },
+          { text: "CSS", value: "css" },
         ],
+        skin: "oxide-dark",
+        content_css: "dark",
       }}
     />
   );

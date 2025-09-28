@@ -7,6 +7,7 @@ interface ProfileType {
   _id: string;
   user: string;
   roles: string[];
+  permissions: string[];
   // Add other profile properties as needed
 }
 
