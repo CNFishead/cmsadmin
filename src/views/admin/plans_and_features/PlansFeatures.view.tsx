@@ -7,14 +7,15 @@ import { hasRequiredRole, ROLES } from "@/utils/roleUtils";
 import PlansManagement from "./subviews/plansManagement/PlansManagement.view";
 import FeaturesManagement from "./subviews/featuresManagement/FeaturesManagement.view";
 import { useQueryClient } from "@tanstack/react-query";
+import { useSelectedProfile } from "@/hooks/useSelectedProfile";
 
 const PlansFeatures: React.FC = () => {
   const queryClient = useQueryClient();
-  const profile = queryClient.getQueryData(["profile", "admin"]) as { payload: any } | undefined;
+  const { selectedProfile: profile } = useSelectedProfile();
   const [activeTab, setActiveTab] = useState("plans");
 
   // Check if user has developer role for features tab
-  const canAccessFeatures = hasRequiredRole(profile?.payload?.permissions, ['api.create']);
+  const canAccessFeatures = hasRequiredRole(profile?.permissions, ['api.create']);
 
   const tabItems = [
     {

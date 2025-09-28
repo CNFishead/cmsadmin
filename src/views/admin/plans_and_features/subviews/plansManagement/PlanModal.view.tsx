@@ -1,19 +1,30 @@
-"use client";
-import React, { useEffect } from "react";
-import { Modal, Form, Input, InputNumber, Select, Switch, Transfer, Button, message, Spin } from "antd";
-import type { TransferProps } from "antd";
-import { DollarOutlined, FileTextOutlined } from "@ant-design/icons";
-import useApiHook from "@/hooks/useApi";
-import { PlanType } from "@/types/IPlanType";
-import { FeatureType } from "@/types/IFeatureType";
+'use client';
+import React, { useEffect } from 'react';
+import {
+  Modal,
+  Form,
+  Input,
+  InputNumber,
+  Select,
+  Switch,
+  Transfer,
+  Button,
+  message,
+  Spin,
+} from 'antd';
+import type { TransferProps } from 'antd';
+import { DollarOutlined, FileTextOutlined } from '@ant-design/icons';
+import useApiHook from '@/hooks/useApi';
+import { PlanType } from '@/types/IPlanType';
+import { FeatureType } from '@/types/IFeatureType';
 import {
   PLAN_TIER_OPTIONS,
   BILLING_CYCLE_OPTIONS,
   AVAILABLE_TO_OPTIONS,
   PLANS_API_ENDPOINTS,
   TRANSFER_CONFIG,
-} from "./plans.constants";
-import { useInterfaceStore } from "@/state/interface";
+} from './plans.constants';
+import { useInterfaceStore } from '@/state/interface';
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -39,8 +50,8 @@ const PlanModal: React.FC<PlanModalProps> = ({ visible, onCancel, onSuccess, edi
   // Fetch features for the transfer component
   const { data: featuresData, isLoading: featuresLoading } = useApiHook({
     url: PLANS_API_ENDPOINTS.FEATURES,
-    key: ["features"],
-    method: "GET",
+    key: ['features'],
+    method: 'GET',
   }) as { data: { payload: FeatureType[] }; isLoading: boolean; error: any };
 
   const features = featuresData?.payload || [];
@@ -49,14 +60,17 @@ const PlanModal: React.FC<PlanModalProps> = ({ visible, onCancel, onSuccess, edi
   const transferDataSource: TransferItem[] = features.map((feature) => ({
     key: feature._id,
     title: feature.name,
-    description: feature.shortDescription,
+    description:
+      feature.shortDescription.length > 25
+        ? feature.shortDescription.slice(0, 25) + '...'
+        : feature.shortDescription,
   }));
 
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const { mutate: mutatePlan } = useApiHook({
-    method: editingPlan ? "PUT" : "POST",
-    key: "plan.mutate",
-    queriesToInvalidate: ["plans"],
+    method: editingPlan ? 'PUT' : 'POST',
+    key: 'plan.mutate',
+    queriesToInvalidate: ['plans'],
   }) as any;
 
   // Handle form submission
@@ -71,16 +85,21 @@ const PlanModal: React.FC<PlanModalProps> = ({ visible, onCancel, onSuccess, edi
         price: values.price.toString(),
       };
 
-      const endpoint = editingPlan ? PLANS_API_ENDPOINTS.UPDATE(editingPlan._id) : PLANS_API_ENDPOINTS.CREATE;
+      const endpoint = editingPlan
+        ? PLANS_API_ENDPOINTS.UPDATE(editingPlan._id)
+        : PLANS_API_ENDPOINTS.CREATE;
 
       mutatePlan(
         { url: endpoint, formData: planData },
         {
           onSuccess: () => {
             addAlert({
-              type: "success",
-              message: editingPlan ? "Plan updated successfully!" : "Plan created successfully!",
+              type: 'success',
+              message: editingPlan ? 'Plan updated successfully!' : 'Plan created successfully!',
             });
+            setIsSubmitting(false);
+            form.resetFields();
+            setTargetKeys([]);
             onSuccess();
             handleCancel();
           },
@@ -89,8 +108,8 @@ const PlanModal: React.FC<PlanModalProps> = ({ visible, onCancel, onSuccess, edi
     } catch (error) {
       console.log(error);
       addAlert({
-        type: "error",
-        message: "Failed to save plan. Please try again.",
+        type: 'error',
+        message: 'Failed to save plan. Please try again.',
       });
     }
   };
@@ -132,9 +151,9 @@ const PlanModal: React.FC<PlanModalProps> = ({ visible, onCancel, onSuccess, edi
   const renderTransferItem = (item: TransferItem) => {
     return {
       label: (
-        <div style={{ padding: "8px 0" }}>
-          <div style={{ fontWeight: 500, color: "#ffffff" }}>{item.title}</div>
-          <div style={{ fontSize: "0.85rem", color: "rgba(255, 255, 255, 0.7)", marginTop: "4px" }}>
+        <div style={{ padding: '8px 0' }}>
+          <div style={{ fontWeight: 500, color: '#ffffff' }}>{item.title}</div>
+          <div style={{ fontSize: '0.85rem', marginTop: '4px', color: 'rgba(255, 255, 255, 0.7)' }}>
             {item.description}
           </div>
         </div>
@@ -146,9 +165,9 @@ const PlanModal: React.FC<PlanModalProps> = ({ visible, onCancel, onSuccess, edi
   return (
     <Modal
       title={
-        <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "#ffffff" }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           {editingPlan ? <FileTextOutlined /> : <DollarOutlined />}
-          {editingPlan ? "Edit Plan" : "Create New Plan"}
+          {editingPlan ? 'Edit Plan' : 'Create New Plan'}
         </div>
       }
       open={visible}
@@ -156,50 +175,46 @@ const PlanModal: React.FC<PlanModalProps> = ({ visible, onCancel, onSuccess, edi
       footer={null}
       width={800}
       styles={{
-        mask: { backgroundColor: "rgba(0, 0, 0, 0.7)" },
+        mask: { backgroundColor: 'rgba(0, 0, 0, 0.7)' },
         content: {
-          backgroundColor: "rgba(20, 20, 20, 0.95)",
-          border: "1px solid rgba(255, 255, 255, 0.2)",
+          backgroundColor: 'rgba(20, 20, 20, 0.95)',
+          border: '1px solid rgba(255, 255, 255, 0.2)',
         },
         header: {
-          backgroundColor: "transparent",
-          borderBottom: "1px solid rgba(255, 255, 255, 0.2)",
+          backgroundColor: 'transparent',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.2)',
         },
       }}
     >
       {featuresLoading ? (
-        <div style={{ textAlign: "center", padding: "2rem" }}>
+        <div style={{ textAlign: 'center', padding: '2rem' }}>
           <Spin size="large" />
-          <div style={{ color: "#ffffff", marginTop: "1rem" }}>Loading features...</div>
+          <div style={{ color: '#ffffff', marginTop: '1rem' }}>Loading features...</div>
         </div>
       ) : (
-        <Form form={form} layout="vertical" onFinish={handleSubmit} style={{ marginTop: "1rem" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem", marginBottom: "1rem" }}>
+        <Form form={form} layout="vertical" onFinish={handleSubmit} style={{ marginTop: '1rem' }}>
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr',
+              gap: '1rem',
+              marginBottom: '1rem',
+            }}
+          >
             <Form.Item
-              label={<span style={{ color: "#ffffff" }}>Plan Name</span>}
+              label={<span>Plan Name</span>}
               name="name"
-              rules={[{ required: true, message: "Please enter plan name" }]}
+              rules={[{ required: true, message: 'Please enter plan name' }]}
             >
-              <Input
-                placeholder="e.g., Professional"
-                style={{
-                  backgroundColor: "rgba(255, 255, 255, 0.1)",
-                  border: "1px solid rgba(255, 255, 255, 0.2)",
-                  color: "#ffffff",
-                }}
-              />
+              <Input placeholder="e.g., Professional" />
             </Form.Item>
 
             <Form.Item
-              label={<span style={{ color: "#ffffff" }}>Tier</span>}
+              label={<span>Tier</span>}
               name="tier"
-              rules={[{ required: true, message: "Please select tier" }]}
+              rules={[{ required: true, message: 'Please select tier' }]}
             >
-              <Select
-                placeholder="Select tier"
-                style={{ color: "#ffffff" }}
-                dropdownStyle={{ backgroundColor: "rgba(20, 20, 20, 0.95)" }}
-              >
+              <Select placeholder="Select tier">
                 {PLAN_TIER_OPTIONS.map((option) => (
                   <Option key={option.value} value={option.value}>
                     {option.label}
@@ -210,42 +225,41 @@ const PlanModal: React.FC<PlanModalProps> = ({ visible, onCancel, onSuccess, edi
           </div>
 
           <Form.Item
-            label={<span style={{ color: "#ffffff" }}>Description</span>}
+            label={<span>Description</span>}
             name="description"
-            rules={[{ required: true, message: "Please enter description" }]}
+            rules={[{ required: true, message: 'Please enter description' }]}
           >
-            <TextArea
-              rows={3}
-              placeholder="Describe the plan benefits and target audience"
-              style={{
-                backgroundColor: "rgba(255, 255, 255, 0.1)",
-                border: "1px solid rgba(255, 255, 255, 0.2)",
-                color: "#ffffff",
-              }}
-            />
+            <TextArea rows={3} placeholder="Describe the plan benefits and target audience" />
           </Form.Item>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "1rem", marginBottom: "1rem" }}>
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr',
+              gap: '1rem',
+              marginBottom: '1rem',
+            }}
+          >
             <Form.Item
-              label={<span style={{ color: "#ffffff" }}>Price ($)</span>}
+              label={<span>Price ($)</span>}
               name="price"
-              rules={[{ required: true, message: "Please enter price" }]}
+              rules={[{ required: true, message: 'Please enter price' }]}
             >
               <InputNumber
                 min={0}
                 step={0.01}
                 placeholder="29.99"
                 style={{
-                  width: "100%",
-                  backgroundColor: "rgba(255, 255, 255, 0.1)",
-                  border: "1px solid rgba(255, 255, 255, 0.2)",
-                  color: "#ffffff",
+                  width: '100%',
+                  backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                  color: '#ffffff',
                 }}
               />
             </Form.Item>
 
             <Form.Item
-              label={<span style={{ color: "#ffffff" }}>Yearly Discount (%)</span>}
+              label={<span style={{ color: '#ffffff' }}>Yearly Discount (%)</span>}
               name="yearlyDiscount"
               initialValue={0}
             >
@@ -254,48 +268,16 @@ const PlanModal: React.FC<PlanModalProps> = ({ visible, onCancel, onSuccess, edi
                 max={100}
                 placeholder="20"
                 style={{
-                  width: "100%",
-                  backgroundColor: "rgba(255, 255, 255, 0.1)",
-                  border: "1px solid rgba(255, 255, 255, 0.2)",
-                  color: "#ffffff",
+                  width: '100%',
+                  backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                  color: '#ffffff',
                 }}
               />
             </Form.Item>
-
-            <Form.Item
-              label={<span style={{ color: "#ffffff" }}>Billing Cycle</span>}
-              name="billingCycle"
-              rules={[{ required: true, message: "Please select billing cycle" }]}
-            >
-              <Select placeholder="Select cycle" dropdownStyle={{ backgroundColor: "rgba(20, 20, 20, 0.95)" }}>
-                {BILLING_CYCLE_OPTIONS.map((option) => (
-                  <Option key={option.value} value={option.value}>
-                    {option.label}
-                  </Option>
-                ))}
-              </Select>
-            </Form.Item>
           </div>
 
-          <Form.Item
-            label={<span style={{ color: "#ffffff" }}>Available To</span>}
-            name="availableTo"
-            rules={[{ required: true, message: "Please select who can access this plan" }]}
-          >
-            <Select
-              mode="multiple"
-              placeholder="Select user types"
-              dropdownStyle={{ backgroundColor: "rgba(20, 20, 20, 0.95)" }}
-            >
-              {AVAILABLE_TO_OPTIONS.map((option) => (
-                <Option key={option.value} value={option.value}>
-                  {option.label}
-                </Option>
-              ))}
-            </Select>
-          </Form.Item>
-
-          <Form.Item label={<span style={{ color: "#ffffff" }}>Plan Features</span>}>
+          <Form.Item label={<span style={{ color: '#ffffff' }}>Plan Features</span>}>
             <Transfer
               dataSource={transferDataSource}
               targetKeys={targetKeys}
@@ -303,12 +285,15 @@ const PlanModal: React.FC<PlanModalProps> = ({ visible, onCancel, onSuccess, edi
               render={renderTransferItem}
               titles={TRANSFER_CONFIG.titles}
               className="plan-transfer"
+              style={{
+                color: '#ffffff',
+              }}
             />
           </Form.Item>
 
-          <div style={{ display: "flex", gap: "2rem", marginBottom: "1rem" }}>
+          <div style={{ display: 'flex', gap: '2rem', marginBottom: '1rem' }}>
             <Form.Item
-              label={<span style={{ color: "#ffffff" }}>Active</span>}
+              label={<span style={{ color: '#ffffff' }}>Active</span>}
               name="isActive"
               valuePropName="checked"
               initialValue={true}
@@ -317,7 +302,7 @@ const PlanModal: React.FC<PlanModalProps> = ({ visible, onCancel, onSuccess, edi
             </Form.Item>
 
             <Form.Item
-              label={<span style={{ color: "#ffffff" }}>Most Popular</span>}
+              label={<span style={{ color: '#ffffff' }}>Most Popular</span>}
               name="mostPopular"
               valuePropName="checked"
               initialValue={false}
@@ -326,12 +311,14 @@ const PlanModal: React.FC<PlanModalProps> = ({ visible, onCancel, onSuccess, edi
             </Form.Item>
           </div>
 
-          <div style={{ display: "flex", justifyContent: "flex-end", gap: "1rem", marginTop: "2rem" }}>
-            <Button onClick={handleCancel} style={{ color: "#ff0000ff" }} disabled={isSubmitting}>
+          <div
+            style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem', marginTop: '2rem' }}
+          >
+            <Button onClick={handleCancel} style={{ color: '#ff0000ff' }} disabled={isSubmitting}>
               Cancel
             </Button>
             <Button type="primary" htmlType="submit" loading={isSubmitting}>
-              {editingPlan ? "Update Plan" : "Create Plan"}
+              {editingPlan ? 'Update Plan' : 'Create Plan'}
             </Button>
           </div>
         </Form>

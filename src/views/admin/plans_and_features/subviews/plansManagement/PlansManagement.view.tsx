@@ -88,16 +88,6 @@ const PlansManagement: React.FC = () => {
           <span className={styles.statNumber}>{planStats.active}</span>
           <span className={styles.statLabel}>Active Plans</span>
         </div>
-
-        <div className={styles.statCard}>
-          <span className={styles.statNumber}>{planStats.popular}</span>
-          <span className={styles.statLabel}>Popular Plans</span>
-        </div>
-
-        <div className={styles.statCard}>
-          <span className={styles.statNumber}>{planStats.totalFeatures}</span>
-          <span className={styles.statLabel}>Total Features</span>
-        </div>
       </div>
 
       {/* Plans Grid */}
