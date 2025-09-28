@@ -81,3 +81,41 @@ $simple-animation: all 0.2s ease-in-out;
   -webkit-text-fill-color: transparent;
   -moz-text-fill-color: transparent;
 }
+
+.button {
+  background-color: $primary-color;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: $simple-animation;
+  &:hover {
+    background-color: $primary-color-lighter;
+  }
+  &:active {
+    background-color: $primary-color-darker;
+  }
+  &:disabled {
+    background-color: $primary-dark;
+    cursor: not-allowed;
+  }
+}
+
+.dangerButton {
+  @extend .button;
+  background-color: $accent-color;
+  &:hover {
+    background-color: $accent-color-lighter !important;
+    color: white !important;
+  }
+  &:active {
+    background-color: $accent-color-darker;
+  }
+  &:disabled {
+    background-color: $accent-color-dark;
+    cursor: not-allowed;
+  }
+}

@@ -1,42 +1,25 @@
-import FeatureType from './FeatureType';
-
-/**
- * @description Interface for the User model
- *
- * @author Austin Howard
- * @since 1.0
- * @version 1.0
- * @lastModified - 2023-06-11T16:20:26.000-05:00
- */
-export default interface UserType {
+export default interface User {
   _id: string;
-  features: FeatureType[];
   firstName: string;
   lastName: string;
   customerId: string;
   profileImageUrl: string;
-  sex: string;
+  phoneNumber: string;
   email: string;
   password: string;
-  username: string;
-  phoneNumber: string;
   role: string;
-  handler: string;
-  address: string;
-  city: string;
-  state: string;
-  zip: string;
-  country: string;
-  address2: string;
   fullName: string;
   isActive: boolean;
-  resetPasswordToken: string;
-  resetPasswordExpire: Date;
+  resetPasswordToken: string | undefined | null;
+  resetPasswordExpire: Date | undefined | null;
   createdAt: Date;
   updatedAt: Date;
-  credits: number;
-  nextPayment: Date;
   isEmailVerified: boolean;
-  emailVerificationToken: string;
-  emailVerificationExpires: Date;
+  token?: string;
+  lastSignedIn: Date | undefined | null;
+  needsBillingSetup: boolean;
+  permissions: string[];
+  emailVerificationToken: string | undefined | null;
+  emailVerificationExpires: Date | undefined | null;
+  profileRefs: Record<string, string | null>;
 }

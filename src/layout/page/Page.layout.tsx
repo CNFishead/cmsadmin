@@ -1,23 +1,26 @@
 "use client";
+import React, { Suspense } from "react";
 import BlockedMessage from "@/components/blockedMessage/BlockedMessage.component";
 import { useUser } from "@/state/auth";
-import { useLayoutStore } from "@/state/ui/layout";
-import { ControlNavItem } from "@/types/navigation";
 import { FEATURES, hasFeature } from "@/utils/hasFeature";
 import Auth from "@/views/auth/Auth.view";
-import Head from "next/head";
 import { ReactNode } from "react";
 import { AiFillControl } from "react-icons/ai";
-
 import Control from "../control/Control.layout";
 import Header from "../header/Header.layout";
 import SideBar from "../sideBar/SideBar.layout";
-import styles from "./Page.module.scss"; 
+import styles from "./Page.module.scss";
+import NextTopLoader from "nextjs-toploader";
+import { useLayoutStore } from "@/state/layout";
+import AlertCenter from "../alertCenter/AlertCenter.layout";
+import { LoaderProvider } from "../progressBar/LoaderProvider.component";
+import { Skeleton } from "antd";
+import { ControlNavItem } from "@/types/navigation";
 
 //make a type with children as a prop
 type Props = {
   children: React.ReactNode;
-  pages: Array<{ title: string; link?: string; icon?: ReactNode }>;
+  pages?: Array<{ title: string; link?: string; icon?: ReactNode; onClick?: () => void }>;
   largeSideBar?: boolean;
   backgroundColor?: string;
   hideControlLayout?: boolean;
@@ -31,6 +34,8 @@ type Props = {
     url?: string;
     image?: string;
   };
+  sidebarHidden?: boolean;
+  loading?: boolean;
 };
 const PageLayout = (props: Props) => {
   const sideBarOpen = useLayoutStore((state) => state.sideBarOpen);
@@ -40,12 +45,13 @@ const PageLayout = (props: Props) => {
   const { data: loggedInData } = useUser();
   const getPageBlockData: () => boolean | "blacklist" | "feature" | "verification" = () => {
     if (!props.enableBlockCheck) return false;
-    if (loggedInData.user.isBlacklisted) {
-      return "blacklist";
+
+    if (!loggedInData?.isEmailVerified) {
+      return "verification";
     }
- 
+
     if (props.neededFeature) {
-      if (!hasFeature(loggedInData.user, props.neededFeature)) {
+      if (!hasFeature(loggedInData, props.neededFeature)) {
         return "feature";
       }
     }
@@ -63,9 +69,12 @@ const PageLayout = (props: Props) => {
         {loggedInData ? (
           <>
             <Header pages={props.pages} />
-            <div className={styles.sideBar}>
-              {props.pages && <SideBar page={props.pages[0]} large={props.largeSideBar} />}
-            </div>
+            <AlertCenter />
+            {!props.sidebarHidden && (
+              <div className={styles.sideBar}>
+                {props?.pages && <SideBar page={props.pages[0]} large={props.largeSideBar} />}
+              </div>
+            )}
             <div
               className={`${styles.content} ${
                 controlLayoutOpen && !getPageBlockData() && styles.controlContainerActive
@@ -91,14 +100,30 @@ const PageLayout = (props: Props) => {
                   {getPageBlockData() ? (
                     <BlockedMessage neededFeature={props.neededFeature} type={getPageBlockData() as any} />
                   ) : (
-                    <>{props.children}</>
+                    <>
+                      <NextTopLoader
+                        color="var(--primary)"
+                        initialPosition={0.08}
+                        crawlSpeed={200}
+                        height={3}
+                        crawl={true}
+                        showSpinner={false}
+                        easing="ease"
+                        speed={200}
+                        shadow="0 0 10px var(--primary-dark),0 0 5px var(--primary)"
+                        showForHashAnchor
+                      />
+                      <LoaderProvider>{props.loading ? <Skeleton active /> : props.children}</LoaderProvider>
+                    </>
                   )}
                 </div>
               </div>
             </div>
           </>
         ) : (
-          <Auth />
+          <Suspense>
+            <Auth />
+          </Suspense>
         )}
       </div>
     </>

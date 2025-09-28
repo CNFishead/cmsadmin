@@ -38,13 +38,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <Suspense fallback={null}>
-          <Errors />
+        {/* <Suspense fallback={null}> */}
           <DynamicTitleUpdater baseTitle="Shepherds CMS" />
           <ReactQueryProvider>
             <AppWrapper>{children}</AppWrapper>
           </ReactQueryProvider>
-        </Suspense>
+        {/* </Suspense> */}
       </body>
     </html>
   );

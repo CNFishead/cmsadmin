@@ -13,5 +13,6 @@ export default axios.create({
       : 'http://localhost:5000/api/v1',
   headers: {
     'Content-type': 'application/json',
+    'x-service-name': 'admin'
   },
 });

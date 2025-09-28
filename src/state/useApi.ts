@@ -3,9 +3,7 @@ import axios from '@/utils/axios';
 import { useRouter } from 'next/navigation';
 import decryptData from '@/utils/decryptData';
 import { useSearchStore as store } from '@/state/search/search';
-import { useInterfaceStore } from './interface';
-// uuid for generating unique ids
-import { v4 as uuidv4 } from 'uuid';
+import { useInterfaceStore } from './interface'; 
 
 const fetchData = async (
   url: string,

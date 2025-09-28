@@ -1,0 +1,74 @@
+@use "@/styles/globals.scss" as *;
+
+.container {
+  position: fixed;
+  top: calc($header-height + 1rem); // Header height + some spacing
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 2rem);
+  max-width: 600px;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  pointer-events: none; // Allow clicks to pass through the container
+
+  // Enable pointer events only on the actual alerts
+  > * {
+    pointer-events: auto;
+  }
+
+  // Mobile responsiveness
+  @media (max-width: 768px) {
+    width: calc(100% - 1rem);
+    max-width: none;
+    left: 0.5rem;
+    right: 0.5rem;
+    transform: none;
+  }
+}
+
+.alert {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  font-weight: 500;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.icon {
+  margin-right: 0.5rem;
+}
+
+.close {
+  margin-left: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+// Type-specific styles
+.error {
+  background-color: #fddede;
+  color: #a00;
+}
+
+.success {
+  background-color: #e2fbe4;
+  color: #2e7d32;
+}
+
+.warning {
+  background-color: #fff4e5;
+  color: #b26a00;
+}
+
+.info {
+  background-color: #e8f4fd;
+  color: #1565c0;
+}

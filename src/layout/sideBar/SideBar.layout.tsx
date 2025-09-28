@@ -5,7 +5,7 @@ import { Button } from "antd";
 import Link from "next/link";
 import Image from "next/image";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { useLayoutStore } from "@/state/ui/layout";
+import { useLayoutStore } from "@/state/layout";
 import { useUser } from "@/state/auth";
 
 //make a type with children as a prop
