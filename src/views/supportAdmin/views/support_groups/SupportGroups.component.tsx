@@ -1,43 +1,43 @@
-"use client";
-import React from "react";
-import styles from "./SupportGroups.module.scss";
-import formStyles from "@/styles/Form.module.scss";
-import useApiHook from "@/state/useApi";
-import Loader from "@/components/loader/Loader.component";
-import Error from "@/components/error/Error.component";
-import SearchWrapper from "@/layout/searchWrapper/SearchWrapper.layout";
-import { AiOutlinePlus, AiOutlineUser } from "react-icons/ai";
-import { useRouter } from "next/navigation";
-import { Button, Form, Input, Modal, Select, Table } from "antd";
-import { SupportGroupType } from "@/types/Support";
-import Link from "next/link";
-import { FaEdit, FaTrash } from "react-icons/fa";
-import SupportGroup from "./SupportGroup.modal";
+'use client';
+import React from 'react';
+import styles from './SupportGroups.module.scss';
+import formStyles from '@/styles/Form.module.scss';
+import useApiHook from '@/hooks/useApi';
+import Loader from '@/components/loader/Loader.component';
+import Error from '@/components/error/Error.component';
+import SearchWrapper from '@/layout/searchWrapper/SearchWrapper.layout';
+import { AiOutlinePlus, AiOutlineUser } from 'react-icons/ai';
+import { useRouter } from 'next/navigation';
+import { Button, Form, Input, Modal, Select, Table } from 'antd';
+import { SupportGroupType } from '@/types/Support';
+import Link from 'next/link';
+import { FaEdit, FaTrash } from 'react-icons/fa';
+import SupportGroup from './SupportGroup.modal';
 
 const SupportGroups = () => {
   const router = useRouter();
   const [visible, setVisible] = React.useState(false);
   const [form] = Form.useForm();
   const { data, isError, error, isLoading } = useApiHook({
-    url: "/admin/support/support_group",
-    method: "GET",
-    key: "support_groups",
+    url: '/admin/support/support_group',
+    method: 'GET',
+    key: 'support_groups',
   }) as any;
 
   const { mutate: deleteGroup } = useApiHook({
-    method: "DELETE",
-    key: "delete_group",
-    queriesToInvalidate: ["support_groups"],
+    method: 'DELETE',
+    key: 'delete_group',
+    queriesToInvalidate: ['support_groups'],
   }) as any;
   const { mutate: addGroup } = useApiHook({
-    method: "POST",
-    key: "add_group",
-    queriesToInvalidate: ["support_groups"],
+    method: 'POST',
+    key: 'add_group',
+    queriesToInvalidate: ['support_groups'],
   }) as any;
   const { mutate: updateGroup } = useApiHook({
-    method: "PUT",
-    key: "update_group",
-    queriesToInvalidate: ["support_groups"],
+    method: 'PUT',
+    key: 'update_group',
+    queriesToInvalidate: ['support_groups'],
   }) as any;
   if (isLoading) return <Loader />;
   if (isError) return <Error error={error.message} />;
@@ -50,9 +50,12 @@ const SupportGroups = () => {
         setIsOpen={setVisible}
         onFinish={(values: any) => {
           // if the form has a value for _id, update the group, else add the group
-          if (form.getFieldValue("_id")) {
+          if (form.getFieldValue('_id')) {
             updateGroup(
-              { url: `/admin/support/support_group/${form.getFieldValue("_id")}`, formData: values },
+              {
+                url: `/admin/support/support_group/${form.getFieldValue('_id')}`,
+                formData: values,
+              },
               {
                 onSuccess: () => {
                   form.resetFields();
@@ -62,7 +65,7 @@ const SupportGroups = () => {
             );
           } else {
             addGroup(
-              { url: "/admin/support/support_group", formData: values },
+              { url: '/admin/support/support_group', formData: values },
               {
                 onSuccess: () => {
                   form.resetFields();
@@ -74,13 +77,13 @@ const SupportGroups = () => {
         }}
         isUpdate={
           // if the form has a value for _id, return true, else return false
-          form.getFieldValue("_id") ? true : false
+          form.getFieldValue('_id') ? true : false
         }
       />
       <SearchWrapper
         buttons={[
           {
-            toolTip: "Add Group",
+            toolTip: 'Add Group',
             icon: (
               <div className={styles.iconContainer}>
                 <AiOutlinePlus /> <AiOutlineUser className={styles.icon} />
@@ -90,27 +93,27 @@ const SupportGroups = () => {
             onClick: () => {
               setVisible(!visible);
             },
-            type: "primary",
+            type: 'primary',
           },
         ]}
         filters={[
           {
-            label: "All",
-            key: "",
+            label: 'All',
+            key: '',
           },
           {
-            label: "Active",
-            key: "isActive;true",
+            label: 'Active',
+            key: 'isActive;true',
           },
           {
-            label: "Inactive",
-            key: "isActive;false",
+            label: 'Inactive',
+            key: 'isActive;false',
           },
         ]}
         sort={[
           {
-            label: "None",
-            key: "",
+            label: 'None',
+            key: '',
           },
         ]}
         placeholder="Search Groups"
@@ -126,33 +129,33 @@ const SupportGroups = () => {
             size="small"
             rowKey={(record: SupportGroupType) => record._id}
             // if the record has a isActive false, add a strikethrough to the row
-            rowClassName={(record: SupportGroupType) => (record.isActive ? "" : styles.inactive)}
+            rowClassName={(record: SupportGroupType) => (record.isActive ? '' : styles.inactive)}
             columns={[
               {
-                title: "Name",
-                dataIndex: "name",
-                key: "name",
+                title: 'Name',
+                dataIndex: 'name',
+                key: 'name',
               },
               {
-                title: "Agents",
-                dataIndex: "agents",
-                key: "agents",
+                title: 'Agents',
+                dataIndex: 'agents',
+                key: 'agents',
                 render: (text: string, record: SupportGroupType) => {
                   return record.agents.length;
                 },
               },
               {
-                title: "Active support group",
-                dataIndex: "isActive",
-                key: "isActive",
+                title: 'Active support group',
+                dataIndex: 'isActive',
+                key: 'isActive',
                 render: (text: string, record: SupportGroupType) => {
-                  return record.isActive ? "Yes" : "No";
+                  return record.isActive ? 'Yes' : 'No';
                 },
               },
               {
-                title: "Actions",
-                dataIndex: "actions",
-                key: "actions",
+                title: 'Actions',
+                dataIndex: 'actions',
+                key: 'actions',
                 render: (text: string, record: SupportGroupType) => {
                   return (
                     <div className={styles.actions}>

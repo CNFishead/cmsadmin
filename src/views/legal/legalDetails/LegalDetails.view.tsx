@@ -5,7 +5,7 @@ import formStyles from '@/styles/Form.module.scss';
 import { useParams, useRouter } from 'next/navigation';
 import { Button, DatePicker, Divider, Form, Input, Select } from 'antd';
 import TinyEditor from '@/components/tinyEditor/TinyEditor.component';
-import useApiHook from '@/state/useApi';
+import useApiHook from '@/hooks/useApi';
 import dayjs from 'dayjs';
 
 const LegalDetails = () => {
@@ -52,7 +52,8 @@ const LegalDetails = () => {
 
   React.useEffect(() => {
     if (data?.payload) {
-      form.setFieldsValue({...data?.payload, 
+      form.setFieldsValue({
+        ...data?.payload,
         effective_date: dayjs(data?.payload.effective_date),
         content: data?.payload.content,
       });

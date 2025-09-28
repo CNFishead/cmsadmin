@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import styles from './SupportDesk.module.scss';
-import useApiHook from '@/state/useApi';
+import useApiHook from '@/hooks/useApi';
 import Error from '@/components/error/Error.component';
 import { useUser } from '@/state/auth';
 import TicketTable from './TicketTable.component';

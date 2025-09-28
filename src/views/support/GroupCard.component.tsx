@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import useApiHook from '@/state/useApi';
+import useApiHook from '@/hooks/useApi';
 import styles from './SupportDesk.module.scss';
 import useParallelQueries from '@/state/useParallelQueries';
 

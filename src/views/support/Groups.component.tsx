@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import styles from './SupportDesk.module.scss';
 import { useUser } from '@/state/auth';
-import useApiHook from '@/state/useApi';
+import useApiHook from '@/hooks/useApi';
 import GroupCard from './GroupCard.component';
 import TicketTable from './TicketTable.component';
 import { useParams } from 'next/navigation';

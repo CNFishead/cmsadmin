@@ -5,7 +5,7 @@ import { IoIosNotifications } from 'react-icons/io';
 import { Avatar, Badge, Button, Empty, Tooltip } from 'antd';
 import getNotificationLink from '@/utils/getNotificationLink';
 import NotificationItem from '@/components/notificationItem/NotificationItem.component';
-import useApiHook from '@/state/useApi';
+import useApiHook from '@/hooks/useApi';
 import NotificationType from '@/types/NotificationType';
 
 const Notifications = () => {

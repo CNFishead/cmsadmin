@@ -2,7 +2,7 @@
 import React from 'react';
 import styles from './SupportTicketOptions.module.scss';
 import formStyles from '@/styles/Form.module.scss';
-import useApiHook from '@/state/useApi';
+import useApiHook from '@/hooks/useApi';
 import { useParams } from 'next/navigation';
 import Loader from '@/components/loader/Loader.component';
 import Error from '@/components/error/Error.component';

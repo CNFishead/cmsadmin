@@ -3,7 +3,7 @@ import React from 'react';
 import styles from './Ministry.module.scss';
 import { useUser } from '@/state/auth';
 import { useParams } from 'next/navigation';
-import useApiHook from '@/state/useApi';
+import useApiHook from '@/hooks/useApi';
 import SearchWrapper from '@/layout/searchWrapper/SearchWrapper.layout';
 import Loader from '@/components/loader/Loader.component';
 import { Button, Modal, Table } from 'antd';
@@ -73,10 +73,15 @@ const Ministry = () => {
               key: 'actions',
               render: (text, record: any) => {
                 return (
-                  <div className="d-flex justify-content-around" style={{ display: 'flex', gap: '1rem' }}>
+                  <div
+                    className="d-flex justify-content-around"
+                    style={{ display: 'flex', gap: '1rem' }}
+                  >
                     {/* render a next/link as a button */}
                     <Link href={`/ministries/${record?._id}`}>
-                      <Button className={styles.button}><MdOpenInNew /></Button>
+                      <Button className={styles.button}>
+                        <MdOpenInNew />
+                      </Button>
                     </Link>
 
                     <Button

@@ -2,10 +2,10 @@
 const nextConfig = {
   /* config options here */
   env: {
-    API_URL: process.env.NEXT_PUBLIC_API_URL,
-    ENCRYPTION_KEY: process.env.NEXT_PUBLIC_ENCRYPTION_KEY,
+    API_URL: process.env.API_URL,
+    ENCRYPTION_KEY: process.env.ENCRYPTION_KEY,
     TINYMCE_API_KEY: process.env.NEXT_PUBLIC_TINYMCE_API_KEY,
-    AUTH_URL: `https://auth.shepherdcms.org`,
+    AUTH_URL: `http://localhost:3003/auth/login`,
     SERVICE_NAME: 'ShepherdCMS Admin',
     ENV: process.env.NODE_ENV,
     // ENV: "development",

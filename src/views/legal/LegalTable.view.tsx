@@ -7,7 +7,7 @@ import { Button, Table } from 'antd';
 import { FaEdit, FaStickyNote, FaTrash } from 'react-icons/fa';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import useApiHook from '@/state/useApi';
+import useApiHook from '@/hooks/useApi';
 import LegalType from '@/types/LegalType';
 
 const LegalTable = () => {
@@ -35,7 +35,7 @@ const LegalTable = () => {
               <div className={styles.iconContainer}>
                 <AiOutlinePlus /> <FaStickyNote className={styles.icon} />
               </div>
-            ), 
+            ),
             onClick: () => {
               router.push('/account_details/legal/new');
             },

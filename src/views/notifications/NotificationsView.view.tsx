@@ -4,7 +4,7 @@ import styles from './NotificationsView.module.scss';
 import { Button, Empty } from 'antd';
 import NotificationItem from '@/components/notificationItem/NotificationItem.component';
 import NotificationType from '@/types/NotificationType';
-import useApiHook from '@/state/useApi';
+import useApiHook from '@/hooks/useApi';
 
 const NotificationsView = () => {
   const { data } = useApiHook({

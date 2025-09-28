@@ -17,7 +17,7 @@ const AdminProfiles = () => {
   const { addAlert } = useInterfaceStore((state) => state);
 
   // Fetch admin users
-  const { data, isLoading, refetch } = useApiHook({
+  const { data, isLoading } = useApiHook({
     url: "/profile/admin",
     key: ["admin-users"],
     method: "GET",

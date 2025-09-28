@@ -1,7 +1,7 @@
-import React from "react";
-import styles from "@/styles/Form.module.scss";
-import { Button, Form, Input, Modal, Select, Switch } from "antd";
-import useApiHook from "@/state/useApi";
+import React from 'react';
+import styles from '@/styles/Form.module.scss';
+import { Button, Form, Input, Modal, Select, Switch } from 'antd';
+import useApiHook from '@/hooks/useApi';
 
 interface SupportGroupProps {
   form: any;
@@ -13,9 +13,9 @@ interface SupportGroupProps {
 
 const SupportGroup = ({ form, isOpen, isUpdate, setIsOpen, onFinish }: SupportGroupProps) => {
   const { data } = useApiHook({
-    url: "/admin/user",
-    method: "GET",
-    key: "agents",
+    url: '/admin/user',
+    method: 'GET',
+    key: 'agents',
     filter: `role;{"$eq":"agent"}`,
   }) as any;
 
@@ -37,7 +37,7 @@ const SupportGroup = ({ form, isOpen, isUpdate, setIsOpen, onFinish }: SupportGr
             rules={[
               {
                 required: true,
-                message: "Please enter a name",
+                message: 'Please enter a name',
               },
             ]}
           >

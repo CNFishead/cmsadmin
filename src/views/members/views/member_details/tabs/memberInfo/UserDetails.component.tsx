@@ -9,7 +9,7 @@ import { MdOutlineMail } from 'react-icons/md';
 import { useUser } from '@/state/auth';
 import checkRoles from '@/utils/checkRoles';
 import { useParams } from 'next/navigation';
-import useApiHook from '@/state/useApi';
+import useApiHook from '@/hooks/useApi';
 import Loader from '@/components/loader/Loader.component';
 import Error from '@/components/error/Error.component';
 import FloatButtonGroup from 'antd/es/float-button/FloatButtonGroup';

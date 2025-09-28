@@ -1,70 +1,82 @@
-"use client";
-import React, { useEffect } from "react";
-import styles from "./CreateNewMember.module.scss";
-import formStyles from "@/styles/Form.module.scss";
-import { Button, Col, DatePicker, Divider, Form, Input, InputNumber, Radio, Row, Select, Tooltip } from "antd";
-import PhotoUpload from "@/components/photoUpload/PhotoUpload.component";
-import { states } from "@/data/states";
-import { countries } from "@/data/countries";
-import { useParams, useRouter } from "next/navigation"; 
-import moment from "moment";
-import FamilyType from "@/types/FamilyType";
-import MinistryType from "@/types/Ministry"; 
-import { useUser } from "@/state/auth";
-import useApiHook from "@/state/useApi";
+'use client';
+import React, { useEffect } from 'react';
+import styles from './CreateNewMember.module.scss';
+import formStyles from '@/styles/Form.module.scss';
+import {
+  Button,
+  Col,
+  DatePicker,
+  Divider,
+  Form,
+  Input,
+  InputNumber,
+  Radio,
+  Row,
+  Select,
+  Tooltip,
+} from 'antd';
+import PhotoUpload from '@/components/photoUpload/PhotoUpload.component';
+import { states } from '@/data/states';
+import { countries } from '@/data/countries';
+import { useParams, useRouter } from 'next/navigation';
+import moment from 'moment';
+import FamilyType from '@/types/FamilyType';
+import MinistryType from '@/types/Ministry';
+import { useUser } from '@/state/auth';
+import useApiHook from '@/hooks/useApi';
 
 const CreateNewMember = () => {
   const [form] = Form.useForm();
   const { id } = useParams();
   const router = useRouter();
   const [timer, setTimer] = React.useState<any>(null);
-  const [familyKeyword, setFamilyKeyword] = React.useState<string>("");
-  const [ministryKeyword, setMinistryKeyword] = React.useState<string>("");
+  const [familyKeyword, setFamilyKeyword] = React.useState<string>('');
+  const [ministryKeyword, setMinistryKeyword] = React.useState<string>('');
   const [createFamilyModal, setCreateFamilyModal] = React.useState<boolean>(false);
   const [selectedFamily, setSelectedFamily] = React.useState<FamilyType>();
   const [image, setImage] = React.useState<any>(null); // the image that is uploaded
   const { data: loggedInData } = useUser();
   const { data: selectedProfile } = useApiHook({
     url: `/ministry/${loggedInData.user?.ministry?._id}`,
-    key: "selectedProfile",
+    key: 'selectedProfile',
     enabled: !!loggedInData?.user?.ministry?._id,
-    method: "GET",
+    method: 'GET',
   }) as any;
   const { data: memberInformation } = useApiHook({
     url: `/member/details/${id}`,
-    key: "memberInformation",
+    key: 'memberInformation',
     enabled: !!id,
-    method: "GET",
+    method: 'GET',
   }) as any;
   const { data: familiesList, isFetching: familiesFetching } = useApiHook({
     url: `/family`,
-    key: "familyList",
+    key: 'familyList',
     keyword: familyKeyword,
     filter: `user;${loggedInData?.user?._id}`,
-    method: "GET",
+    method: 'GET',
   }) as any;
 
   const { data: ministriesList, isLoading: ministriesLoading } = useApiHook({
     url: `/ministry/${selectedProfile?.ministry?._id}/subministries`,
-    key: "ministryList",
+    key: 'ministryList',
     enabled: !!selectedProfile?.ministry?._id,
     keyword: ministryKeyword,
     filter: `user;${loggedInData?.user?._id}`,
-    method: "GET",
+    method: 'GET',
   }) as any;
 
   const { mutate: updateMember } = useApiHook({
-    successMessage: "Member updated successfully",
-    queriesToInvalidate: ["memberInformation"],
-    key: "updateMember",
-    method: "PUT",
+    successMessage: 'Member updated successfully',
+    queriesToInvalidate: ['memberInformation'],
+    key: 'updateMember',
+    method: 'PUT',
   }) as any;
 
   const { mutate: createMember } = useApiHook({
-    successMessage: "Member created successfully",
-    queriesToInvalidate: ["memberInformation"],
-    key: "createMember",
-    method: "POST",
+    successMessage: 'Member created successfully',
+    queriesToInvalidate: ['memberInformation'],
+    key: 'createMember',
+    method: 'POST',
   }) as any;
 
   const onFinish = (values: any) => {
@@ -74,7 +86,7 @@ const CreateNewMember = () => {
         { url: `/member/${id}/update`, formData: { member: { ...values, _id: id } } },
         {
           onSuccess: () => {
-            router.push("/members");
+            router.push('/members');
           },
         }
       );
@@ -87,7 +99,7 @@ const CreateNewMember = () => {
 
   const onSearch = (val: string, hook: any) => {
     // if val is an empty string, then dont search
-    if (val === "") return;
+    if (val === '') return;
     clearTimeout(timer);
     setTimer(
       setTimeout(() => {
@@ -101,7 +113,10 @@ const CreateNewMember = () => {
       form.setFieldsValue({
         ...memberInformation?.data,
         birthday: moment(memberInformation?.data?.birthday),
-        family: { _id: memberInformation?.data?.family?._id, name: memberInformation?.data?.family?.name },
+        family: {
+          _id: memberInformation?.data?.family?._id,
+          name: memberInformation?.data?.family?.name,
+        },
         ministry: memberInformation?.data?.ministries?.map((ministry: MinistryType) => {
           return { value: ministry._id, label: ministry.name, _id: ministry._id };
         }),
@@ -134,13 +149,13 @@ const CreateNewMember = () => {
         onFinish={() => onFinish(form.getFieldsValue())}
         initialValues={{
           // set the default values for the form
-          sex: "male",
-          maritalStatus: "single",
+          sex: 'male',
+          maritalStatus: 'single',
           location: {
-            country: "United States",
-            state: "Tennessee",
+            country: 'United States',
+            state: 'Tennessee',
           },
-          role: "member",
+          role: 'member',
           isActive: true,
         }}
       >
@@ -148,7 +163,9 @@ const CreateNewMember = () => {
         <Row className={formStyles.editContainer}>
           <Col span={24}>
             <Divider orientation="center">
-              <Tooltip title={`Easily identify Members from their profile photo!`}>Profile Photo</Tooltip>
+              <Tooltip title={`Easily identify Members from their profile photo!`}>
+                Profile Photo
+              </Tooltip>
             </Divider>
             {/* if there is an id, wait for the fetch before displaying the photo */}
 
@@ -169,11 +186,11 @@ const CreateNewMember = () => {
           <Row gutter={16}>
             <Col span={12}>
               <Divider orientation="center">Family Information</Divider>
-              <Form.Item name={["family"]}>
+              <Form.Item name={['family']}>
                 <Form.Item
                   name={
                     // create the family object field
-                    ["family", "name"]
+                    ['family', 'name']
                   }
                   className={styles.inputParent}
                 >
@@ -195,9 +212,10 @@ const CreateNewMember = () => {
                 </Form.Item>
               </Form.Item>
               <Col span={24} className={styles.mutedText}>
-                Associates this member with a family, This is an optional step, but is recommended for better
-                organization. if the member is a child, its required for them to be associated with a family, with at
-                least one adult. If the family does not exist, you can create one by clicking{" "}
+                Associates this member with a family, This is an optional step, but is recommended
+                for better organization. if the member is a child, its required for them to be
+                associated with a family, with at least one adult. If the family does not exist, you
+                can create one by clicking{' '}
                 <span onClick={() => setCreateFamilyModal(true)} className={styles.spanLink}>
                   here
                 </span>
@@ -205,14 +223,14 @@ const CreateNewMember = () => {
             </Col>
             <Col span={12}>
               <Divider orientation="center">Ministry Information</Divider>
-              <Form.Item name={"ministry"}>
+              <Form.Item name={'ministry'}>
                 <Select
                   showSearch
                   placeholder="Select a ministry"
                   optionFilterProp="children"
                   onSearch={(val: any) => onSearch(val, setMinistryKeyword)}
                   className={formStyles.input}
-                  mode={"multiple"}
+                  mode={'multiple'}
                   loading={ministriesLoading}
                 >
                   {ministriesList?.ministries?.map((ministry: MinistryType) => (
@@ -223,8 +241,8 @@ const CreateNewMember = () => {
                 </Select>
               </Form.Item>
               <Col span={24} className={styles.mutedText}>
-                Associate this member with a ministry, This is an optional step, but is recommended for better
-                organization.
+                Associate this member with a ministry, This is an optional step, but is recommended
+                for better organization.
               </Col>
             </Col>
           </Row>
@@ -235,10 +253,14 @@ const CreateNewMember = () => {
           <div className={formStyles.group}>
             <Form.Item
               name="firstName"
-              rules={[{ required: true, message: "Please enter a first name" }]}
+              rules={[{ required: true, message: 'Please enter a first name' }]}
               label="First Name"
             >
-              <Input type="text" placeholder="First Name" className={`${formStyles.input} ${styles.addon}`} />
+              <Input
+                type="text"
+                placeholder="First Name"
+                className={`${formStyles.input} ${styles.addon}`}
+              />
             </Form.Item>
 
             <Form.Item name="lastName" label="Last Name">
@@ -250,7 +272,7 @@ const CreateNewMember = () => {
                 className={formStyles.input}
                 name="birthday"
                 // allow the user to type in the date
-                format={"MM/DD/YYYY"}
+                format={'MM/DD/YYYY'}
               />
             </Form.Item>
 
@@ -270,16 +292,19 @@ const CreateNewMember = () => {
                 className={formStyles.input}
                 controls={false}
                 formatter={(value: any) => {
-                  const phoneNumber = value.replace(/[^\d]/g, "");
+                  const phoneNumber = value.replace(/[^\d]/g, '');
                   const phoneNumberLength = phoneNumber.length;
                   if (phoneNumberLength < 4) {
                     return phoneNumber;
                   } else if (phoneNumberLength < 7) {
                     return `${phoneNumber.slice(0, 3)}-${phoneNumber.slice(3)}`;
                   }
-                  return `${phoneNumber.slice(0, 3)}-${phoneNumber.slice(3, 6)}-${phoneNumber.slice(6, 10)}`;
+                  return `${phoneNumber.slice(0, 3)}-${phoneNumber.slice(3, 6)}-${phoneNumber.slice(
+                    6,
+                    10
+                  )}`;
                 }}
-                parser={(value: any) => value.replace(/[^\d]/g, "")}
+                parser={(value: any) => value.replace(/[^\d]/g, '')}
                 placeholder="Enter Phone Number"
               />
             </Form.Item>
@@ -302,9 +327,9 @@ const CreateNewMember = () => {
                   mode="tags"
                   placeholder="Tags"
                   className={formStyles.input}
-                  tokenSeparators={[","]}
+                  tokenSeparators={[',']}
                   filterOption={(input: string, option: any) =>
-                    (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+                    (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
                   }
                 />
               </Form.Item>
@@ -315,21 +340,23 @@ const CreateNewMember = () => {
           {/* address information */}
           <Divider orientation="center">Address Information</Divider>
           <div className={formStyles.group}>
-            <Form.Item name={["location", "address"]} label="Address">
+            <Form.Item name={['location', 'address']} label="Address">
               <Input type="text" placeholder="Address" className={styles.input} />
             </Form.Item>
-            <Form.Item name={["location", "address2"]} label="Address Cont.">
+            <Form.Item name={['location', 'address2']} label="Address Cont.">
               <Input type="text" placeholder="Address Continued" className={styles.input} />
             </Form.Item>
-            <Form.Item name={["location", "city"]} label="City">
+            <Form.Item name={['location', 'city']} label="City">
               <Input type="text" placeholder="City" className={styles.input} />
             </Form.Item>
-            <Form.Item name={["location", "state"]} label="State">
+            <Form.Item name={['location', 'state']} label="State">
               <Select
                 placeholder="State"
                 showSearch
                 className={styles.input}
-                filterOption={(input, option) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase())}
+                filterOption={(input, option) =>
+                  (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                }
                 options={states.map((state) => ({
                   label: `${state.name} (${state.abbreviation})`,
                   value: state.abbreviation,
@@ -337,15 +364,17 @@ const CreateNewMember = () => {
                 optionFilterProp="children"
               ></Select>
             </Form.Item>
-            <Form.Item name={["location", "zipCode"]} label="Zip Code">
+            <Form.Item name={['location', 'zipCode']} label="Zip Code">
               <Input type="text" placeholder="Zip Code" className={styles.input} />
             </Form.Item>
-            <Form.Item name={["location", "country"]} label="Country">
+            <Form.Item name={['location', 'country']} label="Country">
               <Select
                 placeholder="Country"
                 showSearch
                 className={styles.input}
-                filterOption={(input, option) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase())}
+                filterOption={(input, option) =>
+                  (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                }
                 options={countries.map((country) => ({ label: `${country}`, value: country }))}
                 optionFilterProp="children"
                 allowClear={true}
@@ -377,11 +406,16 @@ const CreateNewMember = () => {
         </div>
         <div
           style={{
-            width: "100%",
+            width: '100%',
           }}
         >
-          <Button type="primary" htmlType="submit" className={formStyles.button} style={{ margin: "auto" }}>
-            {id ? "Update Member" : "Create Member"}
+          <Button
+            type="primary"
+            htmlType="submit"
+            className={formStyles.button}
+            style={{ margin: 'auto' }}
+          >
+            {id ? 'Update Member' : 'Create Member'}
           </Button>
         </div>
       </Form>

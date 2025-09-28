@@ -5,7 +5,7 @@ import { MdOpenInNew } from 'react-icons/md';
 import { SupportType } from '@/types/Support';
 import { useRouter } from 'next/navigation';
 import { FaTrash } from 'react-icons/fa';
-import useApiHook from '@/state/useApi';
+import useApiHook from '@/hooks/useApi';
 
 interface TicketTableProps {
   tickets: SupportType[];
