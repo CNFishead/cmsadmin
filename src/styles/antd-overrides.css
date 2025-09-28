@@ -264,6 +264,7 @@
 /* Card Body */
 .ant-card-body {
   background: transparent !important;
+  color: var(--text-secondary) !important;
   padding: 20px;
 }
 
@@ -580,6 +581,13 @@
   color: var(--text-muted) !important;
 }
 
+/* ===========================================
+   DESCRIPTIONS COMPONENTS
+=========================================== */
+.ant-descriptions-item-label{
+  color: var(--text-secondary) !important;
+  font-weight: 500;
+}
 /* ===========================================
    MOBILE RESPONSIVE OVERRIDES
 =========================================== */
