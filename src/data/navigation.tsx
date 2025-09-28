@@ -25,6 +25,7 @@ export const navigation = (options?: any) => {
           icon: <FaRegBell />,
         },
       },
+      hidden: false,
     },
     ministries: {
       title: 'Ministry Details',
@@ -35,7 +36,8 @@ export const navigation = (options?: any) => {
           icon: <BsFillPeopleFill />,
         },
       },
-    }, // management for athletes, teams, etc
+      hidden: false,
+    },
     management: {
       title: 'Management',
       links: {

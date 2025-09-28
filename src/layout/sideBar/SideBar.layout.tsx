@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { useLayoutStore } from '@/state/layout';
 import useApiHook from '@/hooks/useApi';
+import { useSelectedProfile } from '@/hooks/useSelectedProfile';
 
 //make a type with children as a prop
 type Props = {
@@ -14,18 +15,11 @@ type Props = {
 };
 const SideBar = (props: Props) => {
   // Use reactive query instead of static queryClient.getQueryData
-  const { data: profileData } = useApiHook({
-    method: 'GET',
-    key: ['profile', 'admin'],
-    enabled: false, // Don't auto-fetch, assume it's being fetched elsewhere
-    staleTime: Infinity, // Use cached data if available
-  }) as any;
-
+ const { selectedProfile: profile } = useSelectedProfile();
+ 
   const sideBarOpen = useLayoutStore((state) => state.sideBarOpen);
   const toggleSideBar = useLayoutStore((state) => state.toggleSideBar);
-
-  // Extract profile from the query data
-  const profile = profileData as { payload: any } | undefined;
+ 
 
   return (
     <div className={`${styles.container} ${props.large ? '' : styles.small}`}>
@@ -67,7 +61,7 @@ const SideBar = (props: Props) => {
 
       {Object.values(
         navigation({
-          user: profile?.payload[0],
+          user: profile
         })
       )
         .filter((i: any) => !i.hidden)

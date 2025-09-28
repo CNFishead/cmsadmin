@@ -1,7 +1,7 @@
 'use client';
 import { useUser } from '@/state/auth';
 import { useSocketStore } from '@/state/socket';
-import useApiHook from '@/state/useApi';
+import { useSelectedProfile } from '@/hooks/useSelectedProfile';
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Script from 'next/script';
@@ -21,13 +21,7 @@ const AppWrapper = (props: Props) => {
   const searchParams = useSearchParams();
   const token = searchParams.get('token') as string;
   const { data: loggedInData, isLoading: userIsLoading } = useUser();
-  const { data: profile } = useApiHook({
-    method: 'GET',
-    key: ['profile', 'admin'],
-    url: `/profile/admin`,
-    filter: `user;${loggedInData?._id}`,
-  });
-  const selectedProfile = profile?.payload[0];
+  const { selectedProfile } = useSelectedProfile();
   //Set up socket connection
   const { socket, isConnecting, setSocket, setIsConnecting } = useSocketStore((state) => state);
 
@@ -71,9 +65,7 @@ const AppWrapper = (props: Props) => {
     if (!selectedProfile) return;
     // if selectedProfile is null or role is not admin, dispatch the token, logout and redirect
     // alert user that they are not authorized to access the admin portal
-    if (
-      !selectedProfile?.roles?.some((value: any) => ['admin', 'developer'].includes(value))
-    ) {
+    if (!selectedProfile?.roles?.some((value: any) => ['admin', 'developer'].includes(value))) {
       alert('You are not authorized to access this portal.');
     }
   }, [selectedProfile]);
