@@ -1,7 +1,7 @@
-"use client";
-import React, { useState } from "react";
-import styles from "./Info.module.scss";
-import { Card, Form, Input, Button, Switch, Tag, Divider, Modal, Tooltip, Space } from "antd";
+'use client';
+import React, { useState } from 'react';
+import styles from './Info.module.scss';
+import { Card, Form, Input, Button, Switch, Tag, Divider, Modal, Tooltip, Space } from 'antd';
 import {
   UserOutlined,
   MailOutlined,
@@ -12,14 +12,14 @@ import {
   ReloadOutlined,
   LockOutlined,
   DeleteOutlined,
-} from "@ant-design/icons";
-import User from "@/types/UserType";
-import useApiHook from "@/hooks/useApi";
-import { useInterfaceStore } from "@/state/interface";
-import { useParams } from "next/navigation";
-import { useQueryClient } from "@tanstack/react-query";
-import { IAdminType } from "@/types/IAdminType";
-import { hasRequiredRole } from "@/utils/roleUtils";
+} from '@ant-design/icons';
+import User from '@/types/UserType';
+import useApiHook from '@/hooks/useApi';
+import { useInterfaceStore } from '@/state/interface';
+import { useParams } from 'next/navigation';
+import { useQueryClient } from '@tanstack/react-query';
+import { IAdminType } from '@/types/IAdminType';
+import { hasRequiredRole } from '@/utils/roleUtils';
 
 interface InfoProps {
   userData: User;
@@ -36,31 +36,31 @@ const Info: React.FC<InfoProps> = ({ userData, onDataUpdate }) => {
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const { addAlert } = useInterfaceStore((state) => state);
   const queryClient = useQueryClient();
-  const selectedProfile = queryClient.getQueryData(["profile", "admin"]) as { payload: IAdminType };
+  const selectedProfile = queryClient.getQueryData(['profile', 'admin']) as { payload: IAdminType };
 
   // Update user mutation
   const { mutate: updateUser, isLoading: isUpdating } = useApiHook({
-    method: "PUT",
-    key: "user.update",
-    queriesToInvalidate: ["user", id as string],
+    method: 'PUT',
+    key: 'user.update',
+    queriesToInvalidate: ['user', id as string],
   }) as any;
 
   // Reset password mutation
   const { mutate: resetPassword, isLoading: isResetting } = useApiHook({
-    method: "POST",
-    key: "user.resetPassword",
+    method: 'POST',
+    key: 'user.resetPassword',
   }) as any;
 
   // Set custom password mutation
   const { mutate: setCustomPassword, isLoading: isSettingPassword } = useApiHook({
-    method: "POST",
-    key: "user.setPassword",
+    method: 'POST',
+    key: 'user.setPassword',
   }) as any;
 
   // Delete user mutation
   const { mutate: deleteUser, isLoading: isDeleting } = useApiHook({
-    method: "DELETE",
-    key: "user.delete",
+    method: 'DELETE',
+    key: 'user.delete',
   }) as any;
 
   const handleSaveChanges = async (values: any) => {
@@ -73,22 +73,22 @@ const Info: React.FC<InfoProps> = ({ userData, onDataUpdate }) => {
         {
           onSuccess: (response: any) => {
             addAlert({
-              type: "success",
-              message: "User updated successfully!",
+              type: 'success',
+              message: 'User updated successfully!',
             });
             setIsEditing(false);
             onDataUpdate(values);
           },
           onError: () => {
             addAlert({
-              type: "error",
-              message: "Failed to update user",
+              type: 'error',
+              message: 'Failed to update user',
             });
           },
         }
       );
     } catch (error) {
-      console.error("Update error:", error);
+      console.error('Update error:', error);
     }
   };
 
@@ -105,15 +105,16 @@ const Info: React.FC<InfoProps> = ({ userData, onDataUpdate }) => {
       {
         onSuccess: () => {
           addAlert({
-            type: "success",
-            message: "Password reset successfully! User will receive an email with their new password.",
+            type: 'success',
+            message:
+              'Password reset successfully! User will receive an email with their new password.',
           });
           setResetPasswordModalVisible(false);
         },
         onError: () => {
           addAlert({
-            type: "error",
-            message: "Failed to reset password",
+            type: 'error',
+            message: 'Failed to reset password',
           });
           setResetPasswordModalVisible(false);
         },
@@ -134,24 +135,24 @@ const Info: React.FC<InfoProps> = ({ userData, onDataUpdate }) => {
         {
           onSuccess: () => {
             addAlert({
-              type: "success",
+              type: 'success',
               message: values.sendNotification
-                ? "Password set successfully! User has been notified via email."
-                : "Password set successfully!",
+                ? 'Password set successfully! User has been notified via email.'
+                : 'Password set successfully!',
             });
             setPasswordModalVisible(false);
             passwordForm.resetFields();
           },
           onError: () => {
             addAlert({
-              type: "error",
-              message: "Failed to set password",
+              type: 'error',
+              message: 'Failed to set password',
             });
           },
         }
       );
     } catch (error) {
-      console.error("Password set error:", error);
+      console.error('Password set error:', error);
     }
   };
 
@@ -167,8 +168,8 @@ const Info: React.FC<InfoProps> = ({ userData, onDataUpdate }) => {
       {
         onSuccess: () => {
           addAlert({
-            type: "success",
-            message: "User deleted successfully!",
+            type: 'success',
+            message: 'User deleted successfully!',
           });
           setDeleteModalVisible(false);
           // Navigate back to users list or appropriate page
@@ -176,8 +177,8 @@ const Info: React.FC<InfoProps> = ({ userData, onDataUpdate }) => {
         },
         onError: (error: any) => {
           addAlert({
-            type: "error",
-            message: error?.response?.data?.message || "Failed to delete user",
+            type: 'error',
+            message: error?.response?.data?.message || 'Failed to delete user',
           });
           setDeleteModalVisible(false);
         },
@@ -198,10 +199,10 @@ const Info: React.FC<InfoProps> = ({ userData, onDataUpdate }) => {
         extra={
           <Space>
             <Button type="primary" onClick={() => setIsEditing(!isEditing)}>
-              {isEditing ? "Cancel" : "Edit User"}
+              {isEditing ? 'Cancel' : 'Edit User'}
             </Button>
             {/* Show delete button only if user has 'users.delete' permission and it's not self-deletion */}
-            {hasRequiredRole(selectedProfile?.payload.permissions, ["users.delete"]) && (
+            {hasRequiredRole(selectedProfile?.payload.permissions, ['users.delete']) && (
               <Button
                 type="primary"
                 danger
@@ -232,7 +233,7 @@ const Info: React.FC<InfoProps> = ({ userData, onDataUpdate }) => {
             <Form.Item
               label="First Name"
               name="firstName"
-              rules={[{ required: true, message: "Please enter first name" }]}
+              rules={[{ required: true, message: 'Please enter first name' }]}
             >
               <Input disabled={!isEditing} />
             </Form.Item>
@@ -245,8 +246,8 @@ const Info: React.FC<InfoProps> = ({ userData, onDataUpdate }) => {
               label="Email"
               name="email"
               rules={[
-                { required: true, message: "Please enter email" },
-                { type: "email", message: "Please enter valid email" },
+                { required: true, message: 'Please enter email' },
+                { type: 'email', message: 'Please enter valid email' },
               ]}
             >
               <Input disabled={!isEditing} prefix={<MailOutlined />} />
@@ -363,8 +364,8 @@ const Info: React.FC<InfoProps> = ({ userData, onDataUpdate }) => {
             label="New Password"
             name="password"
             rules={[
-              { required: true, message: "Please enter a password" },
-              { min: 8, message: "Password must be at least 8 characters" },
+              { required: true, message: 'Please enter a password' },
+              { min: 8, message: 'Password must be at least 8 characters' },
             ]}
           >
             <Input.Password placeholder="Enter new password" />
@@ -373,15 +374,15 @@ const Info: React.FC<InfoProps> = ({ userData, onDataUpdate }) => {
           <Form.Item
             label="Confirm Password"
             name="confirmPassword"
-            dependencies={["password"]}
+            dependencies={['password']}
             rules={[
-              { required: true, message: "Please confirm the password" },
+              { required: true, message: 'Please confirm the password' },
               ({ getFieldValue }) => ({
                 validator(_, value) {
-                  if (!value || getFieldValue("password") === value) {
+                  if (!value || getFieldValue('password') === value) {
                     return Promise.resolve();
                   }
-                  return Promise.reject(new Error("Passwords do not match"));
+                  return Promise.reject(new Error('Passwords do not match'));
                 },
               }),
             ]}
@@ -411,7 +412,7 @@ const Info: React.FC<InfoProps> = ({ userData, onDataUpdate }) => {
       <Modal
         title={
           <div className={styles.modalTitle}>
-            <ExclamationCircleOutlined style={{ color: "#ff4d4f" }} /> Reset User Password
+            <ExclamationCircleOutlined style={{ color: '#ff4d4f' }} /> Reset User Password
           </div>
         }
         open={resetPasswordModalVisible}
@@ -419,18 +420,24 @@ const Info: React.FC<InfoProps> = ({ userData, onDataUpdate }) => {
         footer={null}
         className={styles.passwordModal}
       >
-        <div style={{ marginBottom: "24px" }}>
-          <p style={{ color: "var(--color-silver)", fontSize: "16px", marginBottom: "16px" }}>
+        <div style={{ marginBottom: '24px' }}>
+          <p style={{ color: 'var(--color-silver)', fontSize: '16px', marginBottom: '16px' }}>
             Are you sure you want to reset the password for <strong>{userData?.fullName}</strong>?
           </p>
-          <p style={{ color: "var(--color-silver-dark)", fontSize: "14px" }}>
+          <p style={{ color: 'var(--color-silver-dark)', fontSize: '14px' }}>
             A new secure password will be generated and emailed to them automatically.
           </p>
         </div>
 
         <div className={styles.modalActions}>
           <Button onClick={() => setResetPasswordModalVisible(false)}>Cancel</Button>
-          <Button type="primary" danger onClick={confirmResetPassword} loading={isResetting} icon={<ReloadOutlined />}>
+          <Button
+            type="primary"
+            danger
+            onClick={confirmResetPassword}
+            loading={isResetting}
+            icon={<ReloadOutlined />}
+          >
             Reset Password
           </Button>
         </div>
@@ -440,7 +447,7 @@ const Info: React.FC<InfoProps> = ({ userData, onDataUpdate }) => {
       <Modal
         title={
           <div className={styles.modalTitle}>
-            <ExclamationCircleOutlined style={{ color: "#ff4d4f" }} /> Delete User
+            <ExclamationCircleOutlined style={{ color: '#ff4d4f' }} /> Delete User
           </div>
         }
         open={deleteModalVisible}
@@ -448,21 +455,28 @@ const Info: React.FC<InfoProps> = ({ userData, onDataUpdate }) => {
         footer={null}
         className={styles.passwordModal}
       >
-        <div style={{ marginBottom: "24px" }}>
-          <p style={{ color: "var(--color-silver)", fontSize: "16px", marginBottom: "16px" }}>
+        <div style={{ marginBottom: '24px' }}>
+          <p style={{ color: 'var(--color-silver)', fontSize: '16px', marginBottom: '16px' }}>
             Are you sure you want to permanently delete <strong>{userData?.fullName}</strong>?
           </p>
-          <p style={{ color: "#ff4d4f", fontSize: "14px", fontWeight: "500", marginBottom: "8px" }}>
+          <p style={{ color: '#ff4d4f', fontSize: '14px', fontWeight: '500', marginBottom: '8px' }}>
             ⚠️ This action cannot be undone!
           </p>
-          <p style={{ color: "var(--color-silver-dark)", fontSize: "14px" }}>
-            All user data, profile information, and associated records will be permanently removed from the system.
+          <p style={{ color: 'var(--color-silver-dark)', fontSize: '14px' }}>
+            All user data, profile information, and associated records will be permanently removed
+            from the system.
           </p>
         </div>
 
         <div className={styles.modalActions}>
           <Button onClick={() => setDeleteModalVisible(false)}>Cancel</Button>
-          <Button type="primary" danger onClick={confirmDeleteUser} loading={isDeleting} icon={<DeleteOutlined />}>
+          <Button
+            type="primary"
+            danger
+            onClick={confirmDeleteUser}
+            loading={isDeleting}
+            icon={<DeleteOutlined />}
+          >
             Delete User
           </Button>
         </div>

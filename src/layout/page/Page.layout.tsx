@@ -51,7 +51,7 @@ const PageLayout = (props: Props) => {
     }
 
     if (props.neededFeature) {
-      if (!hasFeature(loggedInData, props.neededFeature)) {
+      if (!hasFeature([], props.neededFeature)) {
         return "feature";
       }
     }

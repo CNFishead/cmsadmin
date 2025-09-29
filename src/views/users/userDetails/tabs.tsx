@@ -1,8 +1,8 @@
-import React from "react";
-import Info from "./subviews/info/Info.view";
-import PlanInformation from "./subviews/planInformation/PlanInformation.view";
-import Receipts from "./subviews/receipts/Receipts.view";
-import User from "@/types/User";
+import React from 'react';
+import Info from './subviews/info/Info.view';
+import PlanInformation from './subviews/planInformation/PlanInformation.view';
+import Receipts from './subviews/receipts/Receipts.view';
+import User from '@/types/UserType';
 
 interface TabsConfig {
   key: string;
@@ -16,18 +16,18 @@ export const getUserDetailsTabs = (
 ): TabsConfig[] => {
   return [
     {
-      key: "info",
-      label: "Auth Info",
+      key: 'info',
+      label: 'Auth Info',
       children: <Info userData={userData} onDataUpdate={onDataUpdate} />,
     },
     {
-      key: "plan",
-      label: "Plan Information",
+      key: 'plan',
+      label: 'Plan Information',
       children: <PlanInformation userData={userData} onDataUpdate={onDataUpdate} />,
     },
     {
-      key: "receipts",
-      label: "Receipts",
+      key: 'receipts',
+      label: 'Receipts',
       children: <Receipts userData={userData} onDataUpdate={onDataUpdate} />,
     },
   ];

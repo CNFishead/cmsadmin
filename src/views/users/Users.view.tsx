@@ -1,19 +1,19 @@
-"use client";
-import React from "react";
-import styles from "./Users.module.scss";
-import User from "@/types/UserType";
-import Link from "next/link";
-import { Avatar, Button, Table } from "antd";
-import { FaEdit } from "react-icons/fa";
-import SearchWrapper from "@/layout/searchWrapper/SearchWrapper.layout";
-import useApiHook from "@/hooks/useApi";
-import UserItem from "@/components/userItem/UserItem.component";
+'use client';
+import React from 'react';
+import styles from './Users.module.scss';
+import User from '@/types/UserType';
+import Link from 'next/link';
+import { Avatar, Button, Table } from 'antd';
+import { FaEdit } from 'react-icons/fa';
+import SearchWrapper from '@/layout/searchWrapper/SearchWrapper.layout';
+import useApiHook from '@/hooks/useApi';
+import UserItem from '@/components/userItem/UserItem.component';
 
 const Users = () => {
   const { data, isLoading } = useApiHook({
-    url: "/user",
-    key: "users",
-    method: "GET",
+    url: '/user',
+    key: 'users',
+    method: 'GET',
   }) as any;
 
   return (
@@ -21,22 +21,22 @@ const Users = () => {
       buttons={[]}
       filters={[
         {
-          label: "All",
-          key: "",
+          label: 'All',
+          key: '',
         },
         {
-          label: "Active",
-          key: "isActive;true",
+          label: 'Active',
+          key: 'isActive;true',
         },
         {
-          label: "Inactive",
-          key: "isActive;false",
+          label: 'Inactive',
+          key: 'isActive;false',
         },
       ]}
       sort={[
         {
-          label: "None",
-          key: "",
+          label: 'None',
+          key: '',
         },
       ]}
       placeholder="Search Users"

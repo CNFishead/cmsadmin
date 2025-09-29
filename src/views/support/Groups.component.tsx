@@ -13,8 +13,8 @@ const Groups = () => {
     url: '/support',
     method: 'GET',
     key: 'support-groups',
-    filter: `agents;{"$in":"${loggedInData?.user?._id}"}`,
-    enabled: !!loggedInData?.user?._id,
+    filter: `agents;{"$in":"${loggedInData?._id}"}`,
+    enabled: !!loggedInData?._id,
   }) as any;
 
   const [view, setView] = useState<'overview' | 'details'>('overview');

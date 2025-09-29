@@ -6,6 +6,7 @@ import ReactQueryProvider from '@/providers/ReactQueryProvider';
 import DynamicTitleUpdater from '@/layout/dynamicTitleUpdater/DynamicTitleUpdater.layout';
 import AppWrapper from '@/layout/appWrapper/AppWrapper';
 import '@/styles/antd-overrides.css';
+import { Suspense } from 'react';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -37,12 +38,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {/* <Suspense fallback={null}> */}
-        <DynamicTitleUpdater baseTitle="Shepherds CMS" />
-        <ReactQueryProvider>
-          <AppWrapper>{children}</AppWrapper>
-        </ReactQueryProvider>
-        {/* </Suspense> */}
+        <Suspense fallback={null}>
+          <DynamicTitleUpdater baseTitle="Shepherds CMS" />
+          <ReactQueryProvider>
+            <AppWrapper>{children}</AppWrapper>
+          </ReactQueryProvider>
+        </Suspense>
       </body>
     </html>
   );

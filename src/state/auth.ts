@@ -1,6 +1,6 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import axios from '@/utils/axios';
-import setAuthToken from '@/utils/setAuthToken'; 
+import setAuthToken from '@/utils/setAuthToken';
 import UserType from '@/types/UserType';
 
 // make a react query hook to get the user data from the server

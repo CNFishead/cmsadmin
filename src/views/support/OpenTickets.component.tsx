@@ -12,8 +12,8 @@ const OpenTickets = () => {
     url: '/support/ticket',
     method: 'GET',
     key: 'open-tickets',
-    filter: `assignee;${loggedInData?.user?._id}`,
-    enabled: !!loggedInData?.user?._id,
+    filter: `assignee;${loggedInData?._id}`,
+    enabled: !!loggedInData?._id,
   }) as any;
 
   if (isLoading) {

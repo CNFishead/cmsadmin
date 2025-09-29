@@ -24,6 +24,7 @@ import FamilyType from '@/types/FamilyType';
 import MinistryType from '@/types/Ministry';
 import { useUser } from '@/state/auth';
 import useApiHook from '@/hooks/useApi';
+import { useSelectedProfile } from '@/hooks/useSelectedProfile';
 
 const CreateNewMember = () => {
   const [form] = Form.useForm();
@@ -36,12 +37,7 @@ const CreateNewMember = () => {
   const [selectedFamily, setSelectedFamily] = React.useState<FamilyType>();
   const [image, setImage] = React.useState<any>(null); // the image that is uploaded
   const { data: loggedInData } = useUser();
-  const { data: selectedProfile } = useApiHook({
-    url: `/ministry/${loggedInData.user?.ministry?._id}`,
-    key: 'selectedProfile',
-    enabled: !!loggedInData?.user?.ministry?._id,
-    method: 'GET',
-  }) as any;
+  const { selectedProfile } = useSelectedProfile();
   const { data: memberInformation } = useApiHook({
     url: `/member/details/${id}`,
     key: 'memberInformation',
@@ -52,16 +48,16 @@ const CreateNewMember = () => {
     url: `/family`,
     key: 'familyList',
     keyword: familyKeyword,
-    filter: `user;${loggedInData?.user?._id}`,
+    filter: `user;${loggedInData?._id}`,
     method: 'GET',
   }) as any;
 
   const { data: ministriesList, isLoading: ministriesLoading } = useApiHook({
-    url: `/ministry/${selectedProfile?.ministry?._id}/subministries`,
+    url: `/ministry/${selectedProfile?._id}/subministries`,
     key: 'ministryList',
-    enabled: !!selectedProfile?.ministry?._id,
+    enabled: !!selectedProfile?._id,
     keyword: ministryKeyword,
-    filter: `user;${loggedInData?.user?._id}`,
+    filter: `user;${loggedInData?._id}`,
     method: 'GET',
   }) as any;
 

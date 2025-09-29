@@ -20,23 +20,21 @@ export const FEATURES = {
   } as any,
 };
 
-export const hasFeature = (user: User, ...features: any) => {
+export const hasFeature = (userFeatures: any[], features: any[]) => {
   let yesFeature = false;
   if (!features) return true;
   try {
-    if (user) {
-      user.features.forEach((feature) => {
-        // set yesFeature to true if the feature is found in the user.features array
-        features.map((f: any) =>
-          f.idArray.forEach((featureName: any) => {
-            // console.log(feature, featureName);
-            if (feature === featureName) {
-              yesFeature = true;
-            }
-          })
-        );
-      });
-    }
+    userFeatures.forEach((feature) => {
+      // set yesFeature to true if the feature is found in the userFeatures array
+      features.map((f: any) =>
+        f.idArray.forEach((featureName: any) => {
+          // console.log(feature, featureName);
+          if (feature === featureName) {
+            yesFeature = true;
+          }
+        })
+      );
+    });
 
     return yesFeature;
   } catch {

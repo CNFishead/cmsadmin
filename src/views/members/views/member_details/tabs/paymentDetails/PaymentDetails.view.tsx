@@ -148,11 +148,11 @@ const PaymentDetails = () => {
                         () => {}
                         // dispatch(deleteReceipt(record._id, false))
                       }
-                      disabled={checkRole(loggedInUser?.role, [
-                        'admin',
-                        'superAdmin',
-                        'accountant',
-                      ])}
+                      // disabled={checkRole(loggedInUser?.role, [
+                      //   'admin',
+                      //   'superAdmin',
+                      //   'accountant',
+                      // ])}
                     >
                       <BsTrash2Fill /> Delete
                     </Button>

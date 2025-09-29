@@ -99,11 +99,11 @@ const Ministry = () => {
                           okText: 'Yes, Delete',
                         });
                       }}
-                      disabled={checkRoles(loggedInUser?.role, [
-                        'admin',
-                        'superAdmin',
-                        'accountant',
-                      ])}
+                      // disabled={checkRoles(loggedInUser?.role, [
+                      //   'admin',
+                      //   'superAdmin',
+                      //   'accountant',
+                      // ])}
                       className={styles.dangerButton}
                     >
                       <BsTrash2Fill />

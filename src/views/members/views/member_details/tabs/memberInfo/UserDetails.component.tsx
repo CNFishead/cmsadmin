@@ -151,7 +151,7 @@ const UserDetails = () => {
                 placeholder="Initial Payment"
                 className={formStyles.input}
                 type="date"
-                disabled={checkRoles(loggedInUser.role, ['admin', 'superAdmin'])}
+                // disabled={checkRoles(loggedInUser.role, ['admin', 'superAdmin'])}
               />
             </Form.Item>
 
@@ -161,7 +161,7 @@ const UserDetails = () => {
                 placeholder="Next Payment"
                 className={formStyles.input}
                 type="date"
-                disabled={checkRoles(loggedInUser.role, ['admin', 'superAdmin'])}
+                // disabled={checkRoles(loggedInUser.role, ['admin', 'superAdmin'])}
               />
             </Form.Item>
           </div>

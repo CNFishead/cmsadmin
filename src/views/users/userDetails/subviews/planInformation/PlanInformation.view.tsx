@@ -1,14 +1,19 @@
-"use client";
-import React, { useState } from "react";
-import styles from "./PlanInformation.module.scss";
-import { Card, Spin, Button, Alert } from "antd";
-import { CrownOutlined, ReloadOutlined } from "@ant-design/icons";
-import User from "@/types/User";
-import useApiHook from "@/hooks/useApi";
-import { useInterfaceStore } from "@/state/interface";
-import CreditsUpdateModal from "./CreditsUpdateModal";
-import { SubscriptionOverview, PlanDetails, CustomerInformation, PaymentMethod } from "./components";
-import { MESSAGES } from "./planInformationConstants";
+'use client';
+import React, { useState } from 'react';
+import styles from './PlanInformation.module.scss';
+import { Card, Spin, Button, Alert } from 'antd';
+import { CrownOutlined, ReloadOutlined } from '@ant-design/icons';
+import User from '@/types/UserType';
+import useApiHook from '@/hooks/useApi';
+import { useInterfaceStore } from '@/state/interface';
+import CreditsUpdateModal from './CreditsUpdateModal';
+import {
+  SubscriptionOverview,
+  PlanDetails,
+  CustomerInformation,
+  PaymentMethod,
+} from './components';
+import { MESSAGES } from './planInformationConstants';
 
 interface PlanInformationProps {
   userData: User;
@@ -24,16 +29,16 @@ const PlanInformation: React.FC<PlanInformationProps> = ({ userData, onDataUpdat
     refetch: refetchBilling,
   } = useApiHook({
     url: `/auth/billing`,
-    key: ["auth", "plan", userData?._id as string],
-    method: "GET",
+    key: ['auth', 'plan', userData?._id as string],
+    method: 'GET',
     enabled: !!userData?._id,
     filter: `payor;${userData?._id}`,
   }) as any;
 
   const { mutate: updateBilling, isLoading: isUpdatingBilling } = useApiHook({
-    key: ["auth", "plan", "update"],
-    method: "PUT",
-    queriesToInvalidate: ["auth,plan"],
+    key: ['auth', 'plan', 'update'],
+    method: 'PUT',
+    queriesToInvalidate: ['auth,plan'],
   }) as any;
 
   // Fetch plan details
@@ -43,8 +48,8 @@ const PlanInformation: React.FC<PlanInformationProps> = ({ userData, onDataUpdat
     error: planDetailsError,
   } = useApiHook({
     url: `/auth/plan/${planData?.payload[0]?.plan?._id}`,
-    key: ["plan", planData?.payload[0]?.plan?._id],
-    method: "GET",
+    key: ['plan', planData?.payload[0]?.plan?._id],
+    method: 'GET',
     enabled: !!planData?.payload[0]?.plan?._id,
   }) as any;
 
@@ -61,12 +66,12 @@ const PlanInformation: React.FC<PlanInformationProps> = ({ userData, onDataUpdat
         url: `/auth/billing/${billing?._id}`,
         formData: { needsUpdate: true },
       });
-      addAlert({ message: MESSAGES.SUCCESS_UPDATE, type: "success" });
+      addAlert({ message: MESSAGES.SUCCESS_UPDATE, type: 'success' });
       // Optionally refresh the data
       onDataUpdate({ ...userData });
     } catch (error) {
-      addAlert({ message: MESSAGES.ERROR_UPDATE, type: "error" });
-      console.error("Error updating billing:", error);
+      addAlert({ message: MESSAGES.ERROR_UPDATE, type: 'error' });
+      console.error('Error updating billing:', error);
     }
   };
 
@@ -105,7 +110,11 @@ const PlanInformation: React.FC<PlanInformationProps> = ({ userData, onDataUpdat
             type="warning"
             showIcon
             action={
-              <Button size="small" icon={<ReloadOutlined />} onClick={() => window.location.reload()}>
+              <Button
+                size="small"
+                icon={<ReloadOutlined />}
+                onClick={() => window.location.reload()}
+              >
                 Retry
               </Button>
             }
@@ -125,7 +134,7 @@ const PlanInformation: React.FC<PlanInformationProps> = ({ userData, onDataUpdat
         onManageCredits={() => setIsCreditsModalVisible(true)}
       />
       {/* Plan Details */}
-     <PlanDetails planDetails={planDetails} />
+      <PlanDetails planDetails={planDetails} />
       {/* Customer Information */}
       <CustomerInformation customer={customer} />
       {/* Payment Method */}

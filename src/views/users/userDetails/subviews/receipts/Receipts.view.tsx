@@ -1,11 +1,17 @@
-"use client";
-import React from "react";
-import styles from "./Receipts.module.scss";
-import { Card, Table, Tag, Button, Empty, Spin } from "antd";
-import { FileTextOutlined, DownloadOutlined, EyeOutlined, CalendarOutlined, DollarOutlined } from "@ant-design/icons";
-import User from "@/types/User";
-import useApiHook from "@/hooks/useApi";
-import { useParams } from "next/navigation";
+'use client';
+import React from 'react';
+import styles from './Receipts.module.scss';
+import { Card, Table, Tag, Button, Empty, Spin } from 'antd';
+import {
+  FileTextOutlined,
+  DownloadOutlined,
+  EyeOutlined,
+  CalendarOutlined,
+  DollarOutlined,
+} from '@ant-design/icons';
+import User from '@/types/UserType';
+import useApiHook from '@/hooks/useApi';
+import { useParams } from 'next/navigation';
 
 interface ReceiptsProps {
   userData: User;
@@ -23,23 +29,23 @@ const Receipts: React.FC<ReceiptsProps> = ({ userData, onDataUpdate }) => {
     error,
   } = useApiHook({
     url: `/user/${id}/receipts`,
-    key: ["user", id as string, "receipts"],
-    method: "GET",
+    key: ['user', id as string, 'receipts'],
+    method: 'GET',
     enabled: false, // Disabled for now since endpoint doesn't exist yet
   }) as { data: any; isLoading: boolean; error: any };
 
   // Placeholder columns for future receipts table
   const columns = [
     {
-      title: "Receipt ID",
-      dataIndex: "receiptId",
-      key: "receiptId",
+      title: 'Receipt ID',
+      dataIndex: 'receiptId',
+      key: 'receiptId',
       render: (text: string) => <span className={styles.receiptId}>{text}</span>,
     },
     {
-      title: "Date",
-      dataIndex: "date",
-      key: "date",
+      title: 'Date',
+      dataIndex: 'date',
+      key: 'date',
       render: (date: string) => (
         <span className={styles.date}>
           <CalendarOutlined /> {date}
@@ -47,9 +53,9 @@ const Receipts: React.FC<ReceiptsProps> = ({ userData, onDataUpdate }) => {
       ),
     },
     {
-      title: "Amount",
-      dataIndex: "amount",
-      key: "amount",
+      title: 'Amount',
+      dataIndex: 'amount',
+      key: 'amount',
       render: (amount: number) => (
         <span className={styles.amount}>
           <DollarOutlined /> ${amount.toFixed(2)}
@@ -57,17 +63,17 @@ const Receipts: React.FC<ReceiptsProps> = ({ userData, onDataUpdate }) => {
       ),
     },
     {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
+      title: 'Status',
+      dataIndex: 'status',
+      key: 'status',
       render: (status: string) => {
-        const color = status === "paid" ? "green" : status === "pending" ? "orange" : "red";
+        const color = status === 'paid' ? 'green' : status === 'pending' ? 'orange' : 'red';
         return <Tag color={color}>{status.toUpperCase()}</Tag>;
       },
     },
     {
-      title: "Actions",
-      key: "actions",
+      title: 'Actions',
+      key: 'actions',
       render: (record: any) => (
         <div className={styles.actions}>
           <Button type="link" icon={<EyeOutlined />} size="small">
@@ -138,7 +144,9 @@ const Receipts: React.FC<ReceiptsProps> = ({ userData, onDataUpdate }) => {
                       <div className={styles.emptyTableText}>
                         <FileTextOutlined className={styles.emptyIcon} />
                         <p>Receipt data will be populated here</p>
-                        <p className={styles.subText}>Connect to the receipts API to display user billing history</p>
+                        <p className={styles.subText}>
+                          Connect to the receipts API to display user billing history
+                        </p>
                       </div>
                     ),
                   }}
