@@ -23,29 +23,42 @@ jobs:
         with:
           node-version: '22.x'
 
-      - name: npm install, build, and test
-        run: |
-          npm install
+      # - name: npm install, build, and test
+      #   run: |
+      #     npm install
       
-      - name: Build Next.js project
-        run: npm run build
-        env:
-          API_URL: 'https://api.shepherdcms.org/api/v1'
-          AUTH_URL: 'https://api.shepherdcms.org'
-          SERVICE_NAME: 'ShepherdCMS Admin'
-          ENV: production
-          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
-          NEXT_PUBLIC_ENCRYPTION_KEY: ${{ secrets.NEXT_PUBLIC_ENCRYPTION_KEY }}
-          NEXT_PUBLIC_TINYMCE_API_KEY: ${{ secrets.NEXT_PUBLIC_TINYMCE_API_KEY }}
+      # - name: Build Next.js project
+      #   run: npm run build
+      #   env:
+      #     API_URL: 'https://api.shepherdcms.org/api/v1'
+      #     AUTH_URL: 'https://api.shepherdcms.org'
+      #     SERVICE_NAME: 'ShepherdCMS Admin'
+      #     ENV: production
+      #     NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
+      #     NEXT_PUBLIC_ENCRYPTION_KEY: ${{ secrets.NEXT_PUBLIC_ENCRYPTION_KEY }}
+      #     NEXT_PUBLIC_TINYMCE_API_KEY: ${{ secrets.NEXT_PUBLIC_TINYMCE_API_KEY }}
 
-      - name: Zip artifact for deployment
-        run: zip -r release.zip .next public package.json package-lock.json
+      # - name: Zip artifact for deployment
+      #   run: zip -r release.zip .next public package.json package-lock.json
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          path: release.zip
+          path: |
+            ./
+            !**/node_modules/**
+            !**/.next/**
+            !**/coverage/**
+            !**/~demos/**
+            !**/:id/**
+            !**/*.log
+            !.git/**
+            !.github/**
+            !**/.DS_Store
+            # Include any runtime files you actually need:
+            # .env.production
+            # next.config.js
 
   deploy:
     runs-on: ubuntu-latest
@@ -56,9 +69,6 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: node-app
-          
-      - name: Unzip artifact for deployment
-        run: unzip release.zip
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
