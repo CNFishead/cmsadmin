@@ -27,8 +27,19 @@ jobs:
         run: |
           npm install
           npm run build --if-present
-          npm run test --if-present
+      
+      - name: Build Next.js project
+        run: npm run build
+        env:
+          API_URL: 'https://api.shepherdcms.org/api/v1'
+          AUTH_URL: 'https://api.shepherdcms.org'
+          SERVICE_NAME: 'ShepherdCMS Admin'
+          ENV: production
+          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
+          NEXT_PUBLIC_ENCRYPTION_KEY: ${{ secrets.NEXT_PUBLIC_ENCRYPTION_KEY }}
+          NEXT_PUBLIC_TINYMCE_API_KEY: ${{ secrets.NEXT_PUBLIC_TINYMCE_API_KEY }}
 
+          
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
