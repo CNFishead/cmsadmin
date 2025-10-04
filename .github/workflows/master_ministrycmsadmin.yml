@@ -33,15 +33,19 @@ jobs:
       - name: Prepare deploy folder
         run: |
           rm -rf deploy && mkdir -p deploy
-          # Standalone server + its internal node_modules
+
+          # 1) Put the standalone server at the app root (so start can run "node server.js")
           rsync -a .next/standalone/ deploy/
-          # Next static assets
+
+          # 2) Next still expects a minimal .next folder at runtime:
+          #    - BUILD_ID (to identify the build)
+          #    - static/  (for client assets)
           mkdir -p deploy/.next
+          cp .next/BUILD_ID deploy/.next/            # <-- THIS is why your error happened
           rsync -a .next/static/ deploy/.next/static/
-          # Public assets (if you have any)
+
+          # 3) Public assets (if you use /public)
           if [ -d public ]; then rsync -a public/ deploy/public/; fi
-          # If you need runtime files (robots.txt, sitemap, emails/templates, etc.), copy them explicitly here
-          # Example: rsync -a emails/ deploy/emails/
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
