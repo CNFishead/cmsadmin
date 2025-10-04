@@ -1,6 +1,5 @@
-import React, { useRef, useEffect } from "react";
-import { Editor } from "@tinymce/tinymce-react";
-import parse from "html-react-parser";
+import React, { useRef, useEffect } from 'react';
+import { Editor } from '@tinymce/tinymce-react';
 
 const TinyEditor = ({
   handleChange,
@@ -18,7 +17,7 @@ const TinyEditor = ({
     if (editorRef.current && initialContent !== undefined) {
       const currentContent = editorRef.current.getContent();
       if (currentContent !== initialContent) {
-        editorRef.current.setContent(initialContent || "");
+        editorRef.current.setContent(initialContent || '');
       }
     }
   }, [initialContent]);
@@ -29,10 +28,10 @@ const TinyEditor = ({
         editorRef.current = editor;
         // Set initial content if available
         if (initialContent) {
-          editor.setContent(parse(initialContent as string) as string);
+          editor.setContent(initialContent);
         }
       }}
-      initialValue={(parse(initialContent as string) as string) || ""}
+      initialValue={initialContent || ''}
       onChange={(e) => {
         if (editorRef.current) {
           handleChange(editorRef.current.getContent());
@@ -40,20 +39,22 @@ const TinyEditor = ({
       }}
       apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY}
       init={{
-        placeholder: "Type your message here...",
+        placeholder: 'Type your message here...',
         height,
-        menubar: "insert view",
+        plugins:
+          'paste  print preview searchreplace autolink directionality visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists textcolor wordcount imagetools contextmenu colorpicker textpattern help',
+        menubar: 'insert view',
         toolbar:
-          "undo redo | formatselect | bold italic underline strikethrough | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | link unlink image media | codesample | searchreplace visualblocks code fullscreen | insertdatetime table | help wordcount",
+          'paste | undo redo | formatselect | bold italic underline strikethrough | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | link unlink image media | codesample | searchreplace visualblocks code fullscreen | insertdatetime table | help wordcount',
         content_style:
-          "body { font-family: Helvetica, Arial, sans-serif; font-size: 14px; background: transparent; color: #fff; }",
+          'body { font-family: Helvetica, Arial, sans-serif; font-size: 14px; background: transparent; color: #fff; }',
         codesample_languages: [
-          { text: "HTML/XML", value: "markup" },
-          { text: "JavaScript", value: "javascript" },
-          { text: "CSS", value: "css" },
+          { text: 'HTML/XML', value: 'markup' },
+          { text: 'JavaScript', value: 'javascript' },
+          { text: 'CSS', value: 'css' },
         ],
-        skin: "oxide-dark",
-        content_css: "dark",
+        skin: 'oxide-dark',
+        content_css: 'dark',
       }}
     />
   );
