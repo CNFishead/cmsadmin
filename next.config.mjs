@@ -29,7 +29,6 @@ const nextConfig = {
   sassOptions: {
     silenceDeprecations: ['legacy-js-api'],
   },
-  assetPrefix: process.env.ENV === 'production' ? 'https://api.shepherdcms.org' : '',
 };
 
 export default nextConfig;
