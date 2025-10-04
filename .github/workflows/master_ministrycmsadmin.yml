@@ -23,63 +23,42 @@ jobs:
         with:
           node-version: '22.x'
 
-      - name: Install deps (CI)
-        run: npm ci --no-audit --no-fund
-
-      - name: Build (standalone)
-        run: npm run build
-
-      # Package only what the runtime needs. No repo root, no node_modules at top-level.
-      - name: Prepare deploy folder
+      - name: npm install, build, and test
         run: |
-          rm -rf deploy && mkdir -p deploy
+          npm install
 
-          # 1) Put the standalone server at the app root (so start can run "node server.js")
-          rsync -a .next/standalone/ deploy/
+      - name: Build Next.js project
+        run: npm run build
+        env:
+          API_URL: 'https://api.shepherdcms.org/api/v1'
+          AUTH_URL: 'https://api.shepherdcms.org'
+          SERVICE_NAME: 'ShepherdCMS Admin'
+          ENV: production
+          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
+          NEXT_PUBLIC_ENCRYPTION_KEY: ${{ secrets.NEXT_PUBLIC_ENCRYPTION_KEY }}
+          NEXT_PUBLIC_TINYMCE_API_KEY: ${{ secrets.NEXT_PUBLIC_TINYMCE_API_KEY }}
 
-          # 2) Next still expects a minimal .next folder at runtime:
-          #    - BUILD_ID (to identify the build)
-          #    - static/  (for client assets)
-          mkdir -p deploy/.next
-          cp .next/BUILD_ID deploy/.next/            # <-- THIS is why your error happened
-          rsync -a .next/static/ deploy/.next/static/
+      - name: Zip artifact for deployment
+        run: zip -r release.zip .next public package.json package-lock.json
 
-          # 3) Public assets (if you use /public)
-          if [ -d public ]; then rsync -a public/ deploy/public/; fi
-
-      - name: Upload artifact
+      - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
-          name: next-standalone
-          path: deploy
+          name: node-app
+          path: release.zip
 
-      # - name: npm install, build, and test
-      #   run: |
-      #     npm install
-
-      # - name: Build Next.js project
-      #   run: npm run build
-      #   env:
-      #     API_URL: 'https://api.shepherdcms.org/api/v1'
-      #     AUTH_URL: 'https://api.shepherdcms.org'
-      #     SERVICE_NAME: 'ShepherdCMS Admin'
-      #     ENV: production
-      #     NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
-      #     NEXT_PUBLIC_ENCRYPTION_KEY: ${{ secrets.NEXT_PUBLIC_ENCRYPTION_KEY }}
-      #     NEXT_PUBLIC_TINYMCE_API_KEY: ${{ secrets.NEXT_PUBLIC_TINYMCE_API_KEY }}
-
-      # - name: Zip artifact for deployment
-      #   run: zip -r release.zip .next public package.json package-lock.json
 
   deploy:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Download artifact
+      - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
-          name: next-standalone
-          path: .
+          name: node-app
+
+      - name: Unzip artifact for deployment
+        run: unzip release.zip
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
