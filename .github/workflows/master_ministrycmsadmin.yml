@@ -42,7 +42,7 @@ jobs:
           npm run test --if-present
 
       - name: Zip artifact for deployment
-        run: zip -r release.zip .next package.json package-lock.json public
+        run: zip -r release.zip node_modules .next package.json package-lock.json public
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4

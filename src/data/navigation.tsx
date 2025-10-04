@@ -9,7 +9,6 @@ import { IoCodeSlashOutline } from 'react-icons/io5';
 import { Badge } from 'antd';
 
 export const navigation = (options?: any) => {
-  console.log(options);
   return {
     home: {
       title: 'Home',
