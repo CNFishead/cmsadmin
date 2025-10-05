@@ -31,7 +31,7 @@ jobs:
         run: npm run build
         env:
           API_URL: 'https://api.shepherdcms.org/api/v1'
-          AUTH_URL: 'https://api.shepherdcms.org'
+          AUTH_URL: 'https://auth.shepherdcms.org/auth/login'
           SERVICE_NAME: 'ShepherdCMS Admin'
           ENV: production
           NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}

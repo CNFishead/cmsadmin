@@ -6,7 +6,7 @@ const nextConfig = {
     API_URL: process.env.API_URL,
     ENCRYPTION_KEY: process.env.NEXT_PUBLIC_ENCRYPTION_KEY,
     TINYMCE_API_KEY: process.env.NEXT_PUBLIC_TINYMCE_API_KEY,
-    AUTH_URL: `http://localhost:3003/auth/login`,
+    AUTH_URL: process.env.AUTH_URL,
     SERVICE_NAME: 'ShepherdCMS Admin',
     ENV: process.env.NODE_ENV,
     // ENV: "development",
