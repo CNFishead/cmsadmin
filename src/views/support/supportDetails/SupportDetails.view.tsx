@@ -48,7 +48,7 @@ const SupportDetails = () => {
     if (!containerRef.current || !hasNextPage || isFetchingNextPage) return;
 
     const { scrollTop } = containerRef.current;
-    if (scrollTop === 0) {
+    if (scrollTop === 0 && hasNextPage && !isFetchingNextPage) {
       // Fetch older messages when scrolled to the top
       fetchNextPage();
     }
