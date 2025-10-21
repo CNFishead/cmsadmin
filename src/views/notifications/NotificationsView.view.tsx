@@ -4,20 +4,11 @@ import styles from './NotificationsView.module.scss';
 import { Button, Empty } from 'antd';
 import NotificationItem from '@/components/notificationItem/NotificationItem.component';
 import NotificationType from '@/types/NotificationType';
-import useApiHook from '@/hooks/useApi';
+import useNotifications from '@/hooks/useNotifications';
 
 const NotificationsView = () => {
-  const { data } = useApiHook({
-    url: `/notification`,
-    key: 'notifications',
-    method: 'GET',
-  }) as any;
+  const { notifications, markAllAsRead } = useNotifications();
 
-  const { mutate: updateNotification } = useApiHook({
-    queriesToInvalidate: ['notifications'],
-    method: 'PUT',
-    key: 'update-notification',
-  }) as any;
   return (
     <Container
       title={
@@ -31,15 +22,15 @@ const NotificationsView = () => {
           >
             Notifications
           </span>
-          <Button type="primary" onClick={() => updateNotification({ url: '' })}>
+          <Button type="primary" onClick={markAllAsRead}>
             Mark all Read
           </Button>
         </div>
       }
     >
       <div className={styles.notifications}>
-        {data?.notifications?.length > 0 ? (
-          data?.notifications.map((notification: NotificationType) => {
+        {notifications?.length > 0 ? (
+          notifications.map((notification: NotificationType) => {
             return <NotificationItem notification={notification} key={notification.entityId} />;
           })
         ) : (
