@@ -1,13 +1,13 @@
 "use client";
 import React from "react";
 import styles from "./LegalDetails.module.scss";
-import formStyles from "@/styles/Form.module.scss";
 import { useParams, useRouter } from "next/navigation";
 import { Button, DatePicker, Divider, Form, Input, Select, Card, Spin } from "antd";
 import { EditOutlined, FileTextOutlined, SaveOutlined, CloseOutlined } from "@ant-design/icons";
 import TinyEditor from "@/components/tinyEditor/TinyEditor.component";
 import useApiHook from "@/hooks/useApi";
 import dayjs from "dayjs";
+import parse from "html-react-parser";
 
 const LegalDetails = () => {
   const { id } = useParams();
@@ -68,7 +68,7 @@ const LegalDetails = () => {
         version: payload.version,
       });
       // Set editor content separately
-      setEditorContent(payload.content || "");
+      setEditorContent(parse(payload.content) as string);
     }
   }, [data?.payload, form]);
 
