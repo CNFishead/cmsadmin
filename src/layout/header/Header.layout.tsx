@@ -6,14 +6,13 @@ import { useUser, logout } from '@/state/auth';
 import { BiLogOutCircle } from 'react-icons/bi';
 import { ReactNode } from 'react';
 import Notifications from './components/Notifications.component';
-import { useLayoutStore } from '@/state/layout';
 
 type Props = {
   pages?: Array<{ title: string; link?: string; icon?: ReactNode }>;
+  onMobileMenuClick?: () => void;
 };
 
 const Header = (props: Props) => {
-  const toggleSideBar = useLayoutStore((state) => state.toggleSideBar);
   const { data: loggedInData } = useUser();
   const profiles = Object.keys(loggedInData?.profileRefs || {});
 
@@ -37,7 +36,7 @@ const Header = (props: Props) => {
         <div
           className={styles.hamburger}
           onClick={() => {
-            toggleSideBar();
+            props.onMobileMenuClick?.();
           }}
         >
           <RxHamburgerMenu />
@@ -51,7 +50,10 @@ const Header = (props: Props) => {
             return last ? (
               <span>{route.title}</span>
             ) : (
-              <Link href={route.path as string} className={`${routes[routes.length - 1].title === route.title && styles.active}`}>
+              <Link
+                href={route.path as string}
+                className={`${routes[routes.length - 1].title === route.title && styles.active}`}
+              >
                 {route.title}
               </Link>
             );
@@ -75,7 +77,10 @@ const Header = (props: Props) => {
               <div className={styles.userInfo}>
                 <p>{loggedInData?.fullName}</p>
               </div>
-              <Avatar src={loggedInData?.profileImageUrl ?? '/images/no-photo.png'} className={styles.avatar} />
+              <Avatar
+                src={loggedInData?.profileImageUrl ?? '/images/no-photo.png'}
+                className={styles.avatar}
+              />
             </div>
             {profiles.length > 1 ? (
               <Dropdown menu={{ items: profileItems }}>

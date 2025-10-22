@@ -1,25 +1,29 @@
 @use '@/styles/globals.scss' as *;
 
+.mobileDrawer {
+  :global {
+    .ant-drawer-body {
+      padding: 0 !important;
+    }
+    .ant-drawer-header {
+      display: none !important;
+    }
+  }
+}
+
 .container {
   border-right: 5px solid var(--primary);
   background-image: linear-gradient(10deg, #000000 0%, var(--primary) 20%);
   height: 100%;
   overflow: auto;
-
   box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 30px 0px inset;
-
   padding-left: 20px;
-
-  transition: $animation;
-  -webkit-transition: $animation;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
   overflow-x: hidden;
   padding-bottom: 15px;
   border-right: 5px solid var(--secondary);
-
   color: white;
 
   .topSection {
@@ -33,62 +37,40 @@
       align-items: center;
       justify-content: flex-start;
       gap: 10px;
-      transition: $animation;
-      -webkit-transition: $animation;
 
       .logo {
         height: 100%;
-        &.saltLogo {
-          display: none;
-        }
-        &.largeLogo {
-          display: block;
-        }
       }
 
       .productName {
         font-size: 14px;
-        font-weight: 900;
-
-        transition: $animation;
-        -webkit-transition: $animation;
-      }
-
-      .hamburger {
-        display: none;
-        font-size: 20px;
-        margin-bottom: 2px;
-        align-items: center;
-        justify-content: center;
-        transition: $animation;
-        -webkit-transition: $animation;
-        @include mobile {
-          cursor: pointer;
-          display: flex;
-        }
+        font-weight: 600;
+        // wrap long names
+        white-space: normal;
       }
     }
 
     .group {
       .header {
         font-size: 15px;
-
         font-weight: 300;
         padding: 10px 0;
       }
+
       .links {
         display: flex;
         flex-direction: column;
-        gap: 10px;
+
         .link {
           font-size: 16px;
           display: flex;
           align-items: center;
           justify-content: flex-start;
-
           gap: 10px;
-          transition: $animation;
-          -webkit-transition: $animation;
+          transition: all 0.2s ease;
+          padding: 8px 0;
+          cursor: pointer;
+
           &.active {
             background-color: var(--secondary);
             padding: 10px 10px;
@@ -96,7 +78,8 @@
             position: relative;
             right: 10px;
             width: 110%;
-            box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+              rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
             font-weight: 700;
             color: var(--font-secondary);
 
@@ -115,32 +98,76 @@
             align-items: center;
             justify-content: center;
             margin: 0;
+            font-size: 18px;
           }
-          .title {
+
+          .text {
             margin: 0;
+            white-space: nowrap;
           }
         }
       }
     }
   }
+
   .bottomSection {
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
     flex-direction: column;
     gap: 2px;
+
     .fapText {
       font-size: 15px;
       font-weight: 300;
       margin: 0;
-
       padding: 0 3px;
     }
+
     .versionText {
       font-size: 10px;
       font-weight: 300;
       margin: 0;
       padding: 0 3px;
+    }
+  }
+
+  // Small sidebar mode (collapsed)
+  &.small {
+    .logoContainer {
+      .productName {
+        display: none;
+      }
+    }
+
+    .group {
+      .header {
+        display: none;
+      }
+
+      .links .link {
+        .text {
+          display: none;
+        }
+      }
+    }
+
+    .bottomSection {
+      .fapText,
+      .versionText {
+        display: none;
+      }
+    }
+
+    // Show full content on hover
+    &:hover {
+      .logoContainer .productName,
+      .group .header,
+      .links .link .text,
+      .bottomSection .fapText,
+      .bottomSection .versionText {
+        display: block;
+      }
     }
   }
 }

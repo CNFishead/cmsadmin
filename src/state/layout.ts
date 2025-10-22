@@ -1,16 +1,15 @@
 import { create } from 'zustand';
 
 interface Layout {
-  sideBarOpen: boolean;
-  toggleSideBar: () => void;
+  mobileSideBarOpen: boolean;
+  setMobileSideBarOpen: (open: boolean) => void;
   controlLayoutOpen: boolean;
   toggleControlLayout: () => void;
 }
 
 export const useLayoutStore = create<Layout>((set) => ({
-  sideBarOpen: true,
-  toggleSideBar: () =>
-    set((state: Layout) => ({ sideBarOpen: !state.sideBarOpen })),
+  mobileSideBarOpen: false,
+  setMobileSideBarOpen: (open: boolean) => set({ mobileSideBarOpen: open }),
   controlLayoutOpen: false,
   toggleControlLayout: () =>
     set((state: Layout) => ({

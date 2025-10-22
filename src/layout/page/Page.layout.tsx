@@ -20,7 +20,7 @@ import { Skeleton } from 'antd';
 type Props = {
   children: React.ReactNode;
   pages?: Array<{ title: string; link?: string; icon?: ReactNode; onClick?: () => void }>;
-  largeSideBar?: boolean;
+  smallSideBar?: boolean; // Changed from largeSideBar to smallSideBar
   backgroundColor?: string;
   hideControlLayout?: boolean;
   controlNav?: Array<ControlNavItem>;
@@ -37,7 +37,8 @@ type Props = {
   loading?: boolean;
 };
 const PageLayout = (props: Props) => {
-  const sideBarOpen = useLayoutStore((state) => state.sideBarOpen);
+  const mobileSideBarOpen = useLayoutStore((state) => state.mobileSideBarOpen);
+  const setMobileSideBarOpen = useLayoutStore((state) => state.setMobileSideBarOpen);
   const controlLayoutOpen = useLayoutStore((state) => state.controlLayoutOpen);
   const toggleControlLayout = useLayoutStore((state) => state.toggleControlLayout);
 
@@ -59,14 +60,30 @@ const PageLayout = (props: Props) => {
   };
 
   return (
-    <div className={`${styles.container} ${props.largeSideBar ? '' : styles.small} ${sideBarOpen && styles.sideBarActive}`}>
+    <div className={`${styles.container} ${props.smallSideBar ? styles.small : ''}`}>
       {loggedInData ? (
         <>
-          <Header pages={props.pages} />
-          {!props.sidebarHidden && <div className={styles.sideBar}>{props?.pages && <SideBar page={props.pages[0]} large={props.largeSideBar} />}</div>}
+          <Header pages={props.pages} onMobileMenuClick={() => setMobileSideBarOpen(true)} />
+          {!props.sidebarHidden && (
+            <div className={styles.sideBar}>
+              {props?.pages && (
+                <SideBar
+                  page={props.pages[0]}
+                  small={props.smallSideBar}
+                  isMobileOpen={mobileSideBarOpen}
+                  onMobileClose={() => setMobileSideBarOpen(false)}
+                />
+              )}
+            </div>
+          )}
           <div
-            className={`${styles.content} ${controlLayoutOpen && !getPageBlockData() && styles.controlContainerActive} ${
-              props.controlNav && !getPageBlockData() && !props.hideControlLayout && styles.controlBarActive
+            className={`${styles.content} ${
+              controlLayoutOpen && !getPageBlockData() && styles.controlContainerActive
+            } ${
+              props.controlNav &&
+              !getPageBlockData() &&
+              !props.hideControlLayout &&
+              styles.controlBarActive
             }`}
             style={{
               backgroundColor: props.backgroundColor,
@@ -88,7 +105,10 @@ const PageLayout = (props: Props) => {
               <AlertCenter />
               <div className={styles.childrenContainer}>
                 {getPageBlockData() ? (
-                  <BlockedMessage neededFeature={props.neededFeature} type={getPageBlockData() as any} />
+                  <BlockedMessage
+                    neededFeature={props.neededFeature}
+                    type={getPageBlockData() as any}
+                  />
                 ) : (
                   <>
                     <NextTopLoader
@@ -103,7 +123,9 @@ const PageLayout = (props: Props) => {
                       shadow="0 0 10px var(--primary-dark),0 0 5px var(--primary)"
                       showForHashAnchor
                     />
-                    <LoaderProvider>{props.loading ? <Skeleton active /> : props.children}</LoaderProvider>
+                    <LoaderProvider>
+                      {props.loading ? <Skeleton active /> : props.children}
+                    </LoaderProvider>
                   </>
                 )}
               </div>
