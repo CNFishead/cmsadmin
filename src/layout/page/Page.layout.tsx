@@ -6,7 +6,7 @@ import { hasFeature } from '@/utils/hasFeature';
 import Auth from '@/views/auth/Auth.view';
 import { ReactNode } from 'react';
 import { AiFillControl } from 'react-icons/ai';
-import Control, { ControlNavItem } from '../control/Control.layout';
+import Control from '../control/Control.layout';
 import Header from '../header/Header.layout';
 import SideBar from '../sideBar/SideBar.layout';
 import styles from './Page.module.scss';
@@ -15,6 +15,7 @@ import { useLayoutStore } from '@/state/layout';
 import AlertCenter from '../alertCenter/AlertCenter.layout';
 import { LoaderProvider } from '../progressBar/LoaderProvider.component';
 import { Skeleton } from 'antd';
+import { useControlNav } from '@/providers/ControlNavProvider';
 
 //make a type with children as a prop
 type Props = {
@@ -22,8 +23,6 @@ type Props = {
   pages?: Array<{ title: string; link?: string; icon?: ReactNode; onClick?: () => void }>;
   smallSideBar?: boolean; // Changed from largeSideBar to smallSideBar
   backgroundColor?: string;
-  hideControlLayout?: boolean;
-  controlNav?: Array<ControlNavItem>;
   neededFeature?: any;
   enableBlockCheck?: boolean;
   meta?: {
@@ -41,6 +40,9 @@ const PageLayout = (props: Props) => {
   const setMobileSideBarOpen = useLayoutStore((state) => state.setMobileSideBarOpen);
   const controlLayoutOpen = useLayoutStore((state) => state.controlLayoutOpen);
   const toggleControlLayout = useLayoutStore((state) => state.toggleControlLayout);
+  
+  // Get control navigation from context
+  const { controlNav, hideControlLayout } = useControlNav();
 
   const { data: loggedInData } = useUser();
   const getPageBlockData: () => boolean | 'blacklist' | 'feature' | 'verification' = () => {
@@ -80,19 +82,19 @@ const PageLayout = (props: Props) => {
             className={`${styles.content} ${
               controlLayoutOpen && !getPageBlockData() && styles.controlContainerActive
             } ${
-              props.controlNav &&
+              controlNav &&
               !getPageBlockData() &&
-              !props.hideControlLayout &&
+              !hideControlLayout &&
               styles.controlBarActive
             }`}
             style={{
               backgroundColor: props.backgroundColor,
             }}
           >
-            {props.controlNav && !getPageBlockData() && !props.hideControlLayout && (
+            {controlNav && !getPageBlockData() && !hideControlLayout && (
               <>
                 <div className={styles.controlContainer}>
-                  <Control navigation={props.controlNav} />
+                  <Control navigation={controlNav} />
                 </div>
 
                 <div className={styles.controlToggleBtn} onClick={() => toggleControlLayout()}>

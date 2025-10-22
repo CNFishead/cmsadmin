@@ -8,6 +8,7 @@ import AppWrapper from '@/layout/appWrapper/AppWrapper';
 import '@/styles/antd-overrides.css';
 import { Suspense } from 'react';
 import PageWrapper from '@/layout/pageWrapper/PageWrapper.layout';
+import { ControlNavProvider } from '@/providers/ControlNavProvider';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -42,7 +43,9 @@ export default function RootLayout({
         <Suspense fallback={null}>
           <ReactQueryProvider>
             <AppWrapper>
-              <PageWrapper>{children}</PageWrapper>
+              <ControlNavProvider>
+                <PageWrapper>{children}</PageWrapper>
+              </ControlNavProvider>
             </AppWrapper>
           </ReactQueryProvider>
         </Suspense>
