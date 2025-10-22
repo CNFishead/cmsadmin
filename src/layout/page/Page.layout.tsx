@@ -40,7 +40,7 @@ const PageLayout = (props: Props) => {
   const setMobileSideBarOpen = useLayoutStore((state) => state.setMobileSideBarOpen);
   const controlLayoutOpen = useLayoutStore((state) => state.controlLayoutOpen);
   const toggleControlLayout = useLayoutStore((state) => state.toggleControlLayout);
-  
+
   // Get control navigation from context
   const { controlNav, hideControlLayout } = useControlNav();
 
@@ -82,10 +82,7 @@ const PageLayout = (props: Props) => {
             className={`${styles.content} ${
               controlLayoutOpen && !getPageBlockData() && styles.controlContainerActive
             } ${
-              controlNav &&
-              !getPageBlockData() &&
-              !hideControlLayout &&
-              styles.controlBarActive
+              controlNav && !getPageBlockData() && !hideControlLayout && styles.controlBarActive
             }`}
             style={{
               backgroundColor: props.backgroundColor,

@@ -1,0 +1,202 @@
+.container {
+  height: 100%;
+  overflow-y: auto;
+}
+
+// User Identity Section
+.userIdentity {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+
+.userAvatar {
+  flex-shrink: 0;
+}
+
+.userInfo {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+
+  .userName {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin: 0 0 0.25rem 0;
+    // color: #262626;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .userEmail,
+  .userPhone {
+    font-size: 0.875rem;
+    color: #8c8c8c;
+    margin-bottom: 0.25rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    svg {
+      font-size: 0.875rem;
+      margin-right: 0.5rem;
+      vertical-align: middle;
+    }
+  }
+
+  .badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    margin-top: 0.5rem;
+  }
+}
+
+// Section Styles
+.section {
+  margin-bottom: 1rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.sectionTitle {
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: #262626;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+// Toggle Items
+.toggleItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid #f0f0f0;
+  }
+}
+
+.toggleLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+  color: #262626;
+
+  svg {
+    font-size: 1rem;
+  }
+}
+
+// Info Grid
+.infoGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.infoItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  .infoLabel {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #8c8c8c;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+
+    svg {
+      font-size: 0.875rem;
+    }
+  }
+
+  .infoValue {
+    font-size: 0.875rem;
+    color: #bebebe;
+    word-break: break-all;
+  }
+}
+
+.permissionTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  margin-top: 0.25rem;
+}
+
+// Modal Styles
+.modalTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+
+  svg {
+    font-size: 1.125rem;
+  }
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+// Dark mode support
+@media (prefers-color-scheme: dark) {
+  .userName {
+    color: #f0f0f0;
+  }
+
+  .sectionTitle {
+    color: #f0f0f0;
+  }
+
+  .toggleLabel {
+    color: #f0f0f0;
+  }
+
+  .infoValue {
+    color: #f0f0f0;
+  }
+
+  .toggleItem {
+    border-bottom-color: #434343;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .container {
+    padding: 0.75rem;
+  }
+
+  .userIdentity {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .userName {
+    font-size: 1rem;
+  }
+
+  .sectionTitle {
+    font-size: 0.8125rem;
+  }
+}

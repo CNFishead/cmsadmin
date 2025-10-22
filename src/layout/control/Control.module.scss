@@ -7,7 +7,8 @@
   overflow-y: auto;
 
   .container {
-    background-color: white;
+    // gunmetal gray
+    background-color: #2a2f36;
 
     box-shadow: rgba(0, 0, 0, 0.2) 0px 18px 50px -10px;
     width: 100%;
@@ -28,19 +29,20 @@
     }
 
     .header {
-      background-color: white;
+      background-color: #31373f;
       padding: 20px 40px;
       width: 100%;
       box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
       .title {
         font-size: 17px;
         font-weight: 600;
-        color: var(--primary);
+        color: white;
       }
     }
     .children {
       flex: 1;
-      padding: 20px 40px 40px 40px;
+      // padding: 20px 40px 40px 40px;
+      padding: 5%;
       width: 360px;
       height: 100%;
       overflow-y: auto;
@@ -83,7 +85,7 @@
         height: 100%;
         border-top-right-radius: 10px;
         border-bottom-right-radius: 10px;
-        background-color: var(--primary);
+        background-color: var(--secondary);
         box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
 
         transition: $simple-animation;

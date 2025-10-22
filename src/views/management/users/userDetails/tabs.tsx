@@ -17,11 +17,6 @@ export const getUserDetailsTabs = (
 ): TabsConfig[] => {
   return [
     {
-      key: 'info',
-      label: 'Auth Info',
-      children: <Info userData={userData} onDataUpdate={onDataUpdate} />,
-    },
-    {
       key: 'ministries',
       label: 'Ministries',
       children: <Ministries />,

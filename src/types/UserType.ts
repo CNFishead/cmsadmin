@@ -12,13 +12,13 @@ export default interface User {
   isActive: boolean;
   resetPasswordToken: string | undefined | null;
   resetPasswordExpire: Date | undefined | null;
+  accessKey: string;
   createdAt: Date;
   updatedAt: Date;
   isEmailVerified: boolean;
-  token?: string;
-  lastSignedIn: Date | undefined | null;
-  needsBillingSetup: boolean;
+  acceptedPolicies: Record<string, string>;
   permissions: string[];
+  lastSignedIn: Date | undefined | null;
   emailVerificationToken: string | undefined | null;
   emailVerificationExpires: Date | undefined | null;
   profileRefs: Record<string, string | null>;

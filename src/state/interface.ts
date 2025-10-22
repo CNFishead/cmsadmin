@@ -15,7 +15,7 @@ export const useInterfaceStore = create<InterfaceState>((set: any, get: any) => 
   addAlert: (alert: AlertMessage) => {
     const id = uuidv4();
     set((state: InterfaceState) => ({
-      alerts: [...state.alerts, { ...alert, id }],
+      alerts: [...state.alerts, { ...alert, id, duration: alert.duration ?? 5000 }],
     }));
   },
   removeAlert: (id: string) => {
