@@ -28,7 +28,10 @@ const NotificationItem = ({ notification, small = false }: Props) => {
   // 1. System notifications need an entityId
   // 2. The notification link must resolve to something other than '/' or undefined
   const notificationLink = getNotificationLink(notification);
-  const shouldUseLink = (!isSystemNotification || (isSystemNotification && notification?.entityId)) && notificationLink && notificationLink !== '/';
+  const shouldUseLink =
+    (!isSystemNotification || (isSystemNotification && notification?.entityId)) &&
+    notificationLink &&
+    notificationLink !== '/';
   const notificationContent = (
     <>
       {/* Unread indicator */}
@@ -40,11 +43,15 @@ const NotificationItem = ({ notification, small = false }: Props) => {
           {isSystemNotification ? (
             <Avatar
               size={small ? 'small' : 'default'}
-              src="https://res.cloudinary.com/dsltlng97/image/upload/v1752863629/placeholder-logo_s7jg3y.png"
+              src="/images/ShepherdCMSLogo.png"
               className={styles.systemAvatar}
             />
           ) : (
-            <Avatar size={small ? 'small' : 'default'} src={notification?.userFrom?.profileImageUrl} className={styles.userAvatar} />
+            <Avatar
+              size={small ? 'small' : 'default'}
+              src={notification?.userFrom?.profileImageUrl}
+              className={styles.userAvatar}
+            />
           )}
         </Badge>
       </div>
@@ -53,17 +60,25 @@ const NotificationItem = ({ notification, small = false }: Props) => {
       <div className={styles.contentSection}>
         <div className={styles.header}>
           <div className={styles.titleRow}>
-            <span className={styles.sender}>{isSystemNotification ? 'Free Agent Portal' : `${notification?.userFrom?.firstName} ${notification?.userFrom?.lastName}`}</span>
+            <span className={styles.sender}>
+              {isSystemNotification
+                ? 'ShepherdCMS'
+                : `${notification?.userFrom?.firstName} ${notification?.userFrom?.lastName}`}
+            </span>
             <div className={styles.timeStamp}>
               <ClockCircleOutlined className={styles.timeIcon} />
               <span>{dayjs(notification?.createdAt).fromNow()}</span>
             </div>
           </div>
 
-          <h3 className={styles.title}>{isSystemNotification ? notification.message : notification.message}</h3>
+          <h3 className={styles.title}>
+            {isSystemNotification ? notification.message : notification.message}
+          </h3>
         </div>
 
-        {!isSystemNotification && notification.description && <p className={styles.description}>{notification.description}</p>}
+        {!isSystemNotification && notification.description && (
+          <p className={styles.description}>{notification.description}</p>
+        )}
 
         {/* Action hint */}
         <div className={styles.actionHint}>
@@ -77,7 +92,9 @@ const NotificationItem = ({ notification, small = false }: Props) => {
     <div className={styles.notificationWrapper}>
       {shouldUseLink ? (
         <Link
-          className={`${styles.container} ${isUnread ? styles.unread : ''} ${isSystemNotification ? styles.systemNotification : ''} ${small ? styles.small : ''}`}
+          className={`${styles.container} ${isUnread ? styles.unread : ''} ${
+            isSystemNotification ? styles.systemNotification : ''
+          } ${small ? styles.small : ''}`}
           href={notificationLink}
           onClick={() => {
             if (isUnread) {
@@ -89,9 +106,9 @@ const NotificationItem = ({ notification, small = false }: Props) => {
         </Link>
       ) : (
         <div
-          className={`${styles.container} ${isUnread ? styles.unread : ''} ${isSystemNotification ? styles.systemNotification : ''} ${small ? styles.small : ''} ${
-            styles.nonClickable
-          }`}
+          className={`${styles.container} ${isUnread ? styles.unread : ''} ${
+            isSystemNotification ? styles.systemNotification : ''
+          } ${small ? styles.small : ''} ${styles.nonClickable}`}
           onClick={() => {
             if (isUnread) {
               markRead(notification._id);
