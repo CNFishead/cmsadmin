@@ -47,7 +47,7 @@ const Users = () => {
       <div className={styles.container}>
         {data?.payload.map((user: User) => (
           <div className={styles.userItemContainer} key={user._id}>
-            <Link key={user._id} href={`/users/${user._id}`} className={styles.userLink}>
+            <Link key={user._id} href={`/management/users/${user._id}`} className={styles.userLink}>
               <UserItem user={user} />
             </Link>
           </div>

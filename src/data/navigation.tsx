@@ -14,11 +14,13 @@ export const navigation = (options?: any) => {
       title: 'Home',
       links: {
         home: {
+          key: 'home.home',
           title: 'Home',
           link: '/',
           icon: <RiHome2Fill />,
         },
         notifications: {
+          key: 'home.notifications',
           title: 'Notifications',
           link: '/notifications',
           icon: <FaRegBell />,
@@ -30,11 +32,13 @@ export const navigation = (options?: any) => {
       title: 'Management',
       links: {
         users: {
+          key: 'management.users',
           title: 'Users',
           link: '/management/users',
           icon: <BsFillPeopleFill />,
         },
         ministries: {
+          key: 'management.ministries',
           title: 'Ministries',
           link: '/management/ministries',
           icon: <FaCross />,
@@ -46,26 +50,31 @@ export const navigation = (options?: any) => {
       title: 'Admin Tools',
       links: {
         admin_profiles: {
+          key: 'admin.admin_profiles',
           title: 'Admin Profiles',
           link: '/admin/profiles/admin',
           icon: <RiAdminFill />,
         },
         legal: {
+          key: 'admin.legal',
           title: 'Legal (Terms & Policy)',
           link: '/account_details/legal',
           icon: <FaStickyNote />,
         },
         plans: {
+          key: 'admin.plans',
           title: 'Plans & Billing',
           link: '/admin/plans',
           icon: <BsBox />,
         },
         support_admin: {
+          key: 'admin.support_admin',
           title: `Support Admin`,
           link: '/account_details/support_admin',
           icon: <MdSupportAgent />,
         },
         schedulers: {
+          key: 'admin.schedulers',
           title: 'Schedulers',
           link: '/admin/schedulers',
           icon: (
@@ -83,11 +92,13 @@ export const navigation = (options?: any) => {
       title: 'Account Details',
       links: {
         support: {
+          key: 'account_details.support',
           title: 'Support',
           link: '/account_details/support',
           icon: <MdSupportAgent />,
         },
         account_details: {
+          key: 'account_details.account_details',
           title: 'Edit Account Settings',
           link: '/account_details',
           icon: <CgProfile />,
@@ -100,11 +111,13 @@ export const navigation = (options?: any) => {
       title: 'Error Boundary',
       links: {
         not_found: {
+          key: 'error_boundary.not_found',
           title: 'Not Found',
           link: '/404',
           icon: <BsBroadcastPin />,
         },
         error: {
+          key: 'error_boundary.error',
           title: 'Error',
           link: '/error',
           icon: <BsBroadcastPin />,

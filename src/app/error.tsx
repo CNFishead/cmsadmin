@@ -28,8 +28,7 @@ export default function Error({ error, reset }: ErrorProps) {
     reset();
   };
 
-  return (
-    <PageLayout pages={[navigation().error_boundary.links.error]} largeSideBar>
+  return ( 
       <div className={styles.container}>
         <motion.div
           className={styles.content}
@@ -111,7 +110,6 @@ export default function Error({ error, reset }: ErrorProps) {
             </p>
           </motion.div>
         </motion.div>
-      </div>
-    </PageLayout>
+      </div> 
   );
 }

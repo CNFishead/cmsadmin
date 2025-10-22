@@ -7,6 +7,7 @@ import DynamicTitleUpdater from '@/layout/dynamicTitleUpdater/DynamicTitleUpdate
 import AppWrapper from '@/layout/appWrapper/AppWrapper';
 import '@/styles/antd-overrides.css';
 import { Suspense } from 'react';
+import PageWrapper from '@/layout/pageWrapper/PageWrapper.layout';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -41,7 +42,7 @@ export default function RootLayout({
         <Suspense fallback={null}>
           <ReactQueryProvider>
             <AppWrapper>
-              {children}
+              <PageWrapper>{children}</PageWrapper>
             </AppWrapper>
           </ReactQueryProvider>
         </Suspense>
