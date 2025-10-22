@@ -1,23 +1,20 @@
-import PageLayout from '@/layout/page/Page.layout';
-import { navigation } from '@/data/navigation';
+'use client';
 import SupportDetails from '@/views/support/supportDetails/SupportDetails.view';
 import SupportTicketOptions from '@/views/support/support_ticket_options/SupportTicketOptions.component';
 import { BsGear } from 'react-icons/bs';
+import { ControlNavItem } from '@/types/navigation';
+import { useSetControlNav } from '@/providers/ControlNavProvider';
 
 export default function Component() {
-  return (
-    <PageLayout
-      pages={[navigation().admin.links.support_admin]}
-      largeSideBar
-      controlNav={[
-        {
-          children: <SupportTicketOptions />,
-          icon: <BsGear />,
-          title: 'Ticket Options',
-        },
-      ]}
-    >
-      <SupportDetails />
-    </PageLayout>
-  );
+  // Set up control navigation with user data
+  const controlNav: ControlNavItem[] | null = [
+    {
+      children: <SupportTicketOptions />,
+      icon: <BsGear />,
+      title: 'Ticket Options',
+    },
+  ];
+
+  useSetControlNav(controlNav);
+  return <SupportDetails />;
 }

@@ -5,8 +5,7 @@ import { UserOutlined, LockOutlined, MailOutlined, PhoneOutlined, SaveOutlined, 
 import styles from './AccountDetails.module.scss';
 import formStyles from '@/styles/Form.module.scss';
 import useApiHook from '@/hooks/useApi';
-import { useUser } from '@/state/auth';
-import type User from '@/types/User';
+import { useUser } from '@/state/auth'; 
 import PhotoUpload from '@/components/photoUpload/PhotoUpload.component';
 import { useInterfaceStore } from '@/state/interface';
 import useBilling from '@/hooks/useBilling';

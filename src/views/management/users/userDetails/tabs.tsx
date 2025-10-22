@@ -1,5 +1,4 @@
 import React from 'react';
-import Info from './subviews/info/Info.view';
 import PlanInformation from './subviews/planInformation/PlanInformation.view';
 import Receipts from './subviews/receipts/Receipts.view';
 import User from '@/types/UserType';
