@@ -8,7 +8,7 @@ interface Layout {
 }
 
 export const useLayoutStore = create<Layout>((set) => ({
-  sideBarOpen: false,
+  sideBarOpen: true,
   toggleSideBar: () =>
     set((state: Layout) => ({ sideBarOpen: !state.sideBarOpen })),
   controlLayoutOpen: false,

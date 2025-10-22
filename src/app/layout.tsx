@@ -39,9 +39,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <Suspense fallback={null}>
-          <DynamicTitleUpdater baseTitle="Shepherds CMS" />
           <ReactQueryProvider>
-            <AppWrapper>{children}</AppWrapper>
+            <AppWrapper>
+              {children}
+            </AppWrapper>
           </ReactQueryProvider>
         </Suspense>
       </body>

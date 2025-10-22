@@ -88,7 +88,7 @@ const Header = (props: Props) => {
             <Tooltip title="Logout">
               <span
                 onClick={() => {
-                  logout(true);
+                  logout();
                 }}
               >
                 <BiLogOutCircle className={styles.logoutIcon} />

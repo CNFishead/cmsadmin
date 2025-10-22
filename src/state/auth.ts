@@ -1,7 +1,7 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import axios from '@/utils/axios';
 import setAuthToken from '@/utils/setAuthToken';
-import UserType from '@/types/UserType';
+import User from '@/types/UserType';
 
 // make a react query hook to get the user data from the server
 const fetchUserData = async (token?: string) => {
@@ -22,7 +22,7 @@ export const useUser = (
   token?: string,
   onSuccess?: () => void,
   onError?: () => void
-): UseQueryResult<UserType, Error> => {
+): UseQueryResult<User, Error> => {
   if (typeof window !== 'undefined' && !token) {
     token = localStorage.getItem('token') as string;
   }
@@ -50,11 +50,7 @@ export const useUser = (
   return query;
 };
 
-export const logout = (redirect?: boolean) => {
+export const logout = () => {
   localStorage.removeItem('token');
-  if (redirect) {
-    window.location.href = `${process.env.AUTH_URL}?logout=true&redirect=http://${window.location.hostname}:${window.location.port}`;
-  } else {
-    window.location.href = `${process.env.AUTH_URL}?logout=true`;
-  }
+  window.location.href = `${process.env.AUTH_URL}?logout=true&redirect=http://${window.location.hostname}:${window.location.port}`;
 };
