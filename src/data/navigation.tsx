@@ -1,6 +1,6 @@
 import { RiAdminFill, RiHome2Fill } from 'react-icons/ri';
 import { MdSupportAgent } from 'react-icons/md';
-import { FaClock, FaRegBell, FaStickyNote } from 'react-icons/fa';
+import { FaClock, FaCross, FaRegBell, FaStickyNote } from 'react-icons/fa';
 import { CgProfile } from 'react-icons/cg';
 import { BsBox, BsBroadcastPin } from 'react-icons/bs';
 import { BsFillPeopleFill } from 'react-icons/bs';
@@ -31,8 +31,13 @@ export const navigation = (options?: any) => {
       links: {
         users: {
           title: 'Users',
-          link: '/users',
+          link: '/management/users',
           icon: <BsFillPeopleFill />,
+        },
+        ministries: {
+          title: 'Ministries',
+          link: '/management/ministries',
+          icon: <FaCross />,
         },
       },
       hidden: false,
