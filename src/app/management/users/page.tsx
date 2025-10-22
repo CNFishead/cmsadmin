@@ -1,7 +1,7 @@
 import PageLayout from '@/layout/page/Page.layout';
 import { navigation } from '@/data/navigation';
-import { Metadata } from 'next';
-import Users from '@/views/users/Users.view';
+import { Metadata } from 'next'; 
+import Users from '@/views/management/users/Users.view';
 
 export const metadata: Metadata = {
   title: 'ShepherdCMS — Users',
