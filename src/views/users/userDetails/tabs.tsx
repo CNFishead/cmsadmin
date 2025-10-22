@@ -3,6 +3,7 @@ import Info from './subviews/info/Info.view';
 import PlanInformation from './subviews/planInformation/PlanInformation.view';
 import Receipts from './subviews/receipts/Receipts.view';
 import User from '@/types/UserType';
+import Ministries from './subviews/ministries/Ministries.component';
 
 interface TabsConfig {
   key: string;
@@ -19,6 +20,11 @@ export const getUserDetailsTabs = (
       key: 'info',
       label: 'Auth Info',
       children: <Info userData={userData} onDataUpdate={onDataUpdate} />,
+    },
+    {
+      key: 'ministries',
+      label: 'Ministries',
+      children: <Ministries />,
     },
     {
       key: 'plan',
