@@ -26,17 +26,6 @@ export const navigation = (options?: any) => {
       },
       hidden: false,
     },
-    ministries: {
-      title: 'Ministry Details',
-      links: {
-        members: {
-          title: 'Members',
-          link: '/members',
-          icon: <BsFillPeopleFill />,
-        },
-      },
-      hidden: false,
-    },
     management: {
       title: 'Management',
       links: {

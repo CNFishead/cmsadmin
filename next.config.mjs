@@ -8,6 +8,7 @@ const nextConfig = {
     TINYMCE_API_KEY: process.env.NEXT_PUBLIC_TINYMCE_API_KEY,
     AUTH_URL: process.env.AUTH_URL,
     SERVICE_NAME: 'ShepherdCMS Admin',
+    APP_VERSION: process.env.APP_VERSION,
     ENV: process.env.NODE_ENV,
     // ENV: "development",
   },
