@@ -60,6 +60,7 @@ const Ministries = () => {
         columns={ministriesColumns(handleView, handleEdit, handleDelete)}
         loading={isLoading || isDeleting}
         rowKey="_id"
+        scroll={{ x: 'max-content' }}
         pagination={{
           pageSize: 10,
           showSizeChanger: true,

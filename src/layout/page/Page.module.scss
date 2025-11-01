@@ -53,6 +53,10 @@
       @include mobile {
         grid-template-columns: auto;
       }
+
+      &.controlBarCollapsed {
+        grid-template-columns: 60px 1fr;
+      }
     }
 
     .controlContainer {
@@ -149,9 +153,9 @@
         width: 70px;
         transition: width 0.3s ease;
 
-        &:hover {
-          width: 265px;
-        }
+        // &:hover {
+        //   width: 265px;
+        // }
       }
     }
 

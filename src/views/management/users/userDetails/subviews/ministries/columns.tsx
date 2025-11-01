@@ -61,8 +61,6 @@ export const ministriesColumns = (
   {
     title: 'Actions',
     key: 'actions',
-    fixed: 'right',
-    width: 150,
     render: (text: string, record: MinistryType) => (
       <div style={{ display: 'flex', gap: '8px' }}>
         <Tooltip title="View Ministry">

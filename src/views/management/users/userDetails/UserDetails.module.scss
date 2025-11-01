@@ -1,4 +1,4 @@
-@use "@/styles/globals.scss" as *;
+@use '@/styles/globals.scss' as *;
 
 .container {
   max-width: 1200px;
@@ -146,9 +146,6 @@
 
 // Tabs Section
 .tabsContainer {
-  background: var(--color-background-primary);
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-
 }

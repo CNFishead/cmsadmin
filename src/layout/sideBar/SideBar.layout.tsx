@@ -3,7 +3,9 @@ import { navigation } from '@/data/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useUser } from '@/state/auth';
-import { Drawer } from 'antd';
+import { useLayoutStore } from '@/state/layout';
+import { Drawer, Button, Tooltip } from 'antd';
+import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 
 //make a type with children as a prop
@@ -16,6 +18,8 @@ type Props = {
 
 const SideBar = (props: Props) => {
   const { data: loggedInData } = useUser();
+  const sidebarCollapsed = useLayoutStore((state) => state.sidebarCollapsed);
+  const toggleSidebarCollapsed = useLayoutStore((state) => state.toggleSidebarCollapsed);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -30,12 +34,25 @@ const SideBar = (props: Props) => {
   }, []);
 
   const sidebarContent = (
-    <div className={`${styles.container} ${!isMobile && props.small ? styles.small : ''}`}>
+    <div
+      className={`${styles.container} ${
+        !isMobile && (props.small || sidebarCollapsed) ? styles.small : ''
+      }`}
+    >
+      {!isMobile && (
+          <Button
+            type="text"
+            icon={sidebarCollapsed ? <RightOutlined /> : <LeftOutlined />}
+            onClick={toggleSidebarCollapsed}
+            className={styles.collapseButton}
+          />
+      )}
+
       <div className={styles.topSection}>
         <div className={styles.logoContainer}>
           <Image
             src={'/images/ShepherdsCMSLogo.png'}
-            width={100}
+            width={sidebarCollapsed ? 50 : 100}
             height={100}
             className={styles.logo}
             style={{

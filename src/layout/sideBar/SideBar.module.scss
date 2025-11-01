@@ -15,16 +15,49 @@
   border-right: 5px solid var(--primary);
   background-image: linear-gradient(10deg, #000000 0%, var(--primary) 20%);
   height: 100%;
-  overflow: auto;
+  // overflow-y: auto;
   box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 30px 0px inset;
   padding-left: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  overflow-x: hidden;
+  // overflow-x: hidden;
   padding-bottom: 15px;
   border-right: 5px solid var(--secondary);
   color: white;
+  position: relative;
+
+  .collapseButton {
+    position: absolute;
+    top: 20px;
+    right: -15px;
+    z-index: 1000000;
+    color: white;
+    border: 2px solid var(--secondary);
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    font-size: 14px;
+
+    &:hover {
+      color: white !important;
+      background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%) !important;
+      border-color: var(--primary) !important;
+      transform: scale(1.1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
 
   .topSection {
     display: flex;
@@ -74,10 +107,10 @@
           &.active {
             background-color: var(--secondary);
             padding: 10px 10px;
-            border-radius: 5px;
+            border-radius: 5px 0px 0px 5px;
             position: relative;
-            right: 10px;
-            width: 110%;
+            // right: 10px;
+            // width: 110%;
             box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
               rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
             font-weight: 700;
@@ -134,7 +167,11 @@
 
   // Small sidebar mode (collapsed)
   &.small {
+    padding-left: 10px;
+
     .logoContainer {
+      justify-content: center;
+
       .productName {
         display: none;
       }
@@ -146,8 +183,17 @@
       }
 
       .links .link {
+        justify-content: center;
+        padding: 8px;
+
         .text {
           display: none;
+        }
+
+        &.active {
+          width: 100%;
+          right: 0;
+          justify-content: center;
         }
       }
     }
@@ -156,17 +202,6 @@
       .fapText,
       .versionText {
         display: none;
-      }
-    }
-
-    // Show full content on hover
-    &:hover {
-      .logoContainer .productName,
-      .group .header,
-      .links .link .text,
-      .bottomSection .fapText,
-      .bottomSection .versionText {
-        display: block;
       }
     }
   }

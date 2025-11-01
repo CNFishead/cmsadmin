@@ -38,7 +38,9 @@ type Props = {
 const PageLayout = (props: Props) => {
   const mobileSideBarOpen = useLayoutStore((state) => state.mobileSideBarOpen);
   const setMobileSideBarOpen = useLayoutStore((state) => state.setMobileSideBarOpen);
+  const sidebarCollapsed = useLayoutStore((state) => state.sidebarCollapsed);
   const controlLayoutOpen = useLayoutStore((state) => state.controlLayoutOpen);
+  const controlLayoutCollapsed = useLayoutStore((state) => state.controlLayoutCollapsed);
   const toggleControlLayout = useLayoutStore((state) => state.toggleControlLayout);
 
   // Get control navigation from context
@@ -62,7 +64,11 @@ const PageLayout = (props: Props) => {
   };
 
   return (
-    <div className={`${styles.container} ${props.smallSideBar ? styles.small : ''}`}>
+    <div
+      className={`${styles.container} ${
+        props.smallSideBar || sidebarCollapsed ? styles.small : ''
+      }`}
+    >
       {loggedInData ? (
         <>
           <Header pages={props.pages} onMobileMenuClick={() => setMobileSideBarOpen(true)} />
@@ -83,7 +89,7 @@ const PageLayout = (props: Props) => {
               controlLayoutOpen && !getPageBlockData() && styles.controlContainerActive
             } ${
               controlNav && !getPageBlockData() && !hideControlLayout && styles.controlBarActive
-            }`}
+            } ${controlLayoutCollapsed && !getPageBlockData() && styles.controlBarCollapsed}`}
             style={{
               backgroundColor: props.backgroundColor,
             }}

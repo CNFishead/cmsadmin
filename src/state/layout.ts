@@ -6,6 +6,10 @@ interface Layout {
   setMobileSideBarOpen: (open: boolean) => void;
   controlLayoutOpen: boolean;
   toggleControlLayout: () => void;
+  controlLayoutCollapsed: boolean;
+  toggleControlLayoutCollapsed: () => void;
+  sidebarCollapsed: boolean;
+  toggleSidebarCollapsed: () => void;
   // Active navigation key (e.g., 'home.home', 'management.users')
   activeNavigationKey: string;
   setActiveNavigationKey: (key: string) => void;
@@ -21,6 +25,16 @@ export const useLayoutStore = create<Layout>()(
         set((state: Layout) => ({
           controlLayoutOpen: !state.controlLayoutOpen,
         })),
+      controlLayoutCollapsed: false,
+      toggleControlLayoutCollapsed: () =>
+        set((state: Layout) => ({
+          controlLayoutCollapsed: !state.controlLayoutCollapsed,
+        })),
+      sidebarCollapsed: false,
+      toggleSidebarCollapsed: () =>
+        set((state: Layout) => ({
+          sidebarCollapsed: !state.sidebarCollapsed,
+        })),
       activeNavigationKey: 'home.home',
       setActiveNavigationKey: (key: string) => set({ activeNavigationKey: key }),
     }),
@@ -31,6 +45,8 @@ export const useLayoutStore = create<Layout>()(
       partialize: (state) => ({
         mobileSideBarOpen: state.mobileSideBarOpen,
         controlLayoutOpen: state.controlLayoutOpen,
+        controlLayoutCollapsed: state.controlLayoutCollapsed,
+        sidebarCollapsed: state.sidebarCollapsed,
       }),
     }
   )
