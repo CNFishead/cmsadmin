@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import styles from './UserDetails.module.scss';
 import { Spin, Tabs } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
@@ -31,22 +31,25 @@ const UserDetails = () => {
     }
   }, [data]);
 
-  const handleDataUpdate = (updatedData: Partial<User>) => {
-    if (userData) {
-      setUserData({ ...userData, ...updatedData });
-    }
-  };
+  const handleDataUpdate = useCallback((updatedData: Partial<User>) => {
+    setUserData((prevData) => {
+      if (!prevData) return prevData;
+      return { ...prevData, ...updatedData };
+    });
+  }, []);
 
-  // Set up control navigation with user data
-  const controlNav: ControlNavItem[] | null = userData
-    ? [
-        {
-          title: 'User Moderation',
-          icon: <FaUserShield />,
-          children: <UserModeration userData={userData} onDataUpdate={handleDataUpdate} />,
-        },
-      ]
-    : null;
+  // Set up control navigation with user data - memoized to prevent infinite loops
+  const controlNav = useMemo<ControlNavItem[] | null>(() => {
+    if (!userData) return null;
+
+    return [
+      {
+        title: 'User Moderation',
+        icon: <FaUserShield />,
+        children: <UserModeration userData={userData} onDataUpdate={handleDataUpdate} />,
+      },
+    ];
+  }, [userData]);
 
   useSetControlNav(controlNav);
 

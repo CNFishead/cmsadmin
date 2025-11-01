@@ -27,8 +27,11 @@ export const useLayoutStore = create<Layout>()(
     {
       name: 'layout-storage',
       storage: createJSONStorage(() => localStorage),
-      // Only persist the active navigation key
-      partialize: (state) => ({ activeNavigationKey: state.activeNavigationKey }),
+      // Don't persist activeNavigationKey - it should always be derived from URL
+      partialize: (state) => ({
+        mobileSideBarOpen: state.mobileSideBarOpen,
+        controlLayoutOpen: state.controlLayoutOpen,
+      }),
     }
   )
 );

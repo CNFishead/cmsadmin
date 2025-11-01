@@ -11,16 +11,15 @@ interface PageWrapperProps {
 }
 
 /**
- * Client component wrapper that determines page navigation based on state
- * The active navigation is set by the sidebar when links are clicked
+ * Client component wrapper that determines page navigation based on current pathname
+ * Always syncs navigation state with the actual route
  */
 const PageWrapper: React.FC<PageWrapperProps> = ({ children }) => {
   const pathname = usePathname();
-  const activeNavigationKey = useLayoutStore((state) => state.activeNavigationKey);
   const setActiveNavigationKey = useLayoutStore((state) => state.setActiveNavigationKey);
 
-  // Update active navigation when pathname changes (after navigation completes)
-  useEffect(() => {
+  // Always derive active navigation from pathname (single source of truth)
+  const { activeNavigationKey, matchedNavItem } = useMemo(() => {
     const allNavItems = getAllNavigationItems();
 
     // Sort by link length descending to match most specific routes first
@@ -41,30 +40,29 @@ const PageWrapper: React.FC<PageWrapperProps> = ({ children }) => {
 
       // Pattern match for dynamic routes (e.g., /management/users/123 matches /management/users)
       // But don't match root '/' to everything
-      if (item.link !== '/' && pathname.startsWith(item.link)) {
+      if (item.link !== '/' && pathname.startsWith(item.link + '/')) {
         return true;
       }
 
       return false;
     });
 
-    // Update state if we found a match and it's different from current
-    if (matchingItem && matchingItem.key && matchingItem.key !== activeNavigationKey) {
-      setActiveNavigationKey(matchingItem.key);
-    }
-  }, [pathname, activeNavigationKey, setActiveNavigationKey]);
+    return {
+      activeNavigationKey: matchingItem?.key || 'home.home',
+      matchedNavItem: matchingItem || null,
+    };
+  }, [pathname]);
 
-  // Find the navigation page based on the active key
+  // Update store whenever activeNavigationKey changes (derived from pathname)
+  useEffect(() => {
+    setActiveNavigationKey(activeNavigationKey);
+  }, [activeNavigationKey, setActiveNavigationKey]);
+
+  // Build breadcrumb pages array
   const pages = useMemo(() => {
-    const navItem = getNavigationByKey(activeNavigationKey);
-
-    // Return the found item or fallback to home
-    if (navItem) {
-      return [navItem];
-    }
-
-    return [navigation().home.links.home];
-  }, [activeNavigationKey]);
+    const navItem = matchedNavItem || getNavigationByKey(activeNavigationKey);
+    return navItem ? [navItem] : [navigation().home.links.home];
+  }, [activeNavigationKey, matchedNavItem]);
 
   return <PageLayout pages={pages}>{children}</PageLayout>;
 };

@@ -98,9 +98,24 @@
     }
 
     &.controlContainerActive {
+      // darken background when control nav is active on mobile
+      &::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 4;
+      }
       @include mobile {
         .controlContainer {
+          z-index: 5;
           left: 0;
+        }
+        .controlToggleBtn {
+          z-index: 6;
         }
       }
     }
